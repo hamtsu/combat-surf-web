@@ -1,0 +1,7 @@
+{ 
+    "username": "notch",
+    "uuid": "069a79f444e94726a5befca90e38aaf5",
+    "password": "123",
+    "rank": "admin",
+    "groups":  [ "staff-management", "media-management" ]
+}
