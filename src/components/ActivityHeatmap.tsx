@@ -69,7 +69,11 @@ const ActivityHeatmap = () => {
             Tooltip,
             {
               text: function (date: Date, value: number) {
-                return (value ? `${value} hours` : "no playtime") + " on " + dayjs(date).format("MMM D, YYYY");
+                return (
+                  (value ? `${value} hours` : "no playtime") +
+                  " on " +
+                  dayjs(date).format("MMM D, YYYY")
+                );
               },
             },
           ],
