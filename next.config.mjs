@@ -4,9 +4,9 @@ const nextConfig = {
         remotePatterns: [
           {
             protocol: 'https',
-            hostname: 'api.mineatar.io',
+            hostname: 'skins.mcstats.com',
             port: '',
-            pathname: '/body/full/**',
+            pathname: '/**',
           },
         ],
       },

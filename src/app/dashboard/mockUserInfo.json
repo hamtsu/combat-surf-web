@@ -1,6 +1,6 @@
 { 
-    "username": "notch",
-    "uuid": "069a79f444e94726a5befca90e38aaf5",
+    "username": "hamtsu",
+    "uuid": "ef3e45c0-0afd-445c-a849-257dafe4429e",
     "password": "123",
     "rank": "admin",
     "groups":  [ "staff-management", "media-management" ]
