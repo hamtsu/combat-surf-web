@@ -2,12 +2,13 @@ import React, { Children, FC } from 'react'
 
 type ButtonProps = {
     className: string,
-    children: React.ReactNode
+    children: React.ReactNode,
+    onClick?: () => void
 }
 
-const Button: FC<ButtonProps> = ({ className, children }) => {
+const Button: FC<ButtonProps> = ({ className, children, onClick }) => {
   return (
-    <button className={"rounded-md flex items-center gap-1 " + className}>
+    <button onClick={onClick} className={"rounded-md flex items-center gap-1 " + className}>
         {children}
     </button>
   )
