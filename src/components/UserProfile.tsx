@@ -41,7 +41,7 @@ const UserProfile: FC<UserProfileProps> = ({
 
   return (
     <div className="w-fit flex gap-2 flex-col">
-      <div className="flex flex-row pt-10 items-center justify-center bg-neutral-50 border-neutral-200 border-b-4 border-r-4 rounded-lg pl-6 pr-8">
+      <div className="flex flex-row pt-10 items-center justify-center bg-neutral-50 dark:bg-stone-950 border-neutral-200 dark:border-transparent border-b-4 border-r-4 rounded-lg pl-6 pr-8">
         <MinecraftRenderer
           uuid={uuid}
           username={username}
@@ -62,21 +62,21 @@ const UserProfile: FC<UserProfileProps> = ({
               </>
             ) : (
               <h1 className="text-lg text-stone-500">
-                last seen about <b>{dayjs(lastSeen).fromNow()}</b>
+                {lastSeen ? (<span>last seen about <b>{dayjs(lastSeen).fromNow()}</b></span>) : "currently offline"}
               </h1>
             )}
           </span>
           <span className="flex gap-1 items-end">
-            <h1 className="text-4xl font-bold">{username}</h1>
+            <h1 className="text-4xl text-stone-800 dark:text-stone-200 font-bold">{username}</h1>
             <CopyButton text={uuid} />
           </span>
           <p className="text-neutral-500">{uuid}</p>
-          <div className="flex gap-1 text-2xl text-stone-800 pt-4">
+          <div className="flex gap-1 text-2xl pt-4 text-stone-800 dark:text-stone-200">
             <Button
               className={`${
                 currentAnimation === "idle"
-                  ? "bg-stone-400 cursor-not-allowed"
-                  : "bg-stone-200 hover:bg-black/20"
+                  ? "bg-stone-400 dark:bg-stone-900 cursor-not-allowed"
+                  : "bg-stone-200 dark:bg-stone-800 hover:bg-white/20"
               }  p-2 group`}
               onClick={() => setCurrentAnimation("idle")}
             >
@@ -90,8 +90,8 @@ const UserProfile: FC<UserProfileProps> = ({
             <Button
               className={`${
                 currentAnimation === "walk"
-                  ? "bg-stone-400 cursor-not-allowed"
-                  : "bg-stone-200 hover:bg-black/20"
+                  ? "bg-stone-400 dark:bg-stone-900 cursor-not-allowed"
+                  : "bg-stone-200 dark:bg-stone-800 hover:bg-black/20 dark:hover:bg-white/20"
               } p-2 group`}
               onClick={() => setCurrentAnimation("walk")}
             >
@@ -105,8 +105,8 @@ const UserProfile: FC<UserProfileProps> = ({
             <Button
               className={`${
                 currentAnimation === "run"
-                  ? "bg-stone-400 cursor-not-allowed"
-                  : "bg-stone-200 hover:bg-black/20"
+                  ? "bg-stone-400 dark:bg-stone-900 cursor-not-allowed"
+                  : "bg-stone-200 dark:bg-stone-800 hover:bg-black/20 dark:hover:bg-white/20"
               } p-2 group`}
               onClick={() => setCurrentAnimation("run")}
             >
@@ -121,8 +121,8 @@ const UserProfile: FC<UserProfileProps> = ({
               <Button
                 className={`${
                   zoomEnabled
-                    ? "bg-green-500 hover:bg-green-600"
-                    : "bg-stone-200 hover:bg-black/20"
+                    ? "bg-green-500 text-stone-200 hover:bg-green-600"
+                    : "bg-stone-200 dark:bg-stone-800 hover:bg-black/20 dark:hover:bg-white/20"
                 } p-2 group`}
                 onClick={() => setZoomEnabled(!zoomEnabled)}
               >
