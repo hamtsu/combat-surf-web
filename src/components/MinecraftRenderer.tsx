@@ -60,6 +60,8 @@ const MinecraftRenderer: FC<MinecraftRendererProps> = ({
           ? "rgb(255, 85, 85)"
           : rank === "moderator"
           ? "rgb(85, 85, 255)"
+          : rank === "trainee"
+          ? "rgb(255, 255, 85)"
           : "rgb(155,155, 155)",
       font: "italic 48px Minecraft",
       backgroundStyle: "rgba(0, 0, 0, 0.2)",
