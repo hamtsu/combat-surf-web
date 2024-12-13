@@ -10,9 +10,9 @@ const UserProfileGroups: FC<UserProfileGroupsProps> = ({ groups }) => {
       {groups.map((group, index) => (
         <div
           key={index}
-          className="flex flex-col items-center justify-center p-1 px-3 bg-neutral-50 border-neutral-200 border-2 rounded-lg"
+          className="flex flex-col items-center justify-center p-1 px-3 bg-neutral-50 dark:bg-stone-800 border-neutral-200 dark:border-transparent border-2 rounded-lg"
         >
-          <h1 className="text-sm font-bold text-neutral-900 capitalize">{group.replaceAll("-", " ")}</h1>
+          <h1 className="text-sm font-bold text-stone-900 dark:text-stone-200 capitalize">{group.replaceAll("-", " ")}</h1>
         </div>
       ))}
     </div>
