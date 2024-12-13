@@ -5,7 +5,7 @@ import Tooltip from "./Tooltip";
 
 const Footer = () => {
   return (
-    <footer className="absolute bottom-0 items-center w-full flex flex-row gap-60 px-24 h-[80px] bg-stone-800">
+    <footer className="absolute bottom-0 items-center w-full flex flex-row gap-60 px-24 h-[80px] bg-stone-800 dark:border-t border-stone-900">
       <div className="flex flex-row gap-4 items-center text-stone-200/80 opacity-50 hover:opacity-100 transition-opacity select-none">
         <Image
           src="/logo.svg"
@@ -37,7 +37,7 @@ const Footer = () => {
 
       <div className="flex flex-grow" />
 
-      <div className="flex flex-row gap-4 items-center text-stone-200/80">
+      <div className="flex flex-row gap-4 items-center text-stone-200/80 text-sm">
         <span className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer select-none">
           privacy policy
         </span>
