@@ -10,9 +10,12 @@ import "cal-heatmap/cal-heatmap.css";
 
 import dayjs from "dayjs";
 import localeData from "dayjs/plugin/localeData";
+import useDarkMode from "@/hooks/UseDarkMode";
 
 const ActivityHeatmap = () => {
+  const [theme, setTheme] = useDarkMode()
   const initialized = useRef(false);
+
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
@@ -42,6 +45,7 @@ const ActivityHeatmap = () => {
               new Date(date.getFullYear(), date.getMonth() + 1, 0), // Last day of the month
             ],
           },
+          theme: 'light',
           scale: {
             color: {
               type: "threshold",
@@ -53,15 +57,15 @@ const ActivityHeatmap = () => {
           itemSelector: "#activity",
           domain: {
             type: "month",
-            gutter: 4,
+            gutter: 5,
             label: { text: "MMM", textAlign: "start", position: "bottom" },
           },
           subDomain: {
             type: "ghDay",
-            radius: 2,
-            width: 11,
-            height: 11,
-            gutter: 4,
+            radius: 3,
+            width: 14,
+            height: 14,
+            gutter: 5,
           },
         },
         [
@@ -82,10 +86,10 @@ const ActivityHeatmap = () => {
             {
               includeBlank: true,
               itemSelector: "#legend",
-              radius: 2,
-              width: 11,
-              height: 11,
-              gutter: 4,
+              radius: 3,
+              width: 14,
+              height: 14,
+              gutter: 6,
             },
           ],
           [
@@ -100,14 +104,14 @@ const ActivityHeatmap = () => {
         ]
       );
     }
-  }, []);
+  }, [theme]);
   return (
-    <div className="flex flex-col gap-2">
-      <h1 className="font-lg font-bold">
+    <div className="flex flex-col gap-2 bg-stone-100 dark:bg-stone-900 w-fit p-5 px-8 rounded-md">
+      <h1 className="font-lg font-bold text-stone-800 dark:text-stone-200">
         Your server activity these past 6 months
       </h1>
       <div id="activity"></div>
-      <div className="flex gap-2 text-[0.6rem] font-bold">
+      <div className="flex gap-2 text-[0.7rem] font-bold">
         <span>Less</span>
         <div id="legend"></div>
         <span>More hours</span>
