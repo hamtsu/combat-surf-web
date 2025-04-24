@@ -1,6 +1,5 @@
 "use client";
 import React, { FC } from 'react'
-import UserButton from './UserButton';
 import Tooltip from './Tooltip';
 import ThemeSwitcher from './ThemeSwitcher';
 import Button from './Button';
@@ -13,7 +12,6 @@ type TitlebarProps = {
 const Titlebar: FC<TitlebarProps> = ({ uuid }) => {
   return (
     <div className="fixed top-0 right-0 p-2 z-10 w-fit flex flex-row items-center gap-2 bg-neutral-50 dark:bg-stone-950 dark:border-transparent border-neutral-200 border-b-2 border-r-2 m-2 rounded-xl">
-        <UserButton uuid={uuid} />
         <Tooltip text="Toggle theme" position="bottom">
           <ThemeSwitcher />
         </Tooltip>

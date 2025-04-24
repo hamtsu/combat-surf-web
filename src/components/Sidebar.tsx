@@ -39,7 +39,7 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div className={`bg-stone-100 dark:bg-stone-900 ${open && "flex-grow flex-1"} p-4 pb-40 pt-20 `}>
+    <div className={`bg-stone-100 dark:bg-stone-900 ${open && "grow flex-1"} p-4 pb-40 pt-20 `}>
       <div className={`bg-stone-800 rounded-md ${open ? "w-full" : 'w-fit'} flex flex-col h-fit pb-2`}>
         <div className="text-stone-200 flex gap-3 h-fit p-3 items-center">
           <Image
@@ -139,7 +139,7 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-      <div className={` ${!open && "hidden"} bg-stone-300 rounded-sm p-1 mt-2 text-xs flex items-center font-mono`}>
+      <div className={` ${!open && "hidden"} bg-stone-300 rounded-xs p-1 mt-2 text-xs flex items-center font-mono`}>
         <FaAngleUp /> <b className="mr-1">[SHIFT]</b> +{" "}
         <b className="mx-1">[NUMBER]</b> to switch pages{" "}
       </div>

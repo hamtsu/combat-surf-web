@@ -18,6 +18,11 @@ const config: Config = {
         "bounce-right": "bounce-right 1s infinite",
         "bounce-left": "bounce-left 1s infinite",
         "wiggle": "wiggle 1s infinite",
+        "fadeIn": 'fadeIn 0.5s ease-out forwards',
+        "fadeInFirst": 'fadeIn 0.5s ease-out 2s forwards',
+        "fadeInSecond": 'fadeIn 0.5s ease-out 2.2s forwards',
+        "fadeInThird": 'fadeIn 0.5s ease-out 2.4s forwards',
+        "fadeInFourth": 'fadeIn 0.5s ease-out 2.6s forwards',
       },
       keyframes: {
         "bounce-right": {
@@ -39,7 +44,11 @@ const config: Config = {
         wiggle: {
           '0%, 100%': { transform: 'rotate(-6deg)' },
           '50%': { transform: 'rotate(6deg)' },
-        }
+        },
+      },
+      fadeIn: {
+        '0%': { opacity: "0" },
+        '100%': { opacity: "1" },
       }
     },
   },

@@ -16,12 +16,7 @@ function getGitCommitHash() {
 const nextConfig = {
     images: {
         remotePatterns: [
-          {
-            protocol: 'https',
-            hostname: 'skins.mcstats.com',
-            port: '',
-            pathname: '/**',
-          },
+
         ],
       },
       env: {

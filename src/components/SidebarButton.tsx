@@ -25,7 +25,7 @@ const SidebarButton: FC<SidebarButtonProps> = ({ name, path, index, icon, shiftD
           >
             {icon}
             <span className={`${!open && "hidden"}`}>{name}</span>
-            <div className="flex-grow" />
+            <div className="grow" />
             <div
               className={`${
                 shiftDown && !pathname.includes(path)
