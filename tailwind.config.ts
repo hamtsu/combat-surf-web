@@ -23,6 +23,7 @@ const config: Config = {
         "fadeInSecond": 'fadeIn 0.5s ease-out 2.2s forwards',
         "fadeInThird": 'fadeIn 0.5s ease-out 2.4s forwards',
         "fadeInFourth": 'fadeIn 0.5s ease-out 2.6s forwards',
+        "fadeOut": 'fadeOut 0.5s ease-out 0.5s forwards',
       },
       keyframes: {
         "bounce-right": {
@@ -49,6 +50,10 @@ const config: Config = {
       fadeIn: {
         '0%': { opacity: "0" },
         '100%': { opacity: "1" },
+      },
+      fadeOut: {
+        '0%': { opacity: "1" },
+        '100%': { opacity: "0" },
       }
     },
   },
