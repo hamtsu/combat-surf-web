@@ -47,6 +47,14 @@ export default function Loading() {
         <Wing reset={reset}/>
         <Wing reflected reset={reset} />
         <Image
+          src={"/falling.gif"}
+          alt="feathers"
+          width={600}
+          height={200}
+          draggable={false}
+          className="mx-auto w-96 absolute top-5/12 animate-fadeIn"
+        />
+        <Image
           src={"/logotext.png"}
           alt="Logo"
           width={1000}

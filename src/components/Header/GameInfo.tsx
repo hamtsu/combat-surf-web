@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { FaDoorOpen, FaStar, FaUser } from "react-icons/fa";
+import { FaDoorOpen, FaSpinner, FaStar, FaUser } from "react-icons/fa";
 import Tooltip from "../Tooltip";
 
 const GameInfo = () => {
@@ -9,11 +9,14 @@ const GameInfo = () => {
   const [activePlayers, setActivePlayers] = useState<Number | null>(null);
   const [favourites, setFavourites] = useState<Number | null>(null);
   const [visits, setVisits] = useState<Number | null>(null);
+  const [fetching, setFetching] = useState(false);
   const padded = String(activePlayers ?? "----").padStart(4, "0");
   const firstNonZero = padded.search(/[1-9]/);
 
   useEffect(() => {
     const fetchPlayerCount = async () => {
+      setFetching(true);
+
       fetch("/api/game-info")
         .then(async (res) => {
           if (!res.ok) throw new Error("Fetch failed");
@@ -29,15 +32,16 @@ const GameInfo = () => {
           if (data?.visits !== undefined) {
             setVisits(data.visits);
           }
+          setFetching(false);
         })
         .catch((err) => {
           console.error("Client fetch error:", err);
         });
-    }
+    };
 
-    fetchPlayerCount()
+    fetchPlayerCount();
     const interval = setInterval(() => {
-      fetchPlayerCount()
+      fetchPlayerCount();
     }, 5000);
 
     return () => clearInterval(interval);
@@ -68,16 +72,22 @@ const GameInfo = () => {
           </p>
         </div>
       </div>
-      <div className="bg-stone-800 select-none text-stone-200  items-center rounded-md w-fit h-fit p-2 flex gap-2 font-bold font-sans">
-        <Tooltip text="Game Favourites" position="bottom">
-          <FaStar size={20} className="fill-stone-700 mr-2" />
-          {String(favourites)}
-        </Tooltip>
+      <div className="flex gap-1 h-fit w-fit">
+        <div className="bg-stone-800 select-none text-stone-200  items-center rounded-md w-fit h-fit p-2 flex gap-2 font-bold font-sans">
+          <Tooltip text="Game Favourites" position="bottom">
+            <FaStar size={20} className="fill-stone-700 mr-2" />
+            {String(favourites)}
+          </Tooltip>
 
-        <Tooltip text="Game Visits" position="bottom">
-          <FaDoorOpen size={20} className="fill-stone-700 mx-2" />
-          {String(visits)}
-        </Tooltip>
+          <Tooltip text="Game Visits" position="bottom">
+            <FaDoorOpen size={20} className="fill-stone-700 mx-2" />
+            {String(visits)}
+          </Tooltip>
+        </div>
+
+        <div className="bg-stone-800 select-none text-stone-200  items-center rounded-md w-fit h-fit p-2 flex gap-2 font-bold font-sans">
+            {fetching ? <div><FaSpinner size={20} className="animate-spin" /></div> : <div className="animate-fadeOut">Done</div>}
+          </div>
       </div>
     </div>
   );
