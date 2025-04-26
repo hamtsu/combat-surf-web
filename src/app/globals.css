@@ -17,6 +17,8 @@
   --animate-fade-in-second: fadeIn 0.5s ease-out 2.2s forwards;
   --animate-fade-in-third: fadeIn 0.5s ease-out 2.4s forwards;
   --animate-fade-in-fourth: fadeIn 0.5s ease-out 2.6s forwards;
+  --animate-fade-out: fadeOut 0.5s ease-out forwards;
+  --animate-gavel: gavel 1s cubic-bezier(0,.9,.5,.71) infinite;
 
   @keyframes bounce-right {
     0%,
@@ -53,6 +55,23 @@
       opacity: 1;
     }
   }
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  @keyframes gavel {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(12deg);
+    }
+  }
 }
 
 /*
@@ -80,7 +99,7 @@
 @keyframes wingIntro {
   0% {
     opacity: 0;
-    transform: scale(0.5) translateX(-150px);
+    transform: scale(0.2) translateX(-150px);
   }
   100% {
     opacity: 1;
@@ -102,5 +121,5 @@
 }
 
 .wing-animate-sequence.flapping {
-  animation: wingFlap 0.5s ease-in-out infinite;
+  animation: wingFlap 0.3s ease-in-out infinite;
 }
