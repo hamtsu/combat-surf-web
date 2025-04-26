@@ -16,7 +16,18 @@ function getGitCommitHash() {
 const nextConfig = {
     images: {
         remotePatterns: [
-
+          {
+            protocol: 'https',
+            hostname: 'thumbnails.roblox.com',
+            port: '',
+            pathname: '/v1/assets/**',
+          },
+          {
+            protocol: 'https',
+            hostname: 'tr.rbxcdn.com',
+            port: '',
+            pathname: '/**',
+          }
         ],
       },
       env: {
