@@ -2,6 +2,8 @@ import React from "react";
 import { FaArrowRight, FaPaperclip } from "react-icons/fa";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import RobloxAvatar from "../RobloxAvatar";
 
 const MOCK_DATA = [
   {
@@ -9,6 +11,8 @@ const MOCK_DATA = [
     description:
       "Custom Controls & Expanded Settings – More ways to personalize your gameplay. 😎 Complete UI revamp. Map Updates – Improved visuals and layout refinements.More Weapons - Ak47, Glock, and Shotgun 😱Animation Overhaul – Smoother and more immersive viewmodel animations. New Secondary Weapons – More variety in combat.Crouching – Added for tactical movement.Backstabs – m2 for knives.Skin System Enhancements – Includes StatTraks, patterns, and trade-ups.Improved Clan Features – Better support for clan owners.",
     imageUrl: "header.png",
+    author: "hamtsu",
+    authorId: "97752529",
   },
 ];
 
@@ -25,12 +29,26 @@ const ChangelogPanel = () => {
       </div>
 
       <div className="w-[500px] flex flex-col h-80 bg-[url(/header.png)] bg-cover bg-right rounded-lg">
-        <div className="backdrop-blur-[2px] text-slate-100 h-full text-center p-5 flex items-center justify-center flex-col">
-          <h1 className="font-bold text-3xl bg-neutral-900 rounded-md relative ml-[-300px] shadow mb-3 mt-[-30px] p-3">
-            {MOCK_DATA[0].title}
-          </h1>
-          <p className="text-lg text-slate-200/80">
-            {MOCK_DATA[0].description.substring(0, 200)}...
+        <div className="backdrop-blur-[2px] text-slate-100 h-full text-center px-5 pt-4 flex flex-col">
+          <div className="flex gap-1 w-full justify-between">
+            <h1 className="font-bold text-3xl ml-[-30px] border-r-5 border-stone-600 drop-shadow-2xl bg-stone-900 text-stone-400 h-fit rounded-md relative mb-3 p-3">
+              {MOCK_DATA[0].title}
+            </h1>
+
+            <div className="flex">
+              <div className="flex flex-col mt-3 text-left text-sm mr-1 text-nowrap text-slate-200/60 uppercase font-bold tracking-widest">
+                <h2 className="text-[0.7rem]">Written by</h2>
+                <h2 className="text-slate-100 text-shadow-[0_0px_5px_rgb(255_255_255_/_1)]">
+                  {MOCK_DATA[0].author}
+                </h2>
+              </div>
+              <div className="mt-[-50px] mr-[-10px]">
+                <RobloxAvatar userId={MOCK_DATA[0].authorId} />
+              </div>
+            </div>
+          </div>
+          <p className="text-lg text-slate-200/80 mt-3">
+            {MOCK_DATA[0].description.substring(0, 280)}...
           </p>
         </div>
 
@@ -39,10 +57,7 @@ const ChangelogPanel = () => {
           className="ml-auto px-3 py-2 h-fit flex text-stone-200/30 font-medium hover:text-stone-200/70 text-base font-sans transition-colors rounded-lg"
         >
           <p className="">View more</p>
-          <FaArrowRight
-            size={15}
-            className=" ml-2"
-          />
+          <FaArrowRight size={15} className=" ml-2" />
         </Button>
       </div>
 
