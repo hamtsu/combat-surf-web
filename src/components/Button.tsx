@@ -8,7 +8,7 @@ type ButtonProps = {
 
 const Button: FC<ButtonProps> = ({ className, children, onClick }) => {
   return (
-    <button onClick={onClick} className={"rounded-md flex items-center gap-1 select-none " + className}>
+    <button onClick={onClick} className={"rounded-md flex items-center gap-1 select-none hover:cursor-pointer " + className}>
         {children}
     </button>
   )
