@@ -4,7 +4,10 @@ import ButtonGroup from "@/components/Header/ButtonGroup";
 import GameInfo from "@/components/Header/GameInfo";
 import ChangelogPanel from "@/components/Home/ChangelogPanel";
 import InfoPanel from "@/components/Home/InfoPanel";
+import LeaderboardPanel from "@/components/Home/LeaderboardPanel";
+import PlayerLookupPanel from "@/components/Home/PlayerLookupPanel";
 import Image from "next/image";
+import { FaTicket } from "react-icons/fa6";
 
 export default function Home() {
   return (
@@ -33,13 +36,39 @@ export default function Home() {
           <div className="rounded-md bg-stone-800 p-4 h-fit">
             <h1 className="text-2xl font-bold text-stone-300 ">
               Hello! Welcome to the <b>Combat Surf</b> Website👋
-              https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=957413104&size=420x420&format=Png&isCircular=false
             </h1>
           </div>
           <InfoPanel />
         </div>
 
         <ChangelogPanel />
+
+        <div className="flex flex-col gap-4">
+          <div className="flex gap-4">
+            <PlayerLookupPanel />
+
+            <div className="h-full bg-stone-800 p-4 rounded-md flex flex-col gap-3 w-full grow-0">
+              <div className="flex gap-3">
+                <div className="p-2 bg-stone-900 rounded-md h-fit">
+                  <FaTicket size={20} className="fill-stone-600" />
+                </div>
+                <h1 className="text-xl font-bold text-stone-400 mt-1">
+                  Support & Appeals
+                </h1>
+              </div>
+
+              <p className="text-stone-200 text-xs w-[270px] ">
+                Head to the{" "}
+                <span className="bg-stone-900 mr-1 rounded-md p-1 font-mono text-stone-400">
+                  #tickets
+                </span>
+                channel in the <a href="https://discord.com/invite/k4jnnsSt29" className="hover:text-amber-300 font-bold">Discord</a> to open a ticket for support or appeal a
+                ban.
+              </p>
+            </div>
+          </div>
+          <LeaderboardPanel />
+        </div>
       </div>
     </main>
   );
