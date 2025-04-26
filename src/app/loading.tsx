@@ -5,12 +5,12 @@ import clsx from "clsx";
 import Image from "next/image";
 import Wing from "../components/Wing";
 
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from "next/navigation";
 
 export default function Loading() {
   const [isVisible, setIsVisible] = useState(true);
   const [reset, setReset] = useState(false);
-  
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsVisible(false);
@@ -19,9 +19,9 @@ export default function Loading() {
     return () => clearTimeout(timeout);
   }, []);
 
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
- 
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   useEffect(() => {
     setReset(true);
     setIsVisible(true);
@@ -32,7 +32,7 @@ export default function Loading() {
     }, 1200);
 
     return () => clearTimeout(timeout);
-  }, [pathname, searchParams])
+  }, [pathname, searchParams]);
 
   return (
     <div
@@ -44,7 +44,7 @@ export default function Loading() {
       )}
     >
       <div className="text-2xl font-bold">
-        <Wing reset={reset}/>
+        <Wing reset={reset} />
         <Wing reflected reset={reset} />
         <Image
           src={"/falling.gif"}
@@ -61,6 +61,7 @@ export default function Loading() {
           height={1000}
           draggable={false}
           className="mx-auto w-96 z-2 relative top-1/2 animate-fadeIn"
+          priority={true}
         />
       </div>
     </div>
