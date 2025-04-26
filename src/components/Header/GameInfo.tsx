@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { FaDoorOpen, FaSpinner, FaStar, FaUser } from "react-icons/fa";
+import { FaCheckCircle, FaDoorOpen, FaSpinner, FaStar, FaUser } from "react-icons/fa";
 import Tooltip from "../Tooltip";
+import { BarLoader } from "react-spinners";
+import { FaCircleXmark } from "react-icons/fa6";
 
 const GameInfo = () => {
   const [data, setData] = useState<any>(null);
@@ -10,12 +12,14 @@ const GameInfo = () => {
   const [favourites, setFavourites] = useState<Number | null>(null);
   const [visits, setVisits] = useState<Number | null>(null);
   const [fetching, setFetching] = useState(false);
+  const [error, setError] = useState(false);
   const padded = String(activePlayers ?? "----").padStart(4, "0");
   const firstNonZero = padded.search(/[1-9]/);
 
   useEffect(() => {
     const fetchPlayerCount = async () => {
       setFetching(true);
+      setError(false);
 
       fetch("/api/game-info")
         .then(async (res) => {
@@ -35,6 +39,7 @@ const GameInfo = () => {
           setFetching(false);
         })
         .catch((err) => {
+          setError(true);
           console.error("Client fetch error:", err);
         });
     };
@@ -85,8 +90,8 @@ const GameInfo = () => {
           </Tooltip>
         </div>
 
-        <div className="bg-stone-800 select-none text-stone-200  items-center rounded-md w-fit h-fit p-2 flex gap-2 font-bold font-sans">
-            {fetching ? <div><FaSpinner size={20} className="animate-spin" /></div> : <div className="animate-fadeOut">Done</div>}
+        <div className={`${fetching ? '' : 'animate-fade-out'} bg-stone-800 select-none text-stone-200  items-center rounded-md w-fit h-fit p-2 flex gap-2 font-bold font-sans`}>
+            {fetching ? <BarLoader width={30} color="white" /> : error ? <FaCircleXmark size={20} className="fill-red-400" /> : <FaCheckCircle className="fill-green-500" size={15} />}
           </div>
       </div>
     </div>
