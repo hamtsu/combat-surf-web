@@ -17,6 +17,8 @@
   --animate-fade-in-second: fadeIn 0.5s ease-out 2.2s forwards;
   --animate-fade-in-third: fadeIn 0.5s ease-out 2.4s forwards;
   --animate-fade-in-fourth: fadeIn 0.5s ease-out 2.6s forwards;
+  --animate-fade-in-fifth: fadeIn 0.5s ease-out 2.8s forwards;
+  --animate-fade-in-sixth: fadeIn 0.5s ease-out 3s forwards;
   --animate-fade-out: fadeOut 0.5s ease-out forwards;
   --animate-gavel: gavel 1s cubic-bezier(0,.9,.5,.71) infinite;
 
@@ -122,4 +124,30 @@
 
 .wing-animate-sequence.flapping {
   animation: wingFlap 0.3s ease-in-out infinite;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888; /* gray thumb */
+  border-radius: 4px;
+  border: 2px solid transparent; /* space around thumb */
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* darker when hovered */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
 }
