@@ -5,12 +5,11 @@ import { FaArrowRight, FaMedal } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import RobloxAvatar from "../RobloxAvatar";
 import Button from "../Button";
-import Link from "next/link";
 
 const MOCK_DATA = [
-  { name: "hamtsuu", career: 1000, wins: 200, clan: "[C5]", id: "97752529" },
-  { name: "Player2", career: 900, wins: 200 },
-  { name: "Player3", career: 800, wins: 200 },
+  { name: "hamtsuu", career: 8950, wins: 165, clan: "[C5]", id: "97752529" },
+  { name: "smudgeplayz", career: 1000, wins: 100, clan: "[1X]", id: "1248971940" },
+  { name: "testuser", career: 800, wins: 200, clan: "[NONE]", id: "1" },
   { name: "Player4", career: 700, wins: 200 },
   { name: "Player5", career: 600, wins: 200 },
 ];
@@ -27,7 +26,7 @@ const LeaderboardPanel = () => {
   const router = useRouter();
 
   return (
-    <div className="h-full bg-stone-800 p-4 rounded-md flex flex-col gap-3 w-[650px]">
+    <div className="h-full w bg-stone-800 p-4 rounded-md flex flex-col gap-3 w-[650px]">
       <div className="flex gap-4">
         <div className="p-3 bg-stone-900 rounded-md">
           <FaMedal size={25} className="fill-stone-600" />
@@ -60,7 +59,7 @@ const LeaderboardPanel = () => {
                     <RobloxAvatar userId={player.id} />
                   </div>
                   <p className="text-yellow-400 font-bold">{index + 1}.</p>
-                  <a href={`/player/${player.name}`} className="text-stone-200 hover:text-amber-300">{player.name}</a>
+                  <a href={`/player/${player.id}`} className="text-stone-200 hover:text-amber-300">{player.name}</a>
                   <p className="text-stone-200">{player.clan}</p>
                   <p className="text-stone-400">{player.career}</p>
                   <span className="text-stone-500 text-base ml-[-5px]">
@@ -83,7 +82,7 @@ const LeaderboardPanel = () => {
                     <RobloxAvatar userId={player.id} />
                   </div>
                   <p className="text-stone-200 font-bold">{index + 1}.</p>
-                  <a href={`/player/${player.name}`} className="text-stone-200 hover:text-amber-300">
+                  <a href={`/player/${player.id}`} className="text-stone-200 hover:text-amber-300">
                     {player.name}
                   </a>
                   <p className="text-stone-400">{player.career}</p>
