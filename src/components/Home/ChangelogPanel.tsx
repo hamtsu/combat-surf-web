@@ -42,7 +42,7 @@ const ChangelogPanel = () => {
                   {MOCK_DATA[0].author}
                 </h2>
               </div>
-              <div className="mt-[-50px] mr-[-10px]">
+              <div className="mt-[-50px] w-26 mr-[-10px]">
                 <RobloxAvatar userId={MOCK_DATA[0].authorId} />
               </div>
             </div>
