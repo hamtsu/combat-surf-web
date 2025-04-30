@@ -41,11 +41,11 @@ export default function Page({
     );
   } else {
     return (
-      <div className="flex bg-stone-900 text-slate-200 flex-col items-center justify-center w-full h-full p-4 gap-9">
+      <div className="overflow-y-scroll flex bg-stone-900 text-slate-200 flex-col items-center justify-center w-full h-full p-4 gap-9">
         <PlayerHeader userInfo={userInfo} />
 
-        <div className="flex gap-5 items-bottom mt-8 lg:mt-2">
-          <div className="flex flex-col gap-4 animate-fade-in-fifth opacity-0 ">
+        <div className="flex md:flex-row flex-col gap-5 items-bottom md:mt-8 lg:mt-2">
+          <div className="flex md:flex-col flex-row gap-4 animate-fade-in-fifth opacity-0 ">
             <StatisticPanel
               name="Career Kills"
               value={userInfo.stats.career}

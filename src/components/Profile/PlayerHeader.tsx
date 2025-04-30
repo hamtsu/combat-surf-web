@@ -34,7 +34,7 @@ type PlayerHeaderProps = {
 
 const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
   return (
-    <div className="flex gap-4">
+    <div className="flex flex-col md:flex-row gap-4">
       <div className="flex flex-col gap-3">
         <div className="opacity-0 animate-fade-in-first rounded-md bg-stone-800 h-fit p-3 border-2 border-stone-700 flex gap-8">
           <div className="select-none mt-[-100px]">
@@ -53,7 +53,7 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
             </div>
           </div>
 
-          <div className="select-none flex flex-col gap-2 mx-3 bg-stone-900 mt-[-50px] shadow-lg border-t-3 border-t-stone-700 h-fit p-3 rounded-md">
+          <div className="select-none hidden md:flex flex-col gap-2 mx-3 bg-stone-900 mt-[-50px] shadow-lg border-t-3 border-t-stone-700 h-fit p-3 rounded-md">
             <h1 className="text-3xl font-bold text-stone-400">Clan Info</h1>
             <h2 className="text-5xl font-bold text-stone-300">
               {userInfo.clanName}
@@ -87,11 +87,11 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
         </div>
       </div>
 
-      <div className="select-none opacity-0 animate-fade-in-second rounded-md bg-stone-800 p-3 border-2 border-stone-700 flex flex-col gap-2 w-[300px] h-fit">
-        <h1 className="text-9xl font-bold font-mono text-slate-300">
+      <div className="select-none opacity-0 animate-fade-in-second rounded-md bg-stone-800 p-3 border-2 border-stone-700 flex flex-col gap-2 w-full mt-8 md:mt-0 md:w-[300px] h-fit">
+        <h1 className="text-7xl md:text-9xl font-bold font-mono text-slate-300">
           {userInfo.level}
         </h1>
-        <h2 className="text-6xl text-stone-400 font-bold flex gap-2">
+        <h2 className="text-4xl md:text-6xl text-stone-400 font-bold flex gap-2">
           <FaArrowUp className="text-stone-500" /> Level
         </h2>
       </div>
