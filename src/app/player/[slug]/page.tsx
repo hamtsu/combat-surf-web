@@ -5,7 +5,6 @@ import PlayerHeader from "@/components/Profile/PlayerHeader";
 import StatisticPanel from "@/components/StatisticPanel";
 import { use, useEffect, useState } from "react";
 import { FaSkull, FaTrophy } from "react-icons/fa";
-import { FaXmark } from "react-icons/fa6";
 
 export default function Page({
   params,
@@ -45,7 +44,7 @@ export default function Page({
       <div className="flex bg-stone-900 text-slate-200 flex-col items-center justify-center w-full h-full p-4 gap-9">
         <PlayerHeader userInfo={userInfo} />
 
-        <div className="flex gap-5 items-bottom mt-8">
+        <div className="flex gap-5 items-bottom mt-8 lg:mt-2">
           <div className="flex flex-col gap-4 animate-fade-in-fifth opacity-0 ">
             <StatisticPanel
               name="Career Kills"

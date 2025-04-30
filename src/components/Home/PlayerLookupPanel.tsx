@@ -9,7 +9,7 @@ const PlayerLookupPanel = () => {
   const router = useRouter();
 
   return (
-    <div className="h-fit bg-stone-800 p-4 rounded-md flex flex-col gap-3 w-fit">
+    <div className="h-fit bg-stone-800 p-4 rounded-md flex flex-col gap-3 w-full md:w-fit">
       <div className="flex gap-3">
         <div className="p-2 bg-stone-900 rounded-md h-fit">
           <FaMagnifyingGlass size={20} className="fill-stone-600" />

@@ -26,13 +26,13 @@ const LeaderboardPanel = () => {
   const router = useRouter();
 
   return (
-    <div className="h-full w bg-stone-800 p-4 rounded-md flex flex-col gap-3 w-[650px]">
+    <div className="h-full bg-stone-800 p-4 rounded-md flex flex-col gap-3 w-full md:w-[650px]">
       <div className="flex gap-4">
         <div className="p-3 bg-stone-900 rounded-md">
           <FaMedal size={25} className="fill-stone-600" />
         </div>
 
-        <h1 className="text-3xl font-bold text-stone-400 mt-2">Leaderboards</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-stone-400 mt-2">Leaderboards</h1>
 
         <Button
           onClick={() => router.push("/leaderboard")}
@@ -98,7 +98,7 @@ const LeaderboardPanel = () => {
           })}
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
+        <div className="hidden md:flex flex-col gap-2 w-full">
           {MOCK_CLANS.map((clan, index) => (
             <div
               key={index}

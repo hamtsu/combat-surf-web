@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + " min-h-screen h-screen bg-stone-100 dark:bg-stone-800"}>
+      <body className={inter.className + " min-h-screen h-screen bg-stone-900 overflow-hidden"}>
         <LoadingScreen />
         {children}
         <Footer />

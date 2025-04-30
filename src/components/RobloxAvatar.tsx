@@ -26,7 +26,7 @@ const RobloxAvatar: FC<RobloxAvatarProps> = ({ userId }) => {
       });
   }, [userId]);
 
-  if (avatarUrl) {
+  if (false) {
     return (
       <Image
         src={avatarUrl ?? null}

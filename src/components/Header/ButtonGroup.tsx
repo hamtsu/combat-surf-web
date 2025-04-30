@@ -5,7 +5,7 @@ import { FaDiscord } from "react-icons/fa";
 
 const ButtonGroup = () => {
   return (
-    <div className="flex flex-col gap-2 opacity-0 animate-fade-in-third">
+    <div className="hidden sm:hidden md:flex flex-col gap-2 opacity-0 animate-fade-in-third">
       <Button
         onClick={() =>
           window.open(

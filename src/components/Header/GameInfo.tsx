@@ -7,7 +7,6 @@ import { BarLoader } from "react-spinners";
 import { FaCircleXmark } from "react-icons/fa6";
 
 const GameInfo = () => {
-  const [data, setData] = useState<any>(null);
   const [activePlayers, setActivePlayers] = useState<Number | null>(null);
   const [favourites, setFavourites] = useState<Number | null>(null);
   const [visits, setVisits] = useState<Number | null>(null);
@@ -53,7 +52,7 @@ const GameInfo = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-1 opacity-0 animate-fade-in-second">
+    <div className="hidden sm:hidden md:flex flex-col gap-1 opacity-0 animate-fade-in-second">
       <div className="bg-stone-900 backdrop-blur-lg rounded-md w-fit h-fit p-3 flex gap-2 font-bold font-sans">
         <FaUser size={50} className="fill-stone-700" />
         <div className="flex flex-col text-stone-200">

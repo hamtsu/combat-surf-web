@@ -9,7 +9,7 @@ const Custom404 = () => {
   const router = useRouter();
 
   return (
-    <div className="flex w-full h-full flex-col items-center justify-center gap-4 p-4 px-48 bg-stone-900">
+    <div className="flex w-full h-full flex-col items-center justify-center gap-4 p-4 md:px-48 bg-stone-900">
 
       <div className="rounded-md bg-stone-800 p-4 h-fit">
         <h1 className="text-8xl font-bold text-stone-300 ">404</h1>

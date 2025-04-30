@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 const Footer = () => {
   const router = useRouter();
   return (
-    <footer className="absolute bottom-0 items-center w-full flex flex-row gap-60 px-24 h-fit bg-stone-800 dark:border-t border-stone-900">
+    <footer className="absolute bottom-0 items-center w-full flex flex-row gap-0 md:gap-60 lg:gap-30 px-4 md:px-24 h-fit bg-stone-800 dark:border-t border-stone-900">
       <div className="flex flex-row gap-4 items-center text-stone-200/80 opacity-50 hover:opacity-100 transition-opacity select-none">
         <Image
           src="/combatsurflogo.png"
@@ -18,7 +18,7 @@ const Footer = () => {
           height={200}
           alt="Logo"
           draggable={false}
-          className="w-24 my-4 p-1 bg-stone-900 rounded-md"
+          className="w-18 md:w-24 my-4 lg:my-2 p-1 bg-stone-900 rounded-md"
           onClick={() => router.push("/")}
         />
         <div className="flex flex-col gap-1">
@@ -31,9 +31,9 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="flex grow" />
+      <div className="md:flex grow" />
 
-      <div className="h-fit w-fit flex gap-2">
+      <div className="h-fit shrink-0 w-fit hidden md:flex gap-2">
         <Button
           onClick={() =>
             window.open(
@@ -52,16 +52,16 @@ const Footer = () => {
             onClick={() =>
               window.open("http://discord.com/invite/k4jnnsSt29", "_blank")
             }
-            className="px-5 py-3 flex h-full bg-stone-900 hover:bg-teal-500-600 hover:text-stone-200 transition-colors rounded-lg text-stone-200/50 group"
+            className="px-5 py-3 flex h-full shrink-0 bg-stone-900 hover:bg-teal-500-600 hover:text-stone-200 transition-colors rounded-lg text-stone-200/50 group"
           >
             <FaDiscord size={20} className="group-hover:animate-wiggle" />
           </Button>
         </Tooltip>
       </div>
 
-      <div className="flex grow" />
+      <div className="md:flex grow" />
 
-      <div className="flex flex-row gap-4 items-center text-stone-200/80 text-sm">
+      <div className="hidden md:flex flex-row gap-4 items-center text-stone-200/80 text-sm">
         <span className="opacity-50 hover:opacity-100 transition-opacity cursor-pointer select-none">
           privacy policy
         </span>

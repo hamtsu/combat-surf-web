@@ -11,10 +11,10 @@ import { FaTicket } from "react-icons/fa6";
 
 export default function Home() {
   return (
-    <main className="flex w-full h-full flex-col gap-3 p-4 px-48 bg-stone-900">
+    <main className="flex overflow-y-scroll pb-22 md:pb-0 items-center w-full h-full flex-col gap-3 p-4 lg:p-0 lg:pt-4 md:px-48 lg:px-0 bg-stone-900">
       {/* HEADER*/}
       <div className="w-full items-center justify-between font-mono text-sm ">
-        <div className="bg-[url(/header.png)] bg-bottom w-5/6 h-64 rounded-2xl overflow-hidden mx-auto">
+        <div className="bg-[url(/header.png)] bg-bottom w-full md:w-5/6 h-fit md:h-64 rounded-2xl overflow-hidden mx-auto">
           <div className="w-full h-full backdrop-blur-xs border-4 border-white/10 rounded-2xl flex items-center p-10">
             <GameInfo />
 
@@ -31,9 +31,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="p-4 w-fit flex gap-4 opacity-0 animate-fade-in-fourth">
-        <div className="flex flex-col gap-4 w-80 ">
-          <div className="rounded-md bg-stone-800 p-4 h-fit">
+      <div className="md:p-4 lg:p-0 w-fit shrink-0 flex flex-col md:flex-row items-center md:items-start justify-center md:flex gap-4 opacity-0 animate-fade-in-fourth">
+        <div className="flex shrink-0 flex-col gap-4 md:w-80">
+          <div className="rounded-md bg-stone-800 p-4 h-full">
             <h1 className="text-2xl font-bold text-stone-300 ">
               Hello! Welcome to the <b>Combat Surf</b> Website👋
             </h1>
@@ -43,11 +43,11 @@ export default function Home() {
 
         <ChangelogPanel />
 
-        <div className="flex flex-col gap-4">
-          <div className="flex gap-4">
+        <div className="flex flex-col gap-4 w-full">
+          <div className="flex-col md:flex-row flex gap-4 w-full">
             <PlayerLookupPanel />
 
-            <div className="h-full bg-stone-800 p-4 rounded-md flex flex-col gap-3 w-full grow-0">
+            <div className="bg-stone-800 p-4 rounded-md hidden md:flex flex-col gap-3 ">
               <div className="flex gap-3">
                 <div className="p-2 bg-stone-900 rounded-md h-fit">
                   <FaTicket size={20} className="fill-stone-600" />
@@ -67,6 +67,7 @@ export default function Home() {
               </p>
             </div>
           </div>
+
           <LeaderboardPanel />
         </div>
       </div>
