@@ -3,20 +3,37 @@ import mockUsers from '../../mockUsers.json';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
-  const userId = searchParams.get('userId');
+  const query = searchParams.get('query');
 
-  if (!userId) {
-    return NextResponse.json({ error: 'Missing userId parameter' }, { status: 400 });
+  if (!query) {
+    return NextResponse.json({ error: 'Missing query parameter' }, { status: 400 });
   }
 
   try {
-    const user = mockUsers.find((user) => user.id === Number(userId));
+    const lowerQuery = query.toLowerCase();
 
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    // exact id match
+    const exactIdMatches = mockUsers.filter(
+      (user) => user.id.toString() === query
+    );
+
+    if (exactIdMatches.length > 0) {
+      return NextResponse.json(exactIdMatches);
     }
 
-    return NextResponse.json(user);
+    // partial id match or username match
+    const matchedUsers = mockUsers.filter((user) => {
+      return (
+        user.id.toString().includes(query) ||
+        user.username.toLowerCase().includes(lowerQuery)
+      );
+    });
+
+    if (matchedUsers.length === 0) {
+      return NextResponse.json({ error: 'No users found' }, { status: 404 });
+    }
+
+    return NextResponse.json(matchedUsers);
   } catch (error) {
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
