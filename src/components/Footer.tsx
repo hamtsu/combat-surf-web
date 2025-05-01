@@ -2,7 +2,12 @@
 
 import Image from "next/image";
 import Button from "./Button";
-import { FaBug, FaDiscord, FaExclamationCircle, FaGithub } from "react-icons/fa";
+import {
+  FaBug,
+  FaDiscord,
+  FaExclamationCircle,
+  FaGithub,
+} from "react-icons/fa";
 import Tooltip from "./Tooltip";
 import { SiRoblox } from "react-icons/si";
 import { useRouter } from "next/navigation";
@@ -62,15 +67,26 @@ const Footer = () => {
       <div className="md:flex grow" />
 
       <div className="hidden md:flex flex-row gap-4 items-center text-stone-200/80 text-base ">
-        <div onClick={() => window.open("https://github.com/hamtsu", "_blank")} className="opacity-50 font-semibold items-center flex gap-2 hover:opacity-100 transition-opacity cursor-pointer select-none">
+        <div
+          onClick={() => window.open("https://github.com/hamtsu", "_blank")}
+          className="opacity-50 font-normal items-center flex gap-2 hover:opacity-100 transition-opacity cursor-pointer select-none"
+        >
           <FaGithub className="" />
           hamtsu
         </div>
         <Tooltip text="Open an issue on the github repo!" position="top">
-        <div onClick={() => window.open("https://github.com/hamtsu/combat-surf-web/issues", "_blank")} className="opacity-50 font-semibold items-center flex gap-2 hover:opacity-100 hover:text-indigo-400 transition-opacity cursor-pointer select-none">
-          <FaBug className="" />
-          report issues
-        </div>
+          <div
+            onClick={() =>
+              window.open(
+                "https://github.com/hamtsu/combat-surf-web/issues",
+                "_blank"
+              )
+            }
+            className="opacity-50 font-normal items-center flex gap-2 hover:opacity-100 hover:text-indigo-400 transition-opacity cursor-pointer select-none"
+          >
+            <FaBug className="" />
+            report issues
+          </div>
         </Tooltip>
       </div>
     </footer>
