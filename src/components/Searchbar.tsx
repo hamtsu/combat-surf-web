@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import Button from "./Button";
 import { useRouter } from "next/navigation";
-import { FaUserCog } from "react-icons/fa";
+import { FaExclamationTriangle, FaUserCog, FaUserSlash } from "react-icons/fa";
 import RobloxAvatar from "./RobloxAvatar";
 
 function Searchbar() {
@@ -12,23 +12,29 @@ function Searchbar() {
     { id: string; username: string }[] | []
   >([]);
   const [loading, setLoading] = useState(false);
+  const [notFound, setNotFound] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
   const router = useRouter();
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
 
-    if (value.length > 0) {
+    if (value.length >= 3) {
       setFilteredUsers([]);
-
+      setShowInfo(false);
       setLoading(true);
+      setNotFound(false);
 
       fetch(`/api/player-info?query=${value}`)
         .then((res) => {
-          if (!res.ok) throw new Error("Fetch failed");
+          if (!res.ok) {
+            setNotFound(true);
+            return;
+          }
           return res.json();
         })
         .then((data) => {
-          if (data.length > 0) {
+          if (data && data.length > 0) {
             setLoading(false);
             setFilteredUsers(data);
           } else {
@@ -39,9 +45,12 @@ function Searchbar() {
         .catch((error) => {
           console.error(error);
         });
-    } else {
+    } else if (value.length != 0) {
+      setShowInfo(true);
       setLoading(false);
       setFilteredUsers([]);
+    } else {
+      setShowInfo(false);
     }
   }
 
@@ -72,38 +81,59 @@ function Searchbar() {
           autoComplete="off"
           autoCorrect="off"
         />
-        <Button onClick={() => handleSelectUser(filteredUsers[0])} className="active:bg-stone-700 p-3 bg-stone-900 hover:bg-stone-600 text-stone-300">
+        <Button
+          onClick={() => handleSelectUser(filteredUsers[0])}
+          className="active:bg-stone-700 p-3 bg-stone-900 hover:bg-stone-600 text-stone-300"
+        >
           <FaMagnifyingGlass />
         </Button>
       </div>
 
       {/* dropdown */}
-      {filteredUsers.length > 0 && (
-        <ul className="absolute z-10 mt-1 w-full bg-stone-800 rounded-md shadow-lg max-h-60 overflow-auto">
-          {loading ? (
+
+      <ul className="absolute z-10 mt-1 w-full bg-stone-800 rounded-md shadow-lg max-h-60 overflow-auto">
+        {loading ? (
+          notFound ? (
             <div className="flex flex-col">
-              <FaUserCog
-                size={30}
-                className="animate-spin text-stone-200 mx-auto mt-2"
-              />
-              <p className="text-stone-200 text-center">Loading...</p>
+              <FaUserSlash size={30} className="text-stone-200 mx-auto mt-2" />
+              <p className="text-stone-200 text-center">User not found</p>
             </div>
           ) : (
-            filteredUsers.map((user) => (
-              <li
-                key={user.id}
-                onClick={() => handleSelectUser(user)}
-                className="px-3 flex gap-1 items-center py-2 hover:bg-stone-700 cursor-pointer text-stone-200"
-              >
-                <div className="w-5 mr-1">
-                  <RobloxAvatar userId={user.id} />
-                </div>
-                {user.username}<span className="text-stone-200/40">({user.id})</span>
-              </li>
-            ))
-          )}
-        </ul>
-      )}
+            <div className="flex flex-col">
+              <FaUserCog size={30} className="text-stone-200 mx-auto mt-2" />
+              <p className="text-stone-200 text-center">Searching...</p>
+            </div>
+          )
+        ) : showInfo ? (
+          <div className="p-2">
+            <FaExclamationTriangle
+              size={30}
+              className="text-stone-200 mx-auto mt-2"
+            />
+            <p className="text-stone-200 text-center">
+              Enter 3 or more characters
+            </p>
+          </div>
+        ) : (
+          filteredUsers.length > 0 &&
+          filteredUsers.map((user, index) => {
+            if (index <= 10)
+              return (
+                <li
+                  key={user.id}
+                  onClick={() => handleSelectUser(user)}
+                  className="px-3 flex gap-1 items-center py-2 hover:bg-stone-700 cursor-pointer text-stone-200"
+                >
+                  <div className="w-5 mr-1">
+                    <RobloxAvatar userId={user.id} />
+                  </div>
+                  {user.username}
+                  <span className="text-stone-200/40">({user.id})</span>
+                </li>
+              );
+          })
+        )}
+      </ul>
     </div>
   );
 }
