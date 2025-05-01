@@ -14,11 +14,10 @@ const ChangelogPanel = () => {
     fetch("/api/changelogs")
       .then((res) => res.json())
       .then(setChangelogs);
-    console.log(changelogs);
   }, []);
 
   return (
-    <div className="rounded-md bg-stone-800 p-4 hidden md:flex flex-col gap-3">
+    <div className="rounded-md bg-stone-800 p-4 flex flex-col gap-3">
       <div className="flex gap-4">
         <div className="p-4 bg-stone-900 rounded-md">
           <FaPaperclip size={30} className="fill-stone-600" />
@@ -26,7 +25,7 @@ const ChangelogPanel = () => {
         <h1 className="text-4xl font-bold text-stone-400 mt-3">Changelog</h1>
       </div>
       {changelogs[0] ? (
-        <div className="w-[500px] lg:w-96 flex flex-col h-80 bg-[url(/header.png)] bg-cover bg-right rounded-lg">
+        <div className="md:w-[500px] lg:w-96 flex flex-col h-80 bg-[url(/header.png)] bg-cover bg-right rounded-lg">
           <div className="backdrop-blur-[2px] text-slate-100 h-full text-center px-5 pt-4 flex flex-col">
             <div className="flex gap-1 w-full justify-between">
               <h1 className="font-bold text-3xl ml-[-30px] border-r-5 border-stone-600 drop-shadow-2xl bg-stone-900 text-stone-400 h-fit rounded-md relative mb-3 p-3">
@@ -34,9 +33,15 @@ const ChangelogPanel = () => {
               </h1>
             </div>
 
-            <div className="prose prose-sm prose-stone prose-invert prose-headings:m-0 prose-p:m-0 text-lg text-start lg:text-base text-slate-200/80 mt-3 lg:mt-1">
+            <div className="hidden md:block prose prose-sm prose-stone prose-invert prose-headings:m-0 prose-p:m-0 text-lg text-start lg:text-base text-slate-200/80 mt-3 lg:mt-1">
               <ReactMarkdown>
                 {changelogs[0].content.substring(0, 120) + "..."}
+              </ReactMarkdown>
+            </div>
+
+            <div className="md:hidden prose prose-sm prose-stone prose-invert prose-headings:m-0 prose-p:m-0 text-lg text-start lg:text-base text-slate-200/80 mt-3 lg:mt-1">
+              <ReactMarkdown>
+                {changelogs[0].content.substring(0, 80) + "..."}
               </ReactMarkdown>
             </div>
           </div>
