@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     // partial id match or username match
     const matchedUsers = mockUsers.filter((user) => {
       return (
-        user.id.toString().includes(query) ||
+        user.id.toString().startsWith(query) ||
         user.username.toLowerCase().includes(lowerQuery)
       );
     });
