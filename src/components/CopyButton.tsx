@@ -19,7 +19,7 @@ const CopyButton: FC<CopyButtonProps> = ({ text }) => {
   };
 
   return (
-    <Tooltip text="Copy ID" position="bottom">
+    <Tooltip text="Copy ID" position="top">
       <button
         className="p-1 rounded-md hover:bg-black/10 w-fit text-lg"
         onClick={copyUsername}
