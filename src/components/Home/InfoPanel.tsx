@@ -26,7 +26,7 @@ const InfoPanel = () => {
       </Button>
       <Button
         onClick={() => router.push("/")}
-        className="px-3 py-2 h-fit flex bg-stone-900 hover:bg-stone-400 text-stone-500 text-lg font-sans font-bold transition-colors rounded-lg group"
+        className="px-3 py-2 h-fit flex bg-stone-900 hover:bg-stone-400 text-stone-500 hover:text-stone-800 text-lg font-sans font-bold transition-colors rounded-lg group"
       >
         <FaExternalLinkAlt size={15} className="mr-2" />
         <p className="">View item list</p>
