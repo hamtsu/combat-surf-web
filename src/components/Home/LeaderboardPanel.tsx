@@ -85,6 +85,7 @@ const LeaderboardPanel = () => {
                   <a href={`/player/${player.id}`} className="text-stone-200 hover:text-amber-300">
                     {player.name}
                   </a>
+                  <p className="text-stone-200">{player.clan}</p>
                   <p className="text-stone-400">{player.career}</p>
                   <span className="text-stone-500 text-base ml-[-5px]">
                     kills
