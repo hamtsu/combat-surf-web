@@ -18,14 +18,14 @@ export default function Page({
   useEffect(() => {
     if (!slug) return;
 
-    fetch(`/api/player-info?userId=${slug}`)
+    fetch(`/api/player-info?query=${slug}`)
       .then((res) => {
         if (!res.ok) throw new Error("Fetch failed");
         return res.json();
       })
       .then((data) => {
         if (data) {
-          setUserInfo(data);
+          setUserInfo(data[0]);
         }
       })
       .catch((error) => {
