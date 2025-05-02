@@ -2,7 +2,7 @@ import Image from "next/image";
 import React, { FC, useEffect } from "react";
 
 type RobloxAvatarProps = {
-  userId: string;
+  userId?: string;
 };
 
 const RobloxAvatar: FC<RobloxAvatarProps> = ({ userId }) => {
