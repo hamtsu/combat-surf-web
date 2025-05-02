@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import LoadingScreen from "@/app/PageTransition";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " min-h-screen h-screen bg-stone-900 overflow-hidden"}>
+        <Suspense>
         <LoadingScreen />
+        </Suspense>
         {children}
         <Footer />
       </body>
