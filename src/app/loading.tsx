@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import clsx from "clsx";
 import Image from "next/image";
 import Wing from "../components/Wing";
@@ -35,7 +35,8 @@ export default function Loading() {
   }, [pathname, searchParams]);
 
   return (
-    <div
+    <Suspense>
+      <div
       className={clsx(
         "fixed top-0 left-0 w-full h-full bg-stone-800 text-white flex items-center justify-center z-50 transition-opacity duration-500",
         {
@@ -65,5 +66,6 @@ export default function Loading() {
         />
       </div>
     </div>
+    </Suspense>
   );
 }
