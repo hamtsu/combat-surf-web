@@ -109,7 +109,8 @@ export default function Page({
             />
           </div>
 
-          <InventoryPanel inventory={userInfo.inventory} />
+          {/* wip */}
+          <InventoryPanel inventory={[{}]} /> 
         </div>
       </div>
     );

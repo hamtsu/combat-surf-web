@@ -13,7 +13,7 @@ type InventoryPanelProps = {
       value: number;
       imageUrl: string;
     }
-  ];
+  ] | [];
 };
 
 const InventoryPanel: FC<InventoryPanelProps> = ({ inventory }) => {
