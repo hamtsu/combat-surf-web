@@ -36,8 +36,8 @@ export async function POST(req: NextRequest) {
         await db.execute(sql, values)
 
         return NextResponse.json({ message: 'User upserted' })
-    } catch (err) {
+    } catch (err: any) {
         console.error(err)
-        return NextResponse.json({ error: 'Database error' }, { status: 500 })
+        return NextResponse.json({ error: err.message || 'Unknown DB error' }, { status: 500 })
     }
 }
