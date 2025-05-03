@@ -13,9 +13,10 @@ export async function POST(req: NextRequest) {
 
     try {
         const sql = `
-            INSERT INTO users (username, displayName, level, clanName, clanTag, careerWins, totalWins)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO users (id, username, displayName, level, clanName, clanTag, careerWins, totalWins)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE
+                id = VALUES(id),
                 displayName = VALUES(displayName),
                 level = VALUES(level),
                 clanName = VALUES(clanName),
@@ -24,6 +25,7 @@ export async function POST(req: NextRequest) {
                 totalWins = VALUES(totalWins)
         `
         const values = [
+            userData.id,
             userData.username,
             userData.displayName,
             userData.level,
