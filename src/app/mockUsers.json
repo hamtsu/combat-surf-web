@@ -254,8 +254,7 @@
         "clanTag": "NONE",
         "stats": {
             "career": 1000,
-            "wins": 100,
-            "awp_kills": 100
+            "wins": 100
         },
         "inventory": [
             {
@@ -266,15 +265,6 @@
                 "rarity": "Covert",
                 "value": 100.0,
                 "imageUrl": "https://example.com/ak47_redline.png"
-            },
-            {
-                "id": 2,
-                "name": "AWP | Dragon Lore",
-                "type": "weapon",
-                "skin": "Dragon Lore",
-                "rarity": "Exceedingly Rare",
-                "value": 5000.0,
-                "imageUrl": "https://example.com/awp_dragon_lore.png"
             }
         ]
     }

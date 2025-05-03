@@ -38,3 +38,22 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }
+
+// export async function GET(req: NextRequest) {
+//   const username = req.nextUrl.searchParams.get('username');
+//   if (!username) {
+//     return new NextResponse(JSON.stringify({ message: 'Username required' }), { status: 400 });
+//   }
+
+//   try {
+//     const user = await getUserByUsername(username);
+
+//     if (!user) {
+//       return new NextResponse(JSON.stringify({ message: 'User not found' }), { status: 404 });
+//     }
+
+//     return new NextResponse(JSON.stringify(user), { status: 200 });
+//   } catch (error) {
+//     return new NextResponse(JSON.stringify({ message: 'Error fetching user data' }), { status: 500 });
+//   }
+// }
