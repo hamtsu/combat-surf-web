@@ -99,12 +99,12 @@ export default function Page({
           <div className="flex md:flex-col flex-row gap-4 animate-fade-in-fifth opacity-0 ">
             <StatisticPanel
               name="Career Kills"
-              value={userInfo.stats.career}
+              value={userInfo.career}
               icon={<FaSkull size={30} className="fill-stone-600" />}
             />
             <StatisticPanel
               name="Career Wins"
-              value={userInfo.stats.wins}
+              value={userInfo.wins}
               icon={<FaTrophy size={30} className="fill-stone-600" />}
             />
           </div>
