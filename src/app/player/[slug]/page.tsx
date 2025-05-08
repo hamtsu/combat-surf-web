@@ -104,7 +104,7 @@ export default function Page({
             />
             <StatisticPanel
               name="Career Wins"
-              value={userInfo.careerWins}
+              value={userInfo.totalWins}
               icon={<FaTrophy size={30} className="fill-stone-600" />}
             />
           </div>
