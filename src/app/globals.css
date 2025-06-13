@@ -95,6 +95,19 @@
   }
 }
 
+@layer utilities {
+  .bg-construction {
+    background-color: #facc15;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgb(26, 25, 25) 0,
+      rgb(26, 25, 25) 10px,
+      #facc15 10px,
+      #facc15 20px
+    );
+  }
+}
+
 @utility text-balance {
   text-wrap: balance;
 }
