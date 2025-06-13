@@ -32,8 +32,8 @@ export default function Home() {
       </div>
 
       <div className="md:p-4 lg:p-0 w-fit shrink-0 flex flex-col md:flex-row items-center md:items-start justify-center md:flex gap-4 opacity-0 animate-fade-in-fourth">
-        <div className="flex shrink-0 flex-col gap-4 md:w-80">
-          <div className="rounded-md bg-stone-800 p-4 h-full">
+        <div className="flex h-full shrink-0 flex-col gap-4 md:w-80">
+          <div className="rounded-md grow-0 bg-stone-800 p-4 h-full">
             <h1 className="text-2xl font-bold text-stone-300 ">
               Hello! Welcome to the <b>Combat Surf</b> Website👋
             </h1>
@@ -62,8 +62,14 @@ export default function Home() {
                 <span className="bg-stone-900 mr-1 rounded-md p-1 font-mono text-stone-400">
                   #tickets
                 </span>
-                channel in the <a href="https://discord.com/invite/k4jnnsSt29" className="hover:text-amber-300 font-bold">Discord</a> to open a ticket for support or appeal a
-                ban.
+                channel in the{" "}
+                <a
+                  href="https://discord.com/invite/k4jnnsSt29"
+                  className="hover:text-amber-300 font-bold"
+                >
+                  Discord
+                </a>{" "}
+                to open a ticket for support or appeal a ban.
               </p>
             </div>
           </div>
