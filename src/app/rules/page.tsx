@@ -3,7 +3,7 @@
 import Button from "@/components/Button";
 import Tooltip from "@/components/Tooltip";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { FaArrowRight, FaDiscord, FaGamepad, FaGavel } from "react-icons/fa";
 
 const Page = () => {

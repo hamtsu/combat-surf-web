@@ -11,6 +11,7 @@
   "dependencies": {
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
+    "dotenv": "^17.0.1",
     "gray-matter": "^4.0.3",
     "mysql2": "^3.14.1",
     "next": "15.3.1",
