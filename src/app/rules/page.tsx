@@ -3,8 +3,8 @@
 import Button from "@/components/Button";
 import Tooltip from "@/components/Tooltip";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
-import { FaArrowRight, FaDiscord, FaGamepad, FaGavel } from "react-icons/fa";
+import React from "react";
+import { FaArrowLeft, FaDiscord, FaGamepad, FaGavel } from "react-icons/fa";
 
 const Page = () => {
   const router = useRouter();
@@ -12,24 +12,24 @@ const Page = () => {
   return (
     <div className="overflow-y-scroll h-full flex flex-col items-center pb-24">
       <div className="flex gap-2 my-4">
+        <Tooltip text="Back to Home" position="bottom">
+          <Button
+            onClick={() => router.push("/")}
+            className="px-5 py-3 flex bg-stone-800 hover:bg-teal-500-600 hover:text-stone-200 transition-colors h-full rounded-lg text-stone-200/50 group"
+          >
+            <FaArrowLeft
+              size={35}
+              className="group-hover:animate-bounce-left"
+            />
+          </Button>
+        </Tooltip>
+
         <div className="flex items-center justify-between text-4xl p-4 gap-4 bg-stone-800 rounded-md">
           <div className="rounded-md bg-stone-900 p-3">
             <FaGavel size={35} className="fill-stone-600 " />
           </div>
           <h1 className="text-stone-400 font-bold">Rules</h1>
         </div>
-
-        <Tooltip text="Back to Home" position="bottom">
-          <Button
-            onClick={() => router.push("/")}
-            className="px-5 py-3 flex bg-stone-800 hover:bg-teal-500-600 hover:text-stone-200 transition-colors h-full rounded-lg text-stone-200/50 group"
-          >
-            <FaArrowRight
-              size={35}
-              className="group-hover:animate-bounce-right"
-            />
-          </Button>
-        </Tooltip>
       </div>
 
       <div className="my-auto">
