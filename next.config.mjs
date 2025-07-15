@@ -16,7 +16,6 @@ function getGitCommitHash() {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  
   images: {
     remotePatterns: [
       {
@@ -24,6 +23,12 @@ const nextConfig = {
         hostname: "thumbnails.roblox.com",
         port: "",
         pathname: "/v1/assets/**",
+      },
+      {
+        protocol: "https",
+        hostname: "groups.roblox.com",
+        port: "",
+        pathname: "/v1/groups/**",
       },
       {
         protocol: "https",
