@@ -7,7 +7,7 @@ type RateLimitEntry = {
 
 const rateLimitMap = new Map<string, RateLimitEntry>();
 
-const MAX_REQUESTS = 15
+const MAX_REQUESTS = 50
 const WINDOW_MS = 60 * 1000 
 
 function getClientIp(req: NextRequest): string {
