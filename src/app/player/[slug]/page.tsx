@@ -22,18 +22,36 @@ export default function Page({
 
   useEffect(() => {
     if (!slug) return;
+    let userInfoRes: any;
 
     fetch(
       `/api/player-info?userId=${slug}&fields=username,displayName,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills`
     )
       .then((res) => {
-        if (!res.ok) throw new Error("Fetch failed");
+        if (!res.ok) throw new Error("Failed fetching player info");
         return res.json();
       })
       .then((data) => {
         if (data) {
           setUserInfo(data);
+          userInfoRes = data;
         }
+      })
+      .then(() => {
+        fetch(`/api/clan-info?clanId=${userInfoRes.clanId}`)
+          .then((res) => {
+            if (!res.ok) throw new Error("Failed fetching clan info");
+            return res.json();
+          })
+          .then((data) => {
+            if (data) {
+              setUserInfo((u: any) => ({
+                ...u,
+                clanTag: data.tag,
+                clanName: data.name,
+              }));
+            }
+          })
       })
       .catch((error) => {
         console.error(error);
@@ -129,7 +147,7 @@ export default function Page({
           </div>
 
           {/* wip */}
-          <InventoryPanel inventory={[]} />
+          <InventoryPanel inventory={userInfo.inventory} />
         </div>
       </div>
     );
