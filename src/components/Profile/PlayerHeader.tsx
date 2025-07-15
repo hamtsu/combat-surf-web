@@ -9,16 +9,16 @@ import { SiRoblox } from "react-icons/si";
 
 type PlayerHeaderProps = {
   userInfo: {
-    id: string;
+    userId: string;
     username: string;
     displayName: string;
     level: number;
     clanName: string;
     clanTag: string;
     stats: {
-      career: number;
+      globalKills: number;
       wins: number;
-      awp_kills: number;
+      weaponKills: number;
     };
     inventory: {
       id: number;
@@ -38,7 +38,7 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
       <div className="flex flex-col gap-3">
         <div className="opacity-0 animate-fade-in-first rounded-md bg-stone-800 h-fit p-3 border-2 border-stone-700 flex gap-8">
           <div className="select-none mt-[-100px]">
-            <RobloxAvatar userId={userInfo.id} />
+            <RobloxAvatar userId={userInfo.userId} />
           </div>
           <div className="text-6xl font-bold flex flex-col">
             <div>
@@ -48,8 +48,8 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
               </p>
             </div>
             <div className="text-stone-400 text-2xl font-normal flex gap-2 items-center">
-              <p className="text-lg">({userInfo.id})</p>
-              <CopyButton text={userInfo.id} />
+              <p className="text-lg">({userInfo.userId})</p>
+              <CopyButton text={userInfo.userId} />
             </div>
           </div>
 
@@ -66,11 +66,11 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
         </div>
 
         <div className="flex gap-3">
-          <PlayerRank userId={userInfo.id} />
+          <PlayerRank userId={userInfo.userId} />
           <Button
             onClick={() =>
               window.open(
-                `https://www.roblox.com/users/${userInfo.id}/profile`,
+                `https://www.roblox.com/users/${userInfo.userId}/profile`,
                 "_blank"
               )
             }

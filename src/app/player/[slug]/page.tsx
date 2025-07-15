@@ -18,22 +18,26 @@ export default function Page({
   const router = useRouter();
 
   const [userInfo, setUserInfo] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!slug) return;
 
-    fetch(`/api/player-info?query=${slug}`)
+    fetch(
+      `/api/player-info?userId=${slug}&fields=username,displayName,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills`
+    )
       .then((res) => {
         if (!res.ok) throw new Error("Fetch failed");
         return res.json();
       })
       .then((data) => {
         if (data) {
-          setUserInfo(data[0]);
+          setUserInfo(data);
         }
       })
       .catch((error) => {
         console.error(error);
+        setError(error);
       });
   }, [slug]);
 
@@ -62,7 +66,22 @@ export default function Page({
             </div>
           </div>
         </div>
-        <h1 className="text-2xl font-bold">Loading...</h1>
+
+        <div className="bg-stone-800 rounded-md p-4 text-center">
+          <FaUser size={40} className="text-stone-400 mx-auto mt-2" />
+          {error ? (
+            <>
+              <h1 className="text-2xl font-bold text-stone-200 p-4">
+                This profile could not be loaded!
+              </h1>
+              <p className="text-5xl font-bold text-red-400">(ᗒᗣᗕ)</p>
+            </>
+          ) : (
+            <h1 className="text-2xl font-bold text-stone-200 p-4">
+              Loading profile...
+            </h1>
+          )}
+        </div>
       </div>
     );
   } else {
@@ -99,18 +118,18 @@ export default function Page({
           <div className="flex md:flex-col flex-row gap-4 animate-fade-in-fifth opacity-0 ">
             <StatisticPanel
               name="Career Kills"
-              value={userInfo.careerKills}
+              value={userInfo.globalKills}
               icon={<FaSkull size={30} className="fill-stone-600" />}
             />
             <StatisticPanel
               name="Career Wins"
-              value={userInfo.totalWins}
+              value={userInfo.wins}
               icon={<FaTrophy size={30} className="fill-stone-600" />}
             />
           </div>
 
           {/* wip */}
-          <InventoryPanel inventory={[]} /> 
+          <InventoryPanel inventory={[]} />
         </div>
       </div>
     );
