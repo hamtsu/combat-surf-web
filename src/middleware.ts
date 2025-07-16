@@ -37,7 +37,6 @@ export function middleware(req: NextRequest) {
   console.warn(path);
   if (
     path == "/api/player-rank" ||
-    path == "/api/game-info" ||
     path == "/api/avatar" ||
     path == "/api/changelogs"
   ) {
@@ -84,7 +83,6 @@ export const config = {
     "/api/changelogs",
     "/api/leaderboard",
     "/api/player-rank",
-    "/api/game-info",
     "/api/avatar",
     "/item-list",
   ],
