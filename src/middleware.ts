@@ -7,7 +7,7 @@ type RateLimitEntry = {
 
 const rateLimitMap = new Map<string, RateLimitEntry>();
 
-const MAX_REQUESTS = 15; // 15 req per minute
+const MAX_REQUESTS = 20; // 15 req per minute
 const WINDOW_MS = 60 * 1000;
 
 function getClientIp(req: NextRequest): string {
@@ -34,7 +34,7 @@ export function middleware(req: NextRequest) {
   }
 
   const path = req.nextUrl.pathname;
-  console.warn(path);
+
   if (
     path == "/api/player-rank" ||
     path == "/api/avatar" ||
