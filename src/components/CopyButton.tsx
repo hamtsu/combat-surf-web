@@ -21,18 +21,18 @@ const CopyButton: FC<CopyButtonProps> = ({ text }) => {
   return (
     <Tooltip text="Copy ID" position="top">
       <button
-        className="p-1 rounded-md hover:bg-black/10 w-fit text-lg"
+        className="p-1 px-2 rounded-md hover:bg-black/10 w-fit text-base"
         onClick={copyUsername}
       >
         {copied ? (
           <span className="flex gap-1 items-center text-green-500/90">
-            <FaCheck />
-            Copied
+            <FaCheck size={15}  />
+            Copied ID
           </span>
         ) : (
           <span className="flex gap-1 items-center text-stone-400 mr-4">
-            <FaCopy />
-            Copy
+            <FaCopy size={15} />
+            Copy ID
           </span>
         )}
       </button>
