@@ -13,6 +13,7 @@
     "dayjs": "^1.11.13",
     "dotenv": "^17.0.1",
     "gray-matter": "^4.0.3",
+    "js-cookie": "^3.0.5",
     "mysql2": "^3.14.1",
     "next": "^15.4.1",
     "react": "19.1.0",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.4",
     "@tailwindcss/typography": "^0.5.16",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "19.1.2",
     "@types/react-dom": "19.1.2",

@@ -43,22 +43,34 @@ export function middleware(req: NextRequest) {
   ) {
     // allow more requests for these endpoints
     if (entry.count >= MAX_REQUESTS + 10) {
-      return NextResponse.json(
+      const res = NextResponse.json(
         {
           message: "Too many requests. Try again later",
          // waitSeconds: 60 - Math.round((now - entry.lastReset) / 1000),
         },
         { status: 429 }
       );
+
+      res.cookies.set("rateLimitExceeded", "true", {
+        maxAge: WINDOW_MS / 1000, 
+      })
+
+      return res;
     }
   } else if (entry.count >= MAX_REQUESTS) {
-    return NextResponse.json(
-      {
-        message: "Too many requests. Try again later",
-        // waitSeconds: 60 - Math.round((now - entry.lastReset) / 1000),
-      },
-      { status: 429 }
-    );
+    const res = NextResponse.json(
+        {
+          message: "Too many requests. Try again later",
+         // waitSeconds: 60 - Math.round((now - entry.lastReset) / 1000),
+        },
+        { status: 429 }
+      );
+
+      res.cookies.set("rateLimitExceeded", "true", {
+        maxAge: WINDOW_MS / 1000, 
+      })
+      
+      return res;
   }
 
   entry.count++;
