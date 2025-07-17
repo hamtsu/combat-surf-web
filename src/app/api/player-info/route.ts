@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   const userId = searchParams.get("userId");
   const fields = (searchParams.get("fields") || "username,displayName").split(
     ","
-  ); // username,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills,displayName
+  ); // username,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills,displayName,banned,tradeBanned
 
   if (!userId || isNaN(Number(userId))) {
     return NextResponse.json(
@@ -38,6 +38,8 @@ export async function GET(request: NextRequest) {
       wins: `${BASE_URL}WinStore/entries/${userId}`,
       tasks: `${BASE_URL}Tasks/entries/${userId}`,
       globalKills: `${BASE_URL}CurrencyStore/entries/${userId}`,
+      tradeBanned: `${BASE_URL}TradeBans/entries/${userId}`,
+      // TODO banned field
     };
 
     const playerInfo: any = { userId };
