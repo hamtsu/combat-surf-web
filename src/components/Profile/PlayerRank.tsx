@@ -1,6 +1,6 @@
 "use client";
 import React, { FC, useEffect } from "react";
-import { FaGavel, FaMedal, FaShieldAlt, FaUser } from "react-icons/fa";
+import { FaCrown, FaGavel, FaMedal, FaShieldAlt, FaUser } from "react-icons/fa";
 import Tooltip from "../Tooltip";
 
 type PlayerRankProps = {
@@ -12,11 +12,6 @@ const PlayerRank: FC<PlayerRankProps> = ({ userId }) => {
 
   useEffect(() => {
     if (!userId) return;
-
-    if (userId == "1") {
-      setRank("Head Admins");
-      return;
-    } // TESTIng
 
     fetch(`/api/player-rank?userId=${userId}`)
       .then((res) => {
@@ -73,12 +68,23 @@ const PlayerRank: FC<PlayerRankProps> = ({ userId }) => {
         </div>
       </Tooltip>
     );
+  } else if (rank == "⭐God") { // owner im pre sure
+    return (
+      <Tooltip text="This player is an owner!" position="bottom">
+        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-yellow-500 border-2 border-yellow-400 w-fit h-fit rounded-lg m p-2 px-4">
+          <FaCrown className="text-yellow-100 text-xl" />
+          <h1 className="text-xl font-semibold text-yellow-100">
+            Owner
+          </h1>
+        </div>
+      </Tooltip>
+    );
   } else {
     return (
-      <Tooltip text="This player is a Member!" position="bottom">
-        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-green-500 border-2 border-green-400 w-fit h-fit rounded-lg m p-2 px-4">
+      <Tooltip text="This player has no rank." position="bottom">
+        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-green-700 border-2 border-green-600 w-fit h-fit rounded-lg m p-2 px-4">
           <FaUser className="text-green-200 text-xl" />
-          <h1 className="text-xl font-semibold text-green-200">Member</h1>
+          <h1 className="text-xl font-semibold text-green-200">Player</h1>
         </div>
       </Tooltip>
     );
