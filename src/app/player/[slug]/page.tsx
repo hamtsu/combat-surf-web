@@ -34,33 +34,44 @@ export default function Page({
     let userInfoRes: any;
 
     fetch(
-      `/api/player-info?userId=${slug}&fields=username,displayName,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills`
+      `/api/player-info?userId=${slug}&fields=username,displayName,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills,tradeBanned`
     )
       .then((res) => {
         if (!res.ok) throw new Error("Failed fetching player info");
         return res.json();
       })
       .then((data) => {
-        if (data) {
+        if (data.level) {
           setUserInfo(data);
           userInfoRes = data;
+        } else {
+          setError("User not found or invalid userId");
+          console.error("User not found or invalid userId");
         }
       })
       .then(() => {
-        fetch(`/api/clan-info?clanId=${userInfoRes.clanId}`)
-          .then((res) => {
-            if (!res.ok) throw new Error("Failed fetching clan info");
-            return res.json();
-          })
-          .then((data) => {
-            if (data) {
-              setUserInfo((u: any) => ({
-                ...u,
-                clanTag: data.tag,
-                clanName: data.name,
-              }));
-            }
-          });
+        if (userInfoRes.clanId && userInfoRes.clanId !== "-1")
+          fetch(`/api/clan-info?clanId=${userInfoRes.clanId}`)
+            .then((res) => {
+              if (!res.ok) throw new Error("Failed fetching clan info");
+              return res.json();
+            })
+            .then((data) => {
+              if (data) {
+                setUserInfo((u: any) => ({
+                  ...u,
+                  clanTag: data.tag,
+                  clanName: data.name,
+                  clanColorR: data.colorR,
+                  clanColorG: data.colorG,
+                  clanColorB: data.colorB,
+                  clanColorR2: data.colorR2,
+                  clanColorG2: data.colorG2,
+                  clanColorB2: data.colorB2,
+                  clanColorMode: data.colorMode,
+                }));
+              }
+            });
       })
       .catch((error) => {
         console.error(error);
@@ -68,7 +79,7 @@ export default function Page({
       });
   }, [slug]);
 
-  if (userInfo === null) {
+  if (userInfo === null || userInfo.level === undefined) {
     return (
       <div className="flex bg-stone-900 text-slate-200 flex-col items-center justify-center w-full h-full p-4">
         <div className="absolute flex gap-2 left-5 top-5">
@@ -173,11 +184,11 @@ export default function Page({
                     </h1>
 
                     <div className="bg-stone-900 ml-auto my-auto p-1 px-2 h-fit text-xs rounded-sm font-mono text-stone-300 opacity-70">
-                      {userInfo.tasks.Tasks.length} tasks
+                      {userInfo.tasks && userInfo.tasks.Tasks.length} tasks
                     </div>
                   </div>
                 </div>
-                {userInfo.tasks.Tasks.length > 0 ? (
+                {userInfo?.tasks?.Tasks.length > 0 ? (
                   userInfo.tasks.Tasks.map((task, index) => (
                     <div
                       key={index}
@@ -230,7 +241,7 @@ export default function Page({
                     </div>
                   ))
                 ) : (
-                  <div className="select-none opacity-0 animate-fade-in-third rounded-md bg-stone-800 p-3 border-1 border-stone-700 flex flex-col gap-2 w-full mt-8 md:mt-0 md:w-[300px] h-fit">
+                  <div className="select-none opacity-0 animate-fade-in-third rounded-md bg-stone-800 p-3 border-1 border-stone-700 flex flex-col gap-2 w-full mt-8 md:mt-0 h-fit">
                     <h1 className="text-stone-400 text-lg">
                       No tasks available.
                     </h1>
