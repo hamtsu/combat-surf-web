@@ -21,6 +21,27 @@ export default function ItemModal({
     }
   };
 
+    const ITEM_RARITY = {
+    100: "divine",
+    55: "divine", // not sure
+    54: "divine", // not sure
+    53: "divine", // not sure
+    52: "divine", // not sure
+    51: "divine", // not sure
+    50: "unreal",
+    12: "ultra rare collectable",
+    10: "mythic",
+    9: "godly",
+    8: "N/A (Case)",
+    6: "gold",
+    5: "legendary",
+    4: "epic",
+    3: "rare",
+    2: "uncommon",
+    1: "common",
+    0: "default",
+  };
+
   return (
     <div
       className="fixed opacity-0 animate-fade-in-fast top-0 left-0 w-screen h-screen bg-black/80 flex items-center justify-center z-50"
@@ -80,7 +101,7 @@ export default function ItemModal({
                 <FaStar size={16} className="fill-stone-400 " />
                 <span className="text-stone-400 font-bold">Rarity</span>
                 <span className="text-lg text-stone-300 font-bold font-mono px-2 bg-stone-800 rounded-md h-fit ml-auto">
-                  {item.Rarity}
+                  {ITEM_RARITY[item.Rarity]}
                 </span>
               </div>
               <div className="p-2 bg-stone-900 w-full h-fit rounded-md flex gap-2 items-center">
