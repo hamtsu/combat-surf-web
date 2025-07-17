@@ -1,6 +1,6 @@
 "use client";
 import React, { FC, useState } from "react";
-import { FaCaretRight, FaExclamationTriangle, FaTag } from "react-icons/fa";
+import { FaCaretRight, FaExclamationTriangle, FaInfoCircle, FaTag } from "react-icons/fa";
 import { FaBoxArchive } from "react-icons/fa6";
 
 type InventoryPanelProps = {
@@ -27,6 +27,27 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
 
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
   const [filteredItems, setFilteredItems] = useState<any[]>(sortedItems);
+
+  const ITEM_RARITY = {
+    100: "divine",
+    55: "divine", // not sure
+    54: "divine", // not sure
+    53: "divine", // not sure
+    52: "divine", // not sure
+    51: "divine", // not sure
+    50: "unreal",
+    12: "ultra rare collectable",
+    10: "mythic",
+    9: "godly",
+    8: "N/A (Case)",
+    6: "gold",
+    5: "legendary",
+    4: "epic",
+    3: "rare",
+    2: "uncommon",
+    1: "common",
+    0: "default",
+  };
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsFirstLoad(false);
@@ -87,7 +108,13 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                       }.png)`,
                     }
               }
-              onClick={() => onItemClick(item)}
+              onClick={() =>
+                !item.Name.includes("Case") &&
+                !item.Name.includes("Package") &&
+                !item.Name.includes("Crate") &&
+                !item.Name.includes("Present") &&
+                onItemClick(item)
+              }
               className={`hover:cursor-pointer hover:shadow-2xl group animate-fade-in overflow-hidden bg-stone-900 bg-top bg-no-repeat bg-cover rounded-lg flex flex-col w-[250px] h-[110px] shadow`}
             >
               <h2 className="text-lg font-bold p-3 text-stone-300 text-shadow-md">
@@ -96,13 +123,13 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                   : item.Name.replaceAll("_", " ")}
               </h2>
 
-              <div className="px-2 bg-stone-900 py-1 mt-auto">
+              <div className="px-2 bg-stone-900 select-none py-1 mt-auto">
                 <div className="group-hover:hidden h-full flex items-center gap-1">
                   <span className="text-stone-400 text-sm">
                     {item.Base ? item.Base.replaceAll("_", " ") : ""}
                   </span>
                   <span className="text-stone-500 text-xs ml-2">
-                    rarity: {item.Rarity}
+                    {ITEM_RARITY[item.Rarity] || "unknown"}
                   </span>
                   <div className="flex gap-1 ml-auto">
                     {(item.SubType
@@ -119,17 +146,31 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                           size={10}
                           className="fill-stone-500"
                         />
-                        <span className="text-stone-500">Kill Counter</span>
+                        <span className="text-stone-500">KC</span>
                       </div>
                     )}
                   </div>
                 </div>
 
                 <div className="group-hover:flex hidden gap-1 items-center">
-                  <FaCaretRight size={20} className="fill-stone-500" />
-                  <span className="text-stone-200 text-sm lowercase tracking-wider animate-pulse">
-                    view details
-                  </span>
+                  {!item.Name.includes("Case") &&
+                  !item.Name.includes("Package") &&
+                  !item.Name.includes("Crate") &&
+                  !item.Name.includes("Present") ? (
+                    <>
+                      <FaCaretRight size={20} className="fill-stone-500" />
+                      <span className="text-stone-200 text-sm lowercase tracking-wider animate-pulse">
+                        view details
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <FaCaretRight size={20} className="fill-stone-500" />
+                      <span className="text-stone-200 text-sm lowercase tracking-wider animate-pulse">
+                        cant view details of cases
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
