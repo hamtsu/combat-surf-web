@@ -20,7 +20,7 @@ export default function ItemModal({
     }
   };
 
-    const ITEM_RARITY = {
+    const ITEM_RARITY: any = {
     100: "divine",
     55: "divine", // not sure
     54: "divine", // not sure

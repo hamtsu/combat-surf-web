@@ -12,7 +12,9 @@ const WINDOW_MS = 60 * 1000;
 
 function getClientIp(req: NextRequest): string {
   return (
-    req.ip ?? req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown"
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    req.headers.get("x-real-ip") ??
+    "unknown"
   );
 }
 

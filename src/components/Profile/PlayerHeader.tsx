@@ -24,11 +24,15 @@ type PlayerHeaderProps = {
     level: number;
     clanName: string;
     clanTag: string;
-    stats: {
-      globalKills: number;
-      wins: number;
-      weaponKills: number;
-    };
+    clanId: string;
+    clanColorR: number;
+    clanColorG: number;
+    clanColorB: number;
+    clanColorR2: number;
+    clanColorG2: number;
+    clanColorB2: number;
+    clanColorMode: "fade" | "static" | "gradiant" | "gradiant2" | "gradiant3";
+    weaponKills: number[];
     inventory: {
       id: number;
       name: string;
@@ -38,6 +42,11 @@ type PlayerHeaderProps = {
       value: number;
       imageUrl: string;
     }[];
+    tradeBanned?: boolean;
+    xp: number;
+    tasks?: {
+      LastLoginDate: string;
+    };
   };
 };
 

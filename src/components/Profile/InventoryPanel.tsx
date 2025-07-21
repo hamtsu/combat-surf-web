@@ -28,7 +28,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
   const [filteredItems, setFilteredItems] = useState<any[]>(sortedItems);
 
-  const ITEM_RARITY = {
+  const ITEM_RARITY: Record<number, string> = {
     100: "divine",
     55: "divine", // not sure
     54: "divine", // not sure
