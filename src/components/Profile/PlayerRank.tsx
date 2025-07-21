@@ -68,6 +68,17 @@ const PlayerRank: FC<PlayerRankProps> = ({ userId }) => {
         </div>
       </Tooltip>
     );
+  } else if (rank == "𝓣𝓱𝓮 𝓑𝓸𝔂𝓼❤️") { // ts is co owner hamtsu
+    return (
+      <Tooltip text="This player is a Co-owner!" position="bottom">
+        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-cyan-500 border-2 border-cyan-400 w-fit h-fit rounded-lg m p-2 px-4">
+          <FaCrown className="text-cyan-100 text-xl" />
+          <h1 className="text-xl font-semibold text-cyan-100">
+            Co-owner
+          </h1>
+        </div>
+      </Tooltip>
+    );
   } else if (rank == "⭐God") { // owner im pre sure
     return (
       <Tooltip text="This player is an owner!" position="bottom">
