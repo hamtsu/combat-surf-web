@@ -7,7 +7,7 @@ type RateLimitEntry = {
 
 const rateLimitMap = new Map<string, RateLimitEntry>();
 
-const MAX_REQUESTS = 20; // 15 req per minute
+const MAX_REQUESTS = 100; // req per minute TEMP
 const WINDOW_MS = 60 * 1000;
 
 function getClientIp(req: NextRequest): string {
@@ -45,31 +45,31 @@ export function middleware(req: NextRequest) {
       const res = NextResponse.json(
         {
           message: "Too many requests. Try again later",
-         // waitSeconds: 60 - Math.round((now - entry.lastReset) / 1000),
+          // waitSeconds: 60 - Math.round((now - entry.lastReset) / 1000),
         },
         { status: 429 }
       );
 
       res.cookies.set("rateLimitExceeded", "true", {
-        maxAge: WINDOW_MS / 1000, 
+        maxAge: WINDOW_MS / 1000,
       })
 
       return res;
     }
   } else if (entry.count >= MAX_REQUESTS) {
     const res = NextResponse.json(
-        {
-          message: "Too many requests. Try again later",
-         // waitSeconds: 60 - Math.round((now - entry.lastReset) / 1000),
-        },
-        { status: 429 }
-      );
+      {
+        message: "Too many requests. Try again later",
+        // waitSeconds: 60 - Math.round((now - entry.lastReset) / 1000),
+      },
+      { status: 429 }
+    );
 
-      res.cookies.set("rateLimitExceeded", "true", {
-        maxAge: WINDOW_MS / 1000, 
-      })
-      
-      return res;
+    res.cookies.set("rateLimitExceeded", "true", {
+      maxAge: WINDOW_MS / 1000,
+    })
+
+    return res;
   }
 
   entry.count++;
@@ -81,9 +81,9 @@ export const config = {
     "/api/player-info",
     "/api/clan-info",
     "/api/changelogs",
-    "/api/leaderboard",
     "/api/player-rank",
     "/api/avatar",
     "/item-list",
+    // "/api/player-search", trying to figure out ratelimits right now
   ],
 };
