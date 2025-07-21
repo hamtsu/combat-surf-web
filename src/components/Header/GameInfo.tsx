@@ -46,7 +46,7 @@ const GameInfo = () => {
     fetchPlayerCount();
     const interval = setInterval(() => {
       fetchPlayerCount();
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);
