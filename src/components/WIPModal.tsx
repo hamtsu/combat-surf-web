@@ -50,7 +50,7 @@ export default function WIPModal() {
                         <p className="text-3xl">(ᗒᗣᗕ)՞</p>
                     </div>
 
-                    <p>Please note that currently this page is using <b>MOCK</b> data as I currently don't have access to a live leaderboard API. This will be updated in the future.</p>
+                    <p>Please note that currently this page is using <b>MOCK</b> data as I currently dont have access to a live leaderboard API. This will be updated in the future.</p>
 
                     <Button onClick={onClose} className="mt-4 text-lg bg-green-600 border border-green-500 p-1 px-3 hover:border-green-700 text-stone-200">
                         Okay, I understand
