@@ -2,7 +2,6 @@
 import { useRef } from "react";
 import Button from "./Button";
 import { FaXmark } from "react-icons/fa6";
-import Image from "next/image";
 import { FaExclamationTriangle, FaInfoCircle, FaPaintBrush, FaStar, FaTag } from "react-icons/fa";
 import Tooltip from "./Tooltip";
 
