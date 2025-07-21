@@ -3,29 +3,18 @@ import Button from "@/components/Button";
 import LeaderboardUpdate from "@/components/LeaderboardUpdate";
 import RobloxAvatar from "@/components/RobloxAvatar";
 import Tooltip from "@/components/Tooltip";
+import WIPModal from "@/components/WIPModal";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaStar, FaTrophy } from "react-icons/fa";
 import { FaShield, FaUsers } from "react-icons/fa6";
 
-const MOCK_DATA = [
-  { name: "hamtsuu", career: 8950, wins: 165, clan: "[C5]", id: "97752529" },
-  {
-    name: "smudgeplayz",
-    career: 1000,
-    wins: 100,
-    clan: "[1X]",
-    id: "1248971940",
-  },
-  { name: "testuser", career: 800, wins: 200, clan: "[NONE]", id: "1" },
-  { name: "yo", career: 700, wins: 200, clan: "[NONE]", id: "2" },
-];
-
-const MOCK_CLANS = [{ name: "Test", prefix: "[TEST]", wins: 200 }];
 
 const Page = () => {
   const router = useRouter();
-  const [leaderboard, setLeaderboard] = useState<any>(null);
+  const [players, setPlayers] = useState<any[]>([]);
+  const [clans, setClans] = useState<any[]>([]);
+
   const [cooldown, setCooldown] = useState<any>(false);
   const [error, setError] = useState<any>(null);
 
@@ -34,30 +23,44 @@ const Page = () => {
       .then((res) => {
         if (res.status === 429) {
           setCooldown(true);
-        } else {
-          if (!res.ok) setError(true);
+          return null;
+        }
+        if (!res.ok) {
+          setError(true);
+          return null;
         }
         return res.json();
       })
       .then((data) => {
         if (data) {
           if (data.cooldown) {
-            setCooldown(data.cooldown);
+            setCooldown(true);
           } else {
-            setLeaderboard(data[0]);
+            console.log(data.players)
+            setPlayers(data.players || []);
+            setClans(data.clans || []);
             setCooldown(false);
           }
         }
       })
       .catch((error) => {
         console.error(error);
+        setError(true);
       });
   }, []);
 
-  const updateLeaderboard = () => {};
+
+  if (players.length < 3) {
+  return (
+    <div className="text-stone-300 text-lg mt-20">
+      Not enough leaderboard data to display top players.
+    </div>
+  );
+}
 
   return (
     <div className="overflow-y-scroll h-full flex flex-col items-center justify-center pb-20">
+      <WIPModal />
       <div className="absolute flex gap-2 left-5 top-5">
         <Tooltip text="Go Back" position="bottom">
           <Button
@@ -84,7 +87,7 @@ const Page = () => {
       <div className="flex gap-2 my-4">
         <Tooltip text="Click to view profile" position="bottom">
           <div
-            onClick={() => router.push("/player/" + MOCK_DATA[1].id)}
+            onClick={() => router.push("/player/" + players[1].id)}
             className="bg-stone-800 mb-auto pb-3 rounded-md h-fit opacity-0 hover:translate-y-2 transition-transform animate-fade-in-second select-none hover:cursor-pointer"
           >
             <div className="flex flex-col items-center p-2 rounded-md bg-gray-400 h-fit">
@@ -93,30 +96,30 @@ const Page = () => {
                 2nd
               </h1>
               <div className="w-36 rounded-md">
-                <RobloxAvatar userId={MOCK_DATA[1].id} />
+                <RobloxAvatar userId={players[1].id} />
               </div>
 
               <h2 className="text-slate-600 font-bold text-xl mt-3">
-                {MOCK_DATA[1].name}
+                {players[1].name}
               </h2>
 
               <FaStar size={35} className="fill-gray-600 animate-wiggle" />
             </div>
             <h3 className="text-stone-400 text-lg mt-3 text-center">
-              clan: <b>{MOCK_DATA[1].clan}</b>
+              clan: <b>{players[1].clan}</b>
             </h3>
             <h2 className="text-stone-300 font-bold text-xl mt-1 text-center">
-              {MOCK_DATA[1].career} career
+              {players[1].career} career
             </h2>
             <h2 className="text-stone-300 font-bold text-xl mt-1 text-center">
-              {MOCK_DATA[1].wins} wins
+              {players[1].wins} wins
             </h2>
           </div>
         </Tooltip>
 
         <Tooltip text="Click to view profile" position="bottom">
           <div
-            onClick={() => router.push("/player/" + MOCK_DATA[0].id)}
+            onClick={() => router.push("/player/" + players[0].id)}
             className="bg-stone-800 pb-3 rounded-md h-full hover:translate-y-2 transition-transform animate-fade-in-first opacity-0 select-none hover:cursor-pointer"
           >
             <div className="flex flex-col items-center p-2 rounded-md bg-yellow-400 h-fit shadow-[0_0px_50px_rgba(255,192,0,0.8)]">
@@ -128,11 +131,11 @@ const Page = () => {
                 1st
               </h1>
               <div className="w-36 rounded-md">
-                <RobloxAvatar userId={MOCK_DATA[0].id} />
+                <RobloxAvatar userId={players[0].id} />
               </div>
 
               <h2 className="text-yellow-600 font-bold text-xl mt-3">
-                {MOCK_DATA[0].name}
+                {players[0].name}
               </h2>
               <FaTrophy
                 size={50}
@@ -140,20 +143,20 @@ const Page = () => {
               />
             </div>
             <h3 className="text-stone-400 text-lg mt-3 text-center">
-              clan: <b>{MOCK_DATA[0].clan}</b>
+              clan: <b>{players[0].clan}</b>
             </h3>
             <h2 className="text-stone-300 font-bold text-xl mt-1 text-center">
-              {MOCK_DATA[0].career} career
+              {players[0].career} career
             </h2>
             <h2 className="text-stone-300 font-bold text-xl mt-1 text-center">
-              {MOCK_DATA[0].wins} wins
+              {players[0].wins} wins
             </h2>
           </div>
         </Tooltip>
 
         <Tooltip text="Click to view profile" position="bottom">
           <div
-            onClick={() => router.push("/player/" + MOCK_DATA[2].id)}
+            onClick={() => router.push("/player/" + players[2].id)}
             className="bg-stone-800 mb-auto pb-3 rounded-md hover:translate-y-2 transition-transform h-fit animate-fade-in-third opacity-0 select-none hover:cursor-pointer"
           >
             <div className="flex flex-col items-center p-2 rounded-md bg-stone-700 h-fit">
@@ -161,44 +164,43 @@ const Page = () => {
                 3rd
               </h1>
               <div className="w-36 rounded-md">
-                <RobloxAvatar userId={MOCK_DATA[2].id} />
+                <RobloxAvatar userId={players[2].id} />
               </div>
 
               <h2 className="text-stone-400 font-bold text-xl mt-3">
-                {MOCK_DATA[2].name}
+                {players[2].name}
               </h2>
             </div>
             <h3 className="text-stone-400 text-lg mt-3 text-center">
-              clan: <b>{MOCK_DATA[2].clan}</b>
+              clan: <b>{players[2].clan}</b>
             </h3>
             <h2 className="text-stone-300 font-bold text-xl mt-1 text-center">
-              {MOCK_DATA[2].career} career
+              {players[2].career} career
             </h2>
             <h2 className="text-stone-300 font-bold text-xl mt-1 text-center">
-              {MOCK_DATA[2].wins} wins
+              {players[2].wins} wins
             </h2>
           </div>
         </Tooltip>
       </div>
 
       <div className="w-6/8 flex gap-4 justify-center overflow-y-scroll rounded-md">
-        <LeaderboardUpdate update={updateLeaderboard} cooldown={cooldown} />
 
         <div className="flex flex-col gap-2 bg-stone-800 rounded-md p-4 w-full opacity-0 animate-fade-in-fourth h-fit">
           <div className="p-2 px-3 font-bold rounded-md bg-stone-900 text-stone-400 flex items-center gap-2 text-lg">
             <FaUsers /> Best players
           </div>
           <div className="flex flex-col gap-2 w-full">
-            {[...Array(50)].map((x, index) => {
-              const player = MOCK_DATA[index]
-                ? MOCK_DATA[index]
+            {players.map((x, index) => {
+              const player = players[index]
+                ? players[index]
                 : {
-                    name: "Player" + (index + 1),
-                    id: undefined,
-                    career: 0,
-                    wins: 0,
-                    clan: "[NONE]",
-                  };
+                  name: "Player" + (index + 1),
+                  id: undefined,
+                  career: 0,
+                  wins: 0,
+                  clan: "[NONE]",
+                };
 
               if (index > 2)
                 return (
@@ -239,31 +241,25 @@ const Page = () => {
             <FaShield /> Top clans
           </div>
           <div className="flex flex-col gap-2 w-full">
-            {[...Array(47)].map((x, index) => {
-              const clan = MOCK_CLANS[index]
-                ? MOCK_CLANS[index]
-                : {
-                    name: "Clan" + (index + 1),
-                    wins: 0,
-                    prefix: "[NONE]",
-                  };
-
-              return (
-                <div
-                  key={index}
-                  style={{ animationDelay: `${index * 0.1 + 3}s` }}
-                  className="flex h-[48px] gap-2 text-lg items-center bg-stone-900 p-[0.6rem] rounded-md opacity-0 animate-fade-in"
-                >
-                  <p className="text-stone-200 font-bold">{index + 1}.</p>
-                  <p className="text-stone-200">{clan.name}</p>
-                  <p className="text-stone-400">{clan.prefix}</p>
-                  <p className="text-stone-400">{clan.wins}</p>
-                  <span className="text-stone-500 text-base ml-[-5px]">
-                    wins
-                  </span>
-                </div>
-              );
-            })}
+            {clans.map((clan, index) => (
+              <div
+                key={index}
+                style={{ animationDelay: `${index * 0.1 + 3}s` }}
+                className="flex h-[48px] gap-2 text-lg items-center bg-stone-900 p-[0.6rem] rounded-md opacity-0 animate-fade-in"
+              >
+                <p className="text-stone-200 font-bold">{index + 1}.</p>
+                 <a
+                      href={`/clan/${clan.id}`}
+                      className="text-stone-200 hover:text-amber-300 font-bold"
+                    >
+                      {clan.name}
+                    </a>
+                <p className="text-stone-400">{clan.tag}</p>
+                <p className="text-stone-400">{clan.wins}</p>
+                <span className="text-stone-500 text-base ml-[-5px]">wins</span>
+              </div>
+            ))
+            }
           </div>
         </div>
       </div>
