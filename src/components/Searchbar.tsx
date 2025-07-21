@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import Button from "./Button";
 import { useRouter } from "next/navigation";
@@ -8,64 +8,73 @@ import { FaExclamationTriangle, FaUserCog, FaUserSlash } from "react-icons/fa";
 import RobloxAvatar from "./RobloxAvatar";
 
 function Searchbar() {
-  const [filteredUsers, setFilteredUsers] = useState<
-    { id: string; username: string }[] | []
-  >([]);
+  const [inputValue, setInputValue] = useState("");
+  const [user, setUser] = useState<{
+    userId: string;
+    username: string;
+    level: number;
+  } | null>(null);
   const [loading, setLoading] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [showInfo, setShowInfo] = useState(false);
   const router = useRouter();
 
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const value = e.target.value;
-
-    if (value.length >= 3) {
-      setFilteredUsers([]);
+  useEffect(() => {
+    if (inputValue.length === 0) {
       setShowInfo(false);
+      setUser(null);
+      setNotFound(false);
+      return;
+    }
+
+    if (inputValue.length < 3) {
+      setShowInfo(true);
+      setUser(null);
+      setNotFound(false);
+      return;
+    }
+
+    const delay = setTimeout(() => {
       setLoading(true);
+      setShowInfo(false);
+      setUser(null);
       setNotFound(false);
 
-      fetch(`/api/player-info?query=${value}`)
-        .then((res) => {
-          if (!res.ok) {
-            setNotFound(true);
-            return;
-          }
-          return res.json();
-        })
+      fetch(`/api/player-search?query=${inputValue}`)
+        .then((res) => res.json())
         .then((data) => {
-          if (data && data.length > 0) {
-            setLoading(false);
-            setFilteredUsers(data);
+          setLoading(false);
+          if (!data || data.error) {
+            setUser(null);
+            setNotFound(true);
           } else {
-            setLoading(false);
-            setFilteredUsers([]);
+            setUser({
+              userId: data.userId,
+              username: data.username,
+              level: data.level,
+            });
           }
         })
-        .catch((error) => {
-          console.error(error);
+        .catch((err) => {
+          console.error(err);
+          setLoading(false);
+          setNotFound(true);
         });
-    } else if (value.length != 0) {
-      setShowInfo(true);
-      setLoading(false);
-      setFilteredUsers([]);
-    } else {
-      setShowInfo(false);
-    }
-  }
+    }, 300);
+
+    return () => clearTimeout(delay);
+  }, [inputValue]);
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "Enter" && filteredUsers.length > 0) {
+    if (e.key === "Enter" && user) {
       e.preventDefault();
-      router.push("/player/" + filteredUsers[0]?.id);
+      router.push("/player/" + user.userId);
     }
   }
 
-  function handleSelectUser(user: any) {
+  function handleSelectUser() {
     if (!user) return;
-
-    setFilteredUsers([]);
-    router.push("/player/" + user.id);
+    router.push("/player/" + user.userId);
   }
 
   return (
@@ -76,34 +85,30 @@ function Searchbar() {
           name="player-search"
           className="bg-stone-900 rounded-md p-2 px-3 text-stone-200 w-[250px]"
           placeholder="Enter player username or ID"
-          onChange={handleInputChange}
+          onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
           autoComplete="off"
           autoCorrect="off"
         />
         <Button
-          onClick={() => handleSelectUser(filteredUsers[0])}
+          onClick={handleSelectUser}
           className="active:bg-stone-700 p-3 bg-stone-900 hover:bg-stone-600 text-stone-300"
         >
           <FaMagnifyingGlass />
         </Button>
       </div>
 
-      {/* dropdown */}
-
       <ul className="absolute z-10 mt-1 w-full bg-stone-800 rounded-md shadow-lg max-h-60 overflow-auto">
         {loading ? (
-          notFound ? (
-            <div className="flex flex-col">
-              <FaUserSlash size={30} className="text-stone-200 mx-auto mt-2" />
-              <p className="text-stone-200 text-center">User not found</p>
-            </div>
-          ) : (
-            <div className="flex flex-col">
-              <FaUserCog size={30} className="text-stone-200 mx-auto mt-2" />
-              <p className="text-stone-200 text-center">Searching...</p>
-            </div>
-          )
+          <div className="flex flex-col">
+            <FaUserCog size={30} className="text-stone-200 mx-auto mt-2" />
+            <p className="text-stone-200 text-center">Searching...</p>
+          </div>
+        ) : notFound ? (
+          <div className="flex flex-col">
+            <FaUserSlash size={30} className="text-stone-200 mx-auto mt-2" />
+            <p className="text-stone-200 text-center">User not found</p>
+          </div>
         ) : showInfo ? (
           <div className="p-2">
             <FaExclamationTriangle
@@ -114,25 +119,18 @@ function Searchbar() {
               Enter 3 or more characters
             </p>
           </div>
-        ) : (
-          filteredUsers.length > 0 &&
-          filteredUsers.map((user, index) => {
-            if (index <= 10)
-              return (
-                <li
-                  key={user.id}
-                  onClick={() => handleSelectUser(user)}
-                  className="px-3 flex gap-1 items-center py-2 hover:bg-stone-700 cursor-pointer text-stone-200"
-                >
-                  <div className="w-5 mr-1">
-                    <RobloxAvatar userId={user.id} />
-                  </div>
-                  {user.username}
-                  <span className="text-stone-200/40">({user.id})</span>
-                </li>
-              );
-          })
-        )}
+        ) : user ? (
+          <li
+            onClick={handleSelectUser}
+            className="px-3 flex gap-2 items-center py-2 hover:bg-stone-700 cursor-pointer text-stone-200"
+          >
+            <div className="w-5 mr-1">
+              <RobloxAvatar userId={user.userId} />
+            </div>
+            <span>{user.username}</span>
+            <span className="text-stone-200/40">({user.userId})</span>
+          </li>
+        ) : null}
       </ul>
     </div>
   );
