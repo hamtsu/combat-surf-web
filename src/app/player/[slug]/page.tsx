@@ -189,7 +189,7 @@ export default function Page({
                   </div>
                 </div>
                 {userInfo?.tasks?.Tasks.length > 0 ? (
-                  userInfo.tasks.Tasks.map((task, index) => (
+                  userInfo.tasks.Tasks.map((task: any, index: number) => (
                     <div
                       key={index}
                       style={{
