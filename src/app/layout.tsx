@@ -11,6 +11,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Combat Surf",
   description: "The official website for Roblox Combat Surf",
+  other: {
+    "google-site-verification": "Lp7P4fYDHZFo9k_GNrOx0yMsS6b0jzRIZRoC0UpzogY", // google search engine console verification
+  }
 };
 
 export default async function RootLayout({
