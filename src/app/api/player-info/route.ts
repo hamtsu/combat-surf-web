@@ -1,4 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
+import customProfiles from "@/app/CustomProfiles.json";
+
+type CustomProfile = {
+  backgroundImage: string;
+  bannerImage: string;
+  primaryColor: string;
+  secondaryColor: string;
+};
+
+const customProfilesTyped: { [key: string]: CustomProfile } = customProfiles;
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -6,12 +16,17 @@ export async function GET(request: NextRequest) {
   const fields = (searchParams.get("fields") || "username,displayName").split(
     ","
   ); // username,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills,displayName,banned,tradeBanned
+  let customProfile: any
 
   if (!userId || isNaN(Number(userId))) {
     return NextResponse.json(
       { error: "Missing or invalid userId" },
       { status: 400 }
     );
+  }
+
+  if (customProfilesTyped[userId]) {
+    customProfile = customProfilesTyped[userId];
   }
 
   try {
@@ -67,6 +82,11 @@ export async function GET(request: NextRequest) {
     });
 
     await Promise.all(fetchPromises);
+
+    playerInfo["backgroundImage"] = customProfile?.backgroundImage || "";
+    playerInfo["bannerImage"] = customProfile?.bannerImage || "";
+    playerInfo["invertBannerText"] = customProfile?.invertBannerText || false;
+    playerInfo["blurBackgroundImage"] = customProfile?.blurBackgroundImage || false;
 
     return NextResponse.json(playerInfo);
   } catch (error: any) {

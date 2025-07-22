@@ -33,7 +33,7 @@ const PlayerRank: FC<PlayerRankProps> = ({ userId }) => {
   if (rank == "Mods") {
     return (
       <Tooltip text="This player is a Moderator!" position="bottom">
-        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-indigo-500 border-2 border-indigo-400 w-fit h-fit rounded-lg m p-2 px-4">
+        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center shadow-lg shadow-indigo-500 bg-indigo-500 border-2 border-indigo-400 w-fit h-fit rounded-lg m p-2 px-4">
           <FaShieldAlt className="text-indigo-200 text-xl animate-pulse" />
           <h1 className="text-xl font-semibold text-indigo-200">Moderators</h1>
         </div>
@@ -42,7 +42,7 @@ const PlayerRank: FC<PlayerRankProps> = ({ userId }) => {
   } else if (rank == "Admins") {
     return (
       <Tooltip text="This player is an Admin!" position="bottom">
-        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-purple-500 border-2 border-purple-400 w-fit h-fit rounded-lg m p-2 px-4">
+        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center shadow-lg shadow-purple-500 bg-purple-500 border-2 border-purple-400 w-fit h-fit rounded-lg m p-2 px-4">
           <FaGavel className="text-purple-200 text-xl animate-gavel" />
           <h1 className="text-xl font-semibold text-purple-200">Admins</h1>
         </div>
@@ -51,7 +51,7 @@ const PlayerRank: FC<PlayerRankProps> = ({ userId }) => {
   } else if (rank == "Head Admins") {
     return (
       <Tooltip text="This player is a Head Admin!" position="bottom">
-        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-red-500 border-2 border-red-400 w-fit h-fit rounded-lg m p-2 px-4">
+        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center shadow-lg shadow-red-500 bg-red-500 border-2 border-red-400 w-fit h-fit rounded-lg m p-2 px-4">
           <FaGavel className="text-red-200 text-xl animate-gavel" />
           <h1 className="text-xl font-semibold text-red-200 ">Head Admins</h1>
         </div>
@@ -60,7 +60,7 @@ const PlayerRank: FC<PlayerRankProps> = ({ userId }) => {
   } else if (rank == "Honorary Member") {
     return (
       <Tooltip text="This player is a Honorary Member!" position="bottom">
-        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-blue-500 border-2 border-blue-400 w-fit h-fit rounded-lg m p-2 px-4">
+        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-blue-500 shadow-lg shadow-blue-500 border-2 border-blue-400 w-fit h-fit rounded-lg m p-2 px-4">
           <FaMedal className="text-blue-200 text-xl" />
           <h1 className="text-xl font-semibold text-blue-200">
             Honorary Member
@@ -71,7 +71,7 @@ const PlayerRank: FC<PlayerRankProps> = ({ userId }) => {
   } else if (rank == "𝓣𝓱𝓮 𝓑𝓸𝔂𝓼❤️") { // ts is co owner hamtsu
     return (
       <Tooltip text="This player is a Co-owner!" position="bottom">
-        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-cyan-500 border-2 border-cyan-400 w-fit h-fit rounded-lg m p-2 px-4">
+        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-cyan-500 shadow-lg shadow-cyan-500 border-2 border-cyan-400 w-fit h-fit rounded-lg m p-2 px-4">
           <FaCrown className="text-cyan-100 text-xl" />
           <h1 className="text-xl font-semibold text-cyan-100">
             Co-owner
@@ -82,7 +82,7 @@ const PlayerRank: FC<PlayerRankProps> = ({ userId }) => {
   } else if (rank == "⭐God") { // owner im pre sure
     return (
       <Tooltip text="This player is an owner!" position="bottom">
-        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-yellow-500 border-2 border-yellow-400 w-fit h-fit rounded-lg m p-2 px-4">
+        <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-yellow-500 shadow-lg shadow-yellow-500 border-2 border-yellow-400 w-fit h-fit rounded-lg m p-2 px-4">
           <FaCrown className="text-yellow-100 text-xl" />
           <h1 className="text-xl font-semibold text-yellow-100">
             Owner

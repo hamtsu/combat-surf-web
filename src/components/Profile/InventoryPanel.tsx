@@ -67,7 +67,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-3 bg-stone-800 pl-4 py-4 pr-2 rounded-lg w-full animate-fade-in-sixth opacity-0">
+    <div className="flex flex-col gap-3 bg-stone-800 shadow-lg pl-4 py-4 pr-2 rounded-lg w-full animate-fade-in-sixth opacity-0">
       <div className="flex gap-4">
         <div className="p-2 bg-stone-900 rounded-md h-fit">
           <FaBoxArchive size={35} className="fill-stone-600" />

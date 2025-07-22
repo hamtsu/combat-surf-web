@@ -131,12 +131,13 @@ export default function Page({
             onClose={() => setSelectedItem(null)}
           />
         )}
-        <div className="overflow-y-scroll flex bg-stone-900 text-slate-200 flex-col items-center justify-center w-full h-full p-4 gap-3">
+        <div style={ userInfo.backgroundImage ? { backgroundImage: `url(${userInfo.backgroundImage})` } : {}} className={`overflow-y-scroll flex ${userInfo.backgroundImage ? `bg-center backdrop-blur-md` : "bg-stone-900"} text-slate-200 flex-col items-center justify-center w-full h-full p-4 gap-3`}>
+          { userInfo.blurBackgroundImage && <div className="absolute z--1 w-full h-full backdrop-blur-[2px]"/> }
           <div className="absolute flex gap-2 left-5 top-5">
             <Tooltip text="Go back" position="bottom">
               <Button
                 onClick={() => router.back()}
-                className="px-5 h-full py-3 flex bg-stone-800 hover:bg-teal-500-600 hover:text-stone-200 transition-colors rounded-lg text-stone-200/50 group"
+                className="px-5 h-full py-3 flex shadow-lg bg-stone-800 hover:bg-teal-500-600 hover:text-stone-200 transition-colors rounded-lg text-stone-200/50 group"
               >
                 <FaArrowLeft
                   size={35}
@@ -145,7 +146,7 @@ export default function Page({
               </Button>
             </Tooltip>
 
-            <div className="flex gap-4 bg-stone-800 rounded-md">
+            <div className="flex gap-4 bg-stone-800 shadow-lg rounded-md">
               <div className="flex items-center justify-between text-2xl p-4 gap-4 bg-stone-800 rounded-md">
                 <div className="rounded-md bg-stone-900 p-3">
                   <FaUser size={25} className="fill-stone-600 " />
@@ -174,7 +175,7 @@ export default function Page({
                 />
               </div>
               <div className="flex flex-col gap-2">
-                <div className="select-none opacity-0 animate-fade-in-second rounded-md bg-stone-800 p-2 border-1 border-stone-700 flex flex-col gap-2 w-full h-fit">
+                <div className="select-none opacity-0 animate-fade-in-second rounded-md bg-stone-800 shadow-lg p-2 border-1 border-stone-700 flex flex-col gap-2 w-full h-fit">
                   <div className="flex gap-3 items-center">
                     <div className="p-2 text-lg md:text-3xl bg-stone-900 rounded-md h-fit">
                       <FaBookOpen size={16} className="fill-stone-600" />
@@ -196,7 +197,7 @@ export default function Page({
                         animationDelay: `${index * 0.1 + 3}s`,
                         opacity: 0,
                       }}
-                      className="select-none opacity-0 animate-fade-in rounded-md bg-stone-800 p-1 px-3 flex-col items-center gap-2 w-full h-fit"
+                      className="select-none opacity-0 animate-fade-in rounded-md bg-stone-800 shadow-lg p-1 px-3 flex-col items-center gap-2 w-full h-fit"
                     >
                       <div className="flex items-center gap-2">
                         <h1
@@ -241,7 +242,7 @@ export default function Page({
                     </div>
                   ))
                 ) : (
-                  <div className="select-none opacity-0 animate-fade-in-third rounded-md bg-stone-800 p-3 border-1 border-stone-700 flex flex-col gap-2 w-full mt-8 md:mt-0 h-fit">
+                  <div className="select-none opacity-0 animate-fade-in-third rounded-md bg-stone-800 shadow-lg p-3 border-1 border-stone-700 flex flex-col gap-2 w-full mt-8 md:mt-0 h-fit">
                     <h1 className="text-stone-400 text-lg">
                       No tasks available.
                     </h1>

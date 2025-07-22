@@ -11,7 +11,7 @@ const StatisticPanel: FC<StatisticPanelProps> = ({ icon, name, value }) => {
   const firstNonZero = padded.search(/[1-9]/);
 
   return (
-    <div className="h-fit bg-stone-800 p-2 rounded-lg flex flex-col gap-3 w-full md:w-fit">
+    <div className="h-fit bg-stone-800 shadow-lg p-2 rounded-lg flex flex-col gap-3 w-full md:w-fit">
       <div className="flex gap-3 items-center">
         <div className="p-2 text-lg md:text-xl bg-stone-900 rounded-md h-fit">{icon}</div>
         <h1 className="hidden md:block text-2xl font-bold text-stone-400 mt-1">{name}</h1>

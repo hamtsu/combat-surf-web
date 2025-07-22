@@ -30,7 +30,7 @@ const CopyButton: FC<CopyButtonProps> = ({ text }) => {
             Copied ID
           </span>
         ) : (
-          <span className="flex gap-1 items-center text-stone-400 mr-4">
+          <span className="flex gap-1 items-center text-shadow-lg text-stone-500 mr-4">
             <FaCopy size={15} />
             Copy ID
           </span>
