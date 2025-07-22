@@ -4,8 +4,8 @@ import customProfiles from "@/app/CustomProfiles.json";
 type CustomProfile = {
   backgroundImage: string;
   bannerImage: string;
-  primaryColor: string;
-  secondaryColor: string;
+  invertBannerText: boolean;
+  blurBackgroundImage: boolean;
 };
 
 const customProfilesTyped: { [key: string]: CustomProfile } = customProfiles;
