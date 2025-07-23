@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import LoadingScreen from "@/app/PageTransition";
 import { Suspense } from "react";
 import RateLimitedModal from "@/components/RateLimitedModal";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default async function RootLayout({
         {children}
         <Footer />
       </body>
+      <GoogleAnalytics gaId="G-1PG949031B" />
     </html>
   );
 }
