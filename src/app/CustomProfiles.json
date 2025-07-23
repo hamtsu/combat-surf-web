@@ -1,8 +1,13 @@
 {
     "1246675335": {
-        "backgroundImage": "/images/profiles/1246675335/background.jpg",
+        "backgroundImage": "/images/profiles/1246675335/background.gif",
         "bannerImage": "/images/profiles/1246675335/banner.jpg",
         "invertBannerText": true,
+        "blurBackgroundImage": false
+    },
+    "97752529": {
+        "bannerImage": "/images/profiles/97752529/banner1.gif",
+        "invertBannerText": false,
         "blurBackgroundImage": false
     }
 }
