@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import customProfiles from "@/app/CustomProfiles.json";
 
 type CustomProfile = {
-  backgroundImage: string;
-  bannerImage: string;
-  invertBannerText: boolean;
-  blurBackgroundImage: boolean;
+  backgroundImage?: string;
+  bannerImage?: string;
+  invertBannerText?: boolean;
+  blurBackgroundImage?: boolean;
 };
 
 const customProfilesTyped: { [key: string]: CustomProfile } = customProfiles;
