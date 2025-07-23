@@ -131,7 +131,7 @@ export default function Page({
             onClose={() => setSelectedItem(null)}
           />
         )}
-        <div style={ userInfo.backgroundImage ? { backgroundImage: `url(${userInfo.backgroundImage})` } : {}} className={`overflow-y-scroll flex ${userInfo.backgroundImage ? `bg-center backdrop-blur-md` : "bg-stone-900"} text-slate-200 flex-col items-center justify-center w-full h-full p-4 gap-3`}>
+        <div style={ userInfo.backgroundImage ? { backgroundImage: `url(${userInfo.backgroundImage})` } : {}} className={`overflow-y-scroll flex ${userInfo.backgroundImage ? `bg-center bg-cover backdrop-blur-md` : "bg-stone-900"} text-slate-200 flex-col items-center justify-center w-full h-full p-4 gap-3`}>
           { userInfo.blurBackgroundImage && <div className="absolute z--1 w-full h-full backdrop-blur-[2px]"/> }
           <div className="absolute flex gap-2 left-5 top-5">
             <Tooltip text="Go back" position="bottom">
