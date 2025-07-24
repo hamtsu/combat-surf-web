@@ -21,24 +21,24 @@ export default function ItemModal({
   };
 
     const ITEM_RARITY: any = {
-    100: "divine",
-    55: "divine", // not sure
-    54: "divine", // not sure
-    53: "divine", // not sure
-    52: "divine", // not sure
-    51: "divine", // not sure
-    50: "unreal",
-    12: "ultra rare collectable",
-    10: "mythic",
-    9: "godly",
+    100: "Divine",
+    55: "Divine", // not sure
+    54: "Divine", // not sure
+    53: "Divine", // not sure
+    52: "Divine", // not sure
+    51: "Divine", // not sure
+    50: "Unreal",
+    12: "Ultra Rare Collectable",
+    10: "Mythic",
+    9: "Godly",
     8: "N/A (Case)",
-    6: "gold",
-    5: "legendary",
-    4: "epic",
-    3: "rare",
-    2: "uncommon",
-    1: "common",
-    0: "default",
+    6: "Gold",
+    5: "Legendary",
+    4: "Epic",
+    3: "Rare",
+    2: "Uncommon",
+    1: "Common",
+    0: "Default",
   };
 
   return (
