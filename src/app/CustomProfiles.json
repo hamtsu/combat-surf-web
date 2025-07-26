@@ -11,14 +11,20 @@
         "blurBackgroundImage": false
     },
     "3011934663": {
-        "backroundImage": "/images/profiles/3011934663/backround3.jpg",
+        "backgroundImage": "/images/profiles/3011934663/background3.jpg",
         "invertBannerText": false,
         "blurBackgroundImage": false
     },
     "22794745": {
-        "backroundImage": "/images/profiles/22794745/backround.png",
+        "backgroundImage": "/images/profiles/22794745/background.png",
         "bannerImage": "/images/profiles/22794745/banner4.jpg",
         "invertBannerText": false,
+        "blurBackgroundImage": false
+    },
+    "6029420122": {
+        "backgroundImage": "/images/profiles/6029420122/background.png",
+        "bannerImage": "/images/profiles/6029420122/banner.gif",
+        "invertBannerText": true,
         "blurBackgroundImage": false
     }
 }
