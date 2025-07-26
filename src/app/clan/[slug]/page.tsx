@@ -225,7 +225,7 @@ export default function Page({
                                 <div className="font-bold text-xl text-stone-400 flex items-center gap-1"><FaUser /> Clan owner</div>
                                 <a className="text-stone-200 font-bold text-5xl hover:text-amber-400 hover:cursor-pointer" href={`/player/${clanInfo.owner}`}>{clanOwnerInfo?.displayName}</a>
                                 <h1 className="text-2xl text-stone-400 ">
-                                    @{clanOwnerInfo?.displayName || "No display name"}
+                                    @{clanOwnerInfo?.username || "No display name"}
                                 </h1>
                             </div>
                         </div>
