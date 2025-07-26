@@ -5,7 +5,6 @@ import Button from "./Button";
 import {
   FaBug,
   FaDiscord,
-  FaExclamationCircle,
   FaGithub,
 } from "react-icons/fa";
 import Tooltip from "./Tooltip";
@@ -23,7 +22,7 @@ const Footer = () => {
           height={200}
           alt="Logo"
           draggable={false}
-          className="w-18 md:w-24 my-4 lg:my-2 p-1 bg-stone-900 rounded-md"
+          className="w-18 md:w-24 my-4 lg:my-2 p-1 hover:cursor-pointer bg-stone-900 rounded-md"
           onClick={() => router.push("/")}
         />
         <div className="flex flex-col gap-1">
