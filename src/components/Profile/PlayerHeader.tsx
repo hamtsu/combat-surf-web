@@ -77,7 +77,7 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
   return (
     <div className="flex flex-col md:flex-row gap-4 mt-8">
       <div className="flex flex-col gap-3">
-        <div style={userInfo.bannerImage ? { backgroundImage: `url(${userInfo.bannerImage})` } : {}} className={`opacity-0 animate-fade-in-first rounded-md ${userInfo.bannerImage ? "bg-center" : "bg-stone-800"} shadow-lg h-fit p-3 border-1 border-stone-700 flex `}>
+        <div style={userInfo.bannerImage ? { backgroundImage: `url(${userInfo.bannerImage})` } : {}} className={`opacity-0 animate-fade-in-first rounded-md ${userInfo.bannerImage ? "bg-center bg-cover" : "bg-stone-800"} shadow-lg h-fit p-3 border-1 border-stone-700 flex `}>
           {/* { userInfo.bannerImage && <div className="absolute z--10 w-full h-full backdrop-blur-[1px]"/> } */}
           <div className="select-none mt-[-100px] mr-4">
             <RobloxAvatar userId={userInfo.userId} />
