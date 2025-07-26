@@ -27,7 +27,7 @@ const LeaderboardPanel = () => {
   }, []);
 
   return (
-    <div className="h-full bg-stone-800 p-4 rounded-md flex flex-col gap-3 w-full md:w-[650px]">
+    <div className="h-full opacity-0 animate-fade-in-sixth bg-stone-800 p-4 rounded-md flex flex-col gap-3 w-full md:w-[650px]">
       <div className="flex gap-4">
         <div className="p-3 bg-stone-900 rounded-md">
           <FaMedal size={25} className="fill-stone-600" />
@@ -52,7 +52,7 @@ const LeaderboardPanel = () => {
       {loading ? (
         <p className="text-stone-400 text-sm italic">Loading leaderboard...</p>
       ) : (
-        <div className="flex gap-4 w-full">
+        <div className="flex gap-2 w-full">
           {/* Player leaderboard */}
           <div className="flex flex-col gap-2">
             {players.map((player, index) => {

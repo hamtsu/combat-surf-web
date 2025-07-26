@@ -31,9 +31,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="md:p-4 lg:p-0 w-fit shrink-0 flex flex-col md:flex-row items-center md:items-start justify-center md:flex gap-4 opacity-0 animate-fade-in-fourth">
+      <div className="md:p-4 lg:p-0 w-fit shrink-0 flex flex-col md:flex-row items-center md:items-start justify-center md:flex gap-4 ">
         <div className="flex h-full shrink-0 flex-col gap-4 md:w-80">
-          <div className="rounded-md grow-0 bg-stone-800 p-4 h-full">
+          <div className="rounded-md grow-0 opacity-0 animate-fade-in-first bg-stone-800 p-4 h-full">
             <h1 className="text-2xl font-bold text-stone-300 ">
               Hello! Welcome to the <b>Combat Surf</b> Website👋
             </h1>
@@ -47,7 +47,7 @@ export default function Home() {
           <div className="flex-col md:flex-row flex gap-4 w-full">
             <PlayerLookupPanel />
 
-            <div className="bg-stone-800 p-4 rounded-md hidden md:flex flex-col gap-3 ">
+            <div className="bg-stone-800 opacity-0 animate-fade-in-fifth p-4 rounded-md hidden md:flex flex-col gap-3 ">
               <div className="flex gap-3">
                 <div className="p-2 bg-stone-900 rounded-md h-fit">
                   <FaTicket size={20} className="fill-stone-600" />

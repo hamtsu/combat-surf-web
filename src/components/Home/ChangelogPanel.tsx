@@ -17,7 +17,7 @@ const ChangelogPanel = () => {
   }, []);
 
   return (
-    <div className="rounded-md bg-stone-800 p-4 flex flex-col gap-3">
+    <div className="rounded-md opacity-0 animate-fade-in-third bg-stone-800 p-4 flex flex-col gap-3">
       <div className="flex gap-4">
         <div className="p-4 bg-stone-900 rounded-md">
           <FaPaperclip size={30} className="fill-stone-600" />
