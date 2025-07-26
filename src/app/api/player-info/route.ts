@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
   const userId = searchParams.get("userId");
   const fields = (searchParams.get("fields") || "username,displayName").split(
     ","
-  ); // username,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills,displayName,banned,tradeBanned
+  ); // username,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills,displayName,banned,tradeBanned,rank
   let customProfile: any
 
   if (!userId || isNaN(Number(userId))) {
@@ -54,6 +54,18 @@ export async function GET(request: NextRequest) {
       tasks: `${BASE_URL}Tasks/entries/${userId}`,
       globalKills: `${BASE_URL}CurrencyStore/entries/${userId}`,
       tradeBanned: `${BASE_URL}TradeBans/entries/${userId}`,
+      rank: async () => {
+        const res = await fetch(
+          `https://groups.roblox.com/v2/users/${userId}/groups/roles`
+        );
+        if (!res.ok) throw new Error("Failed to user groups");
+        const data = await res.json();
+        data?.data?.forEach((group: any) => {
+          if (group.group.id == "5479316") {
+            return group.role.name;
+          }
+        });
+      },
       // TODO banned field
     };
 
