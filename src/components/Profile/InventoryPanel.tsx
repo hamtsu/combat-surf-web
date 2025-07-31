@@ -94,7 +94,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
             <div
               key={id}
               style={
-                isFirstLoad
+                isFirstLoad && index < 52
                   ? {
                       animationDelay: `${index * 0.1 + 3}s`,
                       opacity: 0,
