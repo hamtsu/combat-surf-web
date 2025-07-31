@@ -60,7 +60,7 @@ const LeaderboardPanel = () => {
               return (
                 <div
                   key={player.id}
-                  style={{ animationDelay: `${index * 0.1 + (isTop ? 0 : 2)}s` }}
+                  style={{ animationDelay: `${index * 0.1 + (isTop ? 0 : 2.5)}s` }}
                   className={`flex gap-2 items-center p-2 rounded-md ${isTop
                     ? "bg-[url(/header.png)] bg-bottom"
                     : "bg-stone-900 opacity-0 animate-fade-in"
