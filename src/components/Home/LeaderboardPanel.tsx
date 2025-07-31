@@ -27,7 +27,7 @@ const LeaderboardPanel = () => {
   }, []);
 
   return (
-    <div className="h-full opacity-0 animate-fade-in-sixth bg-stone-800 p-4 rounded-md flex flex-col gap-3 w-full md:w-[650px]">
+    <div className="h-full z-0 relative opacity-0 animate-fade-in-sixth bg-stone-800 p-4 rounded-md flex flex-col gap-3 w-full md:w-[650px]">
       <div className="flex gap-4">
         <div className="p-3 bg-stone-900 rounded-md">
           <FaMedal size={25} className="fill-stone-600" />
