@@ -12,7 +12,7 @@ const PlayerLookupPanel = () => {
         <h1 className="text-xl font-bold text-stone-400 mt-1">Player lookup</h1>
       </div>
 
-      <Searchbar />
+      <Searchbar theme={""} />
     </div>
   );
 };

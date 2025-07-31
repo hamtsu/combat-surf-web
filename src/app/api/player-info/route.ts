@@ -6,6 +6,19 @@ type CustomProfile = {
   bannerImage?: string;
   invertBannerText?: boolean;
   blurBackgroundImage?: boolean;
+  theme?: {
+    bgPrimary?: string;
+    bgSecondary?: string;
+    bgTertiary?: string;
+    textPrimary?: string;
+    textSecondary?: string;
+    textMuted?: string;
+    borderColor?: string;
+    iconColor?: string;
+    progressTrack?: string;
+    progressFill?: string;
+    textOnFill?: string;
+  };
 };
 
 const customProfilesTyped: { [key: string]: CustomProfile } = customProfiles;
@@ -99,6 +112,7 @@ export async function GET(request: NextRequest) {
     playerInfo["bannerImage"] = customProfile?.bannerImage || "";
     playerInfo["invertBannerText"] = customProfile?.invertBannerText || false;
     playerInfo["blurBackgroundImage"] = customProfile?.blurBackgroundImage || false;
+    playerInfo["theme"] = customProfile?.theme || {};
 
     return NextResponse.json(playerInfo);
   } catch (error: any) {

@@ -1,9 +1,15 @@
 "use client";
 import React, { FC, useState } from "react";
-import { FaCaretRight, FaExclamationTriangle, FaInfoCircle, FaTag } from "react-icons/fa";
+import {
+  FaCaretRight,
+  FaExclamationTriangle,
+  FaInfoCircle,
+  FaTag,
+} from "react-icons/fa";
 import { FaBoxArchive } from "react-icons/fa6";
 
 type InventoryPanelProps = {
+  userInfo: any;
   inventory: {
     inventory: {
       [key: string]: {
@@ -20,6 +26,7 @@ type InventoryPanelProps = {
 const InventoryPanel: FC<InventoryPanelProps> = ({
   inventory,
   onItemClick,
+  userInfo,
 }) => {
   const sortedItems = Object.entries(inventory.inventory).sort(
     (a, b) => b[1].Rarity - a[1].Rarity
@@ -67,24 +74,51 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-3 bg-stone-800 shadow-lg pl-4 py-4 pr-2 rounded-lg w-full animate-fade-in-sixth opacity-0">
+    <div
+      className={`flex flex-col gap-3 ${
+        userInfo.theme?.bgSecondary || "bg-stone-800"
+      } shadow-lg pl-4 py-4 pr-2 rounded-lg w-full animate-fade-in-sixth opacity-0`}
+    >
       <div className="flex gap-4">
-        <div className="p-2 bg-stone-900 rounded-md h-fit">
-          <FaBoxArchive size={35} className="fill-stone-600" />
+        <div
+          className={`p-2 ${
+            userInfo.theme?.bgTertiary || "bg-stone-900"
+          } rounded-md h-fit`}
+        >
+          <FaBoxArchive
+            size={35}
+            className={`${userInfo.theme?.iconColor || "fill-stone-600"}`}
+          />
         </div>
-        <h1 className="text-4xl font-bold text-stone-400 mt-1">Inventory</h1>
+        <h1
+          className={`text-4xl font-bold ${
+            userInfo.theme?.textPrimary || "text-stone-400"
+          } mt-1`}
+        >
+          Inventory
+        </h1>
 
         <input
           type="text"
           name="item-search"
-          className="bg-stone-900 ml-6 rounded-md p-2 my-auto h-fit px-3 text-stone-200 w-[250px]"
+          className={`${
+            userInfo.theme?.bgTertiary || "bg-stone-900"
+          } ml-6 rounded-md p-2 my-auto h-fit px-3 ${
+            userInfo.theme?.textMuted || "text-stone-200"
+          } w-[250px]`}
           placeholder="Filter Items..."
           onChange={handleSearch}
           autoComplete="off"
           autoCorrect="off"
         />
 
-        <div className="bg-stone-900 my-auto p-1 px-2 h-fit text-sm rounded-sm font-mono text-stone-300 opacity-70">
+        <div
+          className={`${
+            userInfo.theme?.bgTertiary || "bg-stone-900"
+          } my-auto p-1 px-2 h-fit text-sm rounded-sm font-mono ${
+            userInfo.theme?.textMuted || "text-stone-300"
+          } opacity-70`}
+        >
           {filteredItems.length} items
         </div>
       </div>
@@ -93,21 +127,15 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
           filteredItems.map(([id, item], index) => (
             <div
               key={id}
-              style={
-                isFirstLoad && index < 52
+              style={{
+                ...(isFirstLoad && index < 52
                   ? {
                       animationDelay: `${index * 0.1 + 3}s`,
                       opacity: 0,
-                      backgroundImage: `url(/items/${
-                        item.SubType ?? item.Name
-                      }.png)`,
                     }
-                  : {
-                      backgroundImage: `url(/items/${
-                        item.SubType ?? item.Name
-                      }.png)`,
-                    }
-              }
+                  : {}),
+                backgroundImage: `url(/items/${item.SubType ?? item.Name}.png)`,
+              }}
               onClick={() =>
                 !item.Name.includes("Case") &&
                 !item.Name.includes("Package") &&
@@ -115,20 +143,36 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                 !item.Name.includes("Present") &&
                 onItemClick(item)
               }
-              className={`hover:cursor-pointer hover:shadow-2xl group animate-fade-in overflow-hidden bg-stone-900 bg-top bg-no-repeat bg-cover rounded-lg flex flex-col w-[250px] h-[110px] shadow`}
+              className={`hover:cursor-pointer hover:shadow-2xl group animate-fade-in overflow-hidden ${
+                userInfo.theme?.bgTertiary || "bg-stone-900"
+              } bg-top bg-no-repeat bg-cover rounded-lg flex flex-col w-[250px] h-[110px] shadow`}
             >
-              <h2 className="text-lg font-bold p-3 text-stone-300 text-shadow-md">
+              <h2
+                className={`text-lg font-bold p-3 text-stone-100 text-shadow-md`}
+              >
                 {item.Name.includes("Kill Counter")
                   ? item.Name.replace("| Kill Counter", "").replaceAll("_", " ")
                   : item.Name.replaceAll("_", " ")}
               </h2>
 
-              <div className="px-2 bg-stone-900 select-none py-1 mt-auto">
+              <div
+                className={`${
+                  userInfo.theme?.bgTertiary || "bg-stone-900"
+                } px-2 select-none py-1 mt-auto`}
+              >
                 <div className="group-hover:hidden h-full flex items-center gap-1">
-                  <span className="text-stone-400 text-sm">
+                  <span
+                    className={`${
+                      userInfo.theme?.textPrimary || "text-stone-400"
+                    } text-sm`}
+                  >
                     {item.Base ? item.Base.replaceAll("_", " ") : ""}
                   </span>
-                  <span className="text-stone-500 text-xs ml-2">
+                  <span
+                    className={`${
+                      userInfo.theme?.textSecondary || "text-stone-500"
+                    } text-xs ml-2`}
+                  >
                     {ITEM_RARITY[item.Rarity] || "unknown"}
                   </span>
                   <div className="flex gap-1 ml-auto">
@@ -136,17 +180,38 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                       ? item.Name !== item.SubType
                       : item.Name !== item.Base) &&
                       !item.Name.includes("| Kill Counter") && (
-                        <div className="bg-stone-800 ml-auto p-1 flex items-center gap-1 text-xs rounded-md">
-                          <FaTag size={10} className="fill-stone-500" />
+                        <div
+                          className={`${
+                            userInfo.theme?.bgSecondary || "bg-stone-800"
+                          } ml-auto p-1 flex items-center gap-1 text-xs rounded-md`}
+                        >
+                          <FaTag
+                            size={10}
+                            className={`${
+                              userInfo.theme?.iconColor || "fill-stone-500"
+                            }`}
+                          />
                         </div>
                       )}
                     {item.StatTrak && (
-                      <div className="bg-stone-800 ml-auto p-[2px] px-1 flex items-center gap-1 text-xs rounded-md ">
+                      <div
+                        className={`${
+                          userInfo.theme?.bgSecondary || "bg-stone-800"
+                        } ml-auto p-[2px] px-1 flex items-center gap-1 text-xs rounded-md`}
+                      >
                         <FaExclamationTriangle
                           size={10}
-                          className="fill-stone-500"
+                          className={`${
+                            userInfo.theme?.iconColor || "fill-stone-500"
+                          }`}
                         />
-                        <span className="text-stone-500">KC</span>
+                        <span
+                          className={`${
+                            userInfo.theme?.textSecondary || "text-stone-500"
+                          }`}
+                        >
+                          KC
+                        </span>
                       </div>
                     )}
                   </div>
@@ -158,15 +223,33 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                   !item.Name.includes("Crate") &&
                   !item.Name.includes("Present") ? (
                     <>
-                      <FaCaretRight size={20} className="fill-stone-500" />
-                      <span className="text-stone-200 text-sm lowercase tracking-wider animate-pulse">
+                      <FaCaretRight
+                        size={20}
+                        className={`${
+                          userInfo.theme?.iconColor || "fill-stone-500"
+                        }`}
+                      />
+                      <span
+                        className={`${
+                          userInfo.theme?.textMuted || "text-stone-200"
+                        } text-sm lowercase tracking-wider animate-pulse`}
+                      >
                         view details
                       </span>
                     </>
                   ) : (
                     <>
-                      <FaCaretRight size={20} className="fill-stone-500" />
-                      <span className="text-stone-200 text-sm lowercase tracking-wider animate-pulse">
+                      <FaCaretRight
+                        size={20}
+                        className={`${
+                          userInfo.theme?.iconColor || "fill-stone-500"
+                        }`}
+                      />
+                      <span
+                        className={`${
+                          userInfo.theme?.textMuted || "text-stone-200"
+                        } text-sm lowercase tracking-wider animate-pulse`}
+                      >
                         cant view details of cases
                       </span>
                     </>
@@ -176,9 +259,20 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
             </div>
           ))
         ) : (
-          <div className="flex flex-col items-center justify-center gap-2 w-full h-full bg-stone-900 rounded-lg p-3 shadow-2xl">
-            <FaExclamationTriangle size={35} className="fill-stone-600" />
-            <h2 className="text-xl font-bold text-stone-300 text-shadow ">
+          <div
+            className={`flex flex-col items-center justify-center gap-2 w-full h-full ${
+              userInfo.theme?.bgTertiary || "bg-stone-900"
+            } rounded-lg p-3 shadow-2xl`}
+          >
+            <FaExclamationTriangle
+              size={35}
+              className={`${userInfo.theme?.iconColor || "fill-stone-600"}`}
+            />
+            <h2
+              className={`text-xl font-bold ${
+                userInfo.theme?.textMuted || "text-stone-300"
+              } text-shadow`}
+            >
               No items found!
             </h2>
           </div>

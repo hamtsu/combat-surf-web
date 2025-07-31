@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation";
 import { FaExclamationTriangle, FaUserCog, FaUserSlash } from "react-icons/fa";
 import RobloxAvatar from "./RobloxAvatar";
 
-function Searchbar() {
+function Searchbar({ theme }: { theme: any }) {
   const [inputValue, setInputValue] = useState("");
-  const [user, setUser] = useState<{
+    const [user, setUser] = useState<{
     userId: string;
     username: string;
     level: number;
@@ -83,7 +83,7 @@ function Searchbar() {
         <input
           type="text"
           name="player-search"
-          className="bg-stone-900 rounded-md p-2 px-3 text-stone-200 w-[250px]"
+          className={`${theme.bgTertiary || "bg-stone-900"} ${theme.textMuted || "text-stone-200"} rounded-md p-2 px-3 w-[250px]`}
           placeholder="Enter player username or ID"
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -92,43 +92,40 @@ function Searchbar() {
         />
         <Button
           onClick={handleSelectUser}
-          className="active:bg-stone-700 p-3 bg-stone-900 hover:bg-stone-600 text-stone-300"
+          className={`active:${theme.bgPrimary || "bg-stone-700"} p-3 ${theme.bgTertiary || "bg-stone-900"} hover:${theme.bgSecondary || "bg-stone-600"} ${theme.textMuted || "text-stone-300"}`}
         >
           <FaMagnifyingGlass />
         </Button>
       </div>
 
-      <ul className="absolute z-10 mt-1 w-full bg-stone-800 rounded-md shadow-lg max-h-60 overflow-auto">
+      <ul className={`absolute z-10 mt-1 w-full ${theme.bgSecondary || "bg-stone-800"} rounded-md shadow-lg max-h-60 overflow-auto`}>
         {loading ? (
           <div className="flex flex-col">
-            <FaUserCog size={30} className="text-stone-200 mx-auto mt-2" />
-            <p className="text-stone-200 text-center">Searching...</p>
+            <FaUserCog size={30} className={`${theme.textPrimary || "text-stone-200"} mx-auto mt-2`} />
+            <p className={`${theme.textPrimary || "text-stone-200"} text-center`}>Searching...</p>
           </div>
         ) : notFound ? (
           <div className="flex flex-col">
-            <FaUserSlash size={30} className="text-stone-200 mx-auto mt-2" />
-            <p className="text-stone-200 text-center">User not found</p>
+            <FaUserSlash size={30} className={`${theme.textPrimary || "text-stone-200"} mx-auto mt-2`} />
+            <p className={`${theme.textPrimary || "text-stone-200"} text-center`}>User not found</p>
           </div>
         ) : showInfo ? (
           <div className="p-2">
-            <FaExclamationTriangle
-              size={30}
-              className="text-stone-200 mx-auto mt-2"
-            />
-            <p className="text-stone-200 text-center">
+            <FaExclamationTriangle size={30} className={`${theme.textPrimary || "text-stone-200"} mx-auto mt-2`} />
+            <p className={`${theme.textPrimary || "text-stone-200"} text-center`}>
               Enter 3 or more characters
             </p>
           </div>
         ) : user ? (
           <li
             onClick={handleSelectUser}
-            className="px-3 flex gap-2 items-center py-2 hover:bg-stone-700 cursor-pointer text-stone-200"
+            className={`px-3 flex gap-2 items-center py-2 hover:${theme.bgPrimary || "bg-stone-700"} cursor-pointer ${theme.textMuted || "text-stone-200"}`}
           >
             <div className="w-5 mr-1">
               <RobloxAvatar userId={user.userId} />
             </div>
             <span>{user.username}</span>
-            <span className="text-stone-200/40">({user.userId})</span>
+            <span className={`${theme.textPrimary || "text-stone-200/40"}`}>({user.userId})</span>
           </li>
         ) : null}
       </ul>
