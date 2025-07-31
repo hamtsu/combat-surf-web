@@ -6,8 +6,9 @@
         "blurBackgroundImage": false
     },
     "97752529": {
-        "bannerImage": "/images/profiles/97752529/banner1.gif",
-        "invertBannerText": false,
+        "bannerImage": "/images/profiles/97752529/banner.gif",
+        "backgroundImage": "/images/profiles/97752529/background1.jpg",
+        "invertBannerText": true,
         "blurBackgroundImage": false,
         "theme": {
             "bgPrimary": "bg-slate-200",
