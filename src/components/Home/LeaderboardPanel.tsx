@@ -53,7 +53,7 @@ const LeaderboardPanel = () => {
       {loading ? (
         <p className="text-stone-400 text-sm italic">Loading leaderboard...</p>
       ) : (
-        <div className="flex gap-2 w-full">
+        <div className="flex flex-col md:flex-row gap-2 w-full">
           {/* Player leaderboard */}
           <div className="flex flex-col gap-2">
             {players.map((player, index) => {
@@ -88,7 +88,7 @@ const LeaderboardPanel = () => {
           </div>
 
           {/* Clan leaderboard */}
-          <div className="hidden md:flex flex-col gap-2 w-full">
+          <div className="flex mt-4 md:mt-0 flex-col gap-2 w-full">
             {clans.map((clan, index) => (
               <div
                 key={clan.id}
