@@ -59,9 +59,9 @@ const Page = () => {
 }
 
   return (
-    <div className="overflow-y-scroll h-full flex flex-col items-center justify-center pb-20">
+    <div className="overflow-y-scroll h-full flex flex-col items-center md:justify-center pb-46 pt-5 md:pt-0 md:pb-20">
       <WIPModal />
-      <div className="absolute flex gap-2 left-5 top-5">
+      <div className=" flex gap-2 left-5 top-5">
         <Tooltip text="Go Back" position="bottom">
           <Button
             onClick={() => router.push("/")}
@@ -95,7 +95,7 @@ const Page = () => {
                 <FaStar size={20} className="fill-stone-800 animate-pulse" />
                 2nd
               </h1>
-              <div className="w-36 rounded-md">
+              <div className="w-16 md:w-36 rounded-md">
                 <RobloxAvatar userId={players[1].id} />
               </div>
 
@@ -130,7 +130,7 @@ const Page = () => {
                 />
                 1st
               </h1>
-              <div className="w-36 rounded-md">
+              <div className="w-16 md:w-36 rounded-md">
                 <RobloxAvatar userId={players[0].id} />
               </div>
 
@@ -163,7 +163,7 @@ const Page = () => {
               <h1 className="justify-self-end ml-auto font-bold font-mono text-stone-400 text-xl">
                 3rd
               </h1>
-              <div className="w-36 rounded-md">
+              <div className="w-16 md:w-36 rounded-md">
                 <RobloxAvatar userId={players[2].id} />
               </div>
 
@@ -184,7 +184,7 @@ const Page = () => {
         </Tooltip>
       </div>
 
-      <div className="w-6/8 flex gap-4 justify-center overflow-y-scroll rounded-md">
+      <div className="md:w-6/8 px-2 md:px-0 w-full flex md:flex-row flex-col gap-4 justify-center md:overflow-y-scroll rounded-md">
 
         <div className="flex flex-col gap-2 bg-stone-800 rounded-md p-4 w-full opacity-0 animate-fade-in-fourth h-fit">
           <div className="p-2 px-3 font-bold rounded-md bg-stone-900 text-stone-400 flex items-center gap-2 text-lg">
@@ -221,13 +221,13 @@ const Page = () => {
                     >
                       {player.name}
                     </a>
-                    <p className="text-stone-300">{player.clan}</p>
+                    <p className="text-stone-300 hidden md:block">{player.clan}</p>
                     <p className="text-stone-400">{player.career}</p>
                     <span className="text-stone-500 text-base ml-[-5px]">
                       kills
                     </span>
-                    <p className="text-stone-400">{player.wins}</p>
-                    <span className="text-stone-500 text-base ml-[-5px]">
+                    <p className="text-stone-400 hidden md:block">{player.wins}</p>
+                    <span className="text-stone-500 text-base hidden md:block ml-[-5px]">
                       wins
                     </span>
                   </div>
