@@ -37,7 +37,7 @@ export default function Loading() {
   return (
     <div
       className={clsx(
-        "fixed top-0 left-0 w-full h-full bg-stone-800 text-white flex items-center justify-center z-50 transition-opacity duration-500",
+        "fixed top-0 left-0 w-full h-full bg-stone-800 text-white flex items-center justify-center z-100 transition-opacity duration-500",
         {
           "opacity-0 pointer-events-none": !isVisible,
         }

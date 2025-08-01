@@ -14,7 +14,7 @@ const InfoPanel = () => {
         What is <b>Combat Surf</b>?
       </h1>
       <p className="text-stone-200/80 mb-6">
-        A roblox game based off of the classic community gamemode! The tutorial below can help you get started with the basics.
+        A roblox game based off of the classic community gamemode! This <a href="https://www.youtube.com/watch?v=k3NZMxsc1yQ" className="text-stone-200 hover:text-yellow-400 font-bold">tutorial</a> can help you get started with the basics.
       </p>
 
       <Button

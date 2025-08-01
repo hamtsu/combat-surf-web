@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 const Footer = () => {
   const router = useRouter();
   return (
-    <footer className="absolute bottom-0 items-center w-full flex flex-row gap-0 md:gap-60 lg:gap-30 px-4 md:px-24 h-fit bg-stone-800 dark:border-t border-stone-900">
+    <footer className="absolute bottom-0 z-50 items-center w-full flex flex-row gap-0 md:gap-60 lg:gap-30 px-4 md:px-24 h-fit bg-stone-800 dark:border-t border-stone-900">
       <div className="flex flex-row gap-4 items-center text-stone-200/80 opacity-50 hover:opacity-100 transition-opacity select-none">
         <Image
           src="/combatsurflogo.png"

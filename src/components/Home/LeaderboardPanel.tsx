@@ -45,7 +45,8 @@ const LeaderboardPanel = () => {
             size={15}
             className="fill-stone-200 mr-2 group-hover:animate-bounce-right"
           />
-          <p className="text-stone-200">View all</p>
+          <p className="text-stone-200 hidden md:block">View all</p>
+          <p className="text-stone-200 md:hidden ">All</p>
         </Button>
       </div>
 
@@ -96,11 +97,11 @@ const LeaderboardPanel = () => {
               >
                 <p className="text-stone-200 font-bold">{index + 1}.</p>
                 <a
-                    href={`/clan/${clan.id}`}
-                    className="text-stone-200 hover:text-amber-300"
-                  >
-                    {clan.name.length > 8 ? clan.name.slice(0, 8) + "…" : clan.name}
-                  </a>
+                  href={`/clan/${clan.id}`}
+                  className="text-stone-200 hover:text-amber-300"
+                >
+                  {clan.name.length > 8 ? clan.name.slice(0, 8) + "…" : clan.name}
+                </a>
                 <p className="text-stone-400">{clan.tag}</p>
                 <p className="text-stone-400">{clan.wins}</p>
                 <span className="text-stone-500 text-base ml-[-5px]">wins</span>
