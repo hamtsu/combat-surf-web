@@ -11,19 +11,19 @@
         "invertBannerText": true,
         "blurBackgroundImage": false,
         "theme": {
-            "bgPrimary": "bg-slate-200",
-            "bgSecondary": "bg-slate-100",
-            "bgTertiary": "bg-slate-200",
-            "textPrimary": "text-slate-700",
-            "textSecondary": "text-slate-600",
-            "textMuted": "text-slate-500",
-            "borderColor": "border-slate-300",
-            "iconColor": "fill-slate-700",
-            "progressTrack": "bg-slate-300",
-            "progressFill": "bg-slate-600",
+            "bgPrimary": "bg-stone-50",
+            "bgSecondary": "bg-stone-100",
+            "bgTertiary": "bg-stone-200",
+            "textPrimary": "text-stone-900",
+            "textSecondary": "text-stone-600",
+            "textMuted": "text-stone-500",
+            "borderColor": "border-stone-300",
+            "iconColor": "fill-stone-700",
+            "progressTrack": "bg-stone-300",
+            "progressFill": "bg-stone-600",
             "textOnFill": "text-white",
-            "digitInactive": "text-slate-300",
-            "digitActive": "text-slate-600"
+            "digitInactive": "text-stone-400",
+            "digitActive": "text-stone-900"
         }
     },
     "3011934663": {
