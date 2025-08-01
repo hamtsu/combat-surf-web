@@ -22,7 +22,7 @@ const Item: FC<ItemProps> = ({ src, index, isFirstLoad }) => {
         </div>
     )
         : (
-            <div style={isFirstLoad ? { animationDelay: `${index * 0.1 + 3 }s`, opacity: 0 } : {}} className=' z-0 animate-fade-in text-stone-200 flex flex-col gap-2 hover:cursor-pointer w-fit h-fit p-2 bg-stone-900 rounded-md border border-transparent hover:border-stone-600 transition-colors'>
+            <div style={isFirstLoad ? { animationDelay: `${index * 0.1 + 3}s`, opacity: 0 } : {}} className=' z-0 animate-fade-in text-stone-200 flex flex-col gap-2 hover:cursor-pointer w-[150px] md:w-fit md:h-fit p-1 bg-stone-900 rounded-md border border-transparent hover:border-stone-600 transition-colors'>
                 <div key={index} className="w-fit h-fit">
                     <Image
                         src={src}
@@ -31,7 +31,7 @@ const Item: FC<ItemProps> = ({ src, index, isFirstLoad }) => {
                         width={246}
                         height={140}
                         onError={() => setError(true)}
-                        
+
                         quality={100}
                     />
                 </div>

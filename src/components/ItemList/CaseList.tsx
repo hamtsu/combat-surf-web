@@ -26,21 +26,21 @@ const CaseList: FC<CaseListProps> = ({ items }) => {
     };
 
     return (
-        <div id='case-list' className="opacity-0 w-[50%] animate-fade-in-sixth bg-stone-800 p-3 mb-24  rounded-lg h-fit flex flex-wrap gap-3">
+        <div id='case-list' className="opacity-0 w-full md:w-[50%] animate-fade-in-sixth bg-stone-800 p-3 mb-24  rounded-lg h-fit flex flex-wrap gap-3">
             <div className='flex items-center gap-4'>
-                <div className="rounded-md bg-stone-900 p-3">
+                <div className="rounded-md hidden md:block bg-stone-900 p-3">
                     <FaBox size={30} className="fill-stone-600 " />
                 </div>
                 <h1 className="text-stone-400 font-bold text-3xl">
                     <b>Cases</b>
                 </h1>
 
-                <div className='bg-stone-900 p-1 px-2 rounded-sm font-mono text-stone-300 opacity-70'>{imagePaths.length} items</div>
+                <div className='bg-stone-900 p-1 px-2 hidden md:block rounded-sm font-mono text-stone-300 opacity-70'>{imagePaths.length} items</div>
 
                 <input
                     type="text"
                     name="case-search"
-                    className="bg-stone-900 rounded-md p-2 px-3 text-stone-200 w-[250px]"
+                    className="bg-stone-900 rounded-md p-2 px-3 text-stone-200 w-[150px] md:w-[250px]"
                     placeholder="Filter Cases..."
                     onChange={handleSearch}
                     autoComplete="off"

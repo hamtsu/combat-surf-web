@@ -26,21 +26,21 @@ const AksList: FC<AksListProps> = ({ items }) => {
     };
 
     return (
-        <div id="aks-list" className="opacity-0 w-[50%] animate-fade-in-third bg-stone-800 p-3 rounded-lg h-fit flex flex-wrap gap-3">
+        <div id="aks-list" className="opacity-0 md:w-[50%] animate-fade-in-third bg-stone-800 p-3 rounded-lg h-fit flex flex-wrap gap-3">
             <div className='flex items-center gap-4'>
-                <div className="rounded-md bg-stone-900 p-3">
+                <div className="rounded-md hidden md:block bg-stone-900 p-3">
                     <GiAk47 size={35} className="fill-stone-600 " />
                 </div>
                 <h1 className="text-stone-400 font-bold text-3xl">
                     <b>AK-47</b>
                 </h1>
 
-                <div className='bg-stone-900 p-1 px-2 rounded-sm font-mono text-stone-300 opacity-70'>{imagePaths.length} items</div>
+                <div className='bg-stone-900 p-1 px-2 rounded-sm hidden md:block font-mono text-stone-300 opacity-70'>{imagePaths.length} items</div>
 
                 <input
                     type="text"
                     name="ak47-search"
-                    className="bg-stone-900 rounded-md p-2 px-3 text-stone-200 w-[250px]"
+                    className="bg-stone-900 rounded-md p-2 px-3 text-stone-200 w-[140px] md:w-[250px]"
                     placeholder="Filter AK-47s..."
                     onChange={handleSearch}
                     autoComplete="off"

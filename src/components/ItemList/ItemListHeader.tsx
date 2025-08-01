@@ -45,7 +45,7 @@ const ItemsListHeader = () => {
         </div>
       </div>
 
-      <div className="z-2 absolute flex  items-center gap-2 right-10 top-5">
+      <div className="z-2 hidden md:flex absolute flex-col md:flex-row md:items-center items-end gap-2 right-10 top-5">
         <Tooltip text="AWPs" position="bottom">
           <Button
             onClick={() => handleScroll("awps-list")}
