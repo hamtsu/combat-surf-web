@@ -94,7 +94,7 @@ export default function Page({
 
     if (clanInfo === null) {
         return (
-            <div className="flex bg-stone-900 text-slate-200 flex-col items-center justify-center w-full h-full p-4">
+            <div className="flex overflow-x-hidden bg-stone-900 text-slate-200 flex-col items-center justify-center w-full h-full p-4">
                 <div className="absolute flex gap-2 left-5 top-5">
                     <Tooltip text="Go back" position="bottom">
                         <Button
@@ -144,7 +144,7 @@ export default function Page({
                         onClose={() => setSelectedItem(null)}
                     />
                 )}
-                <div className="overflow-y-scroll flex bg-stone-900 text-slate-200 flex-col items-center justify-start w-full h-full pb-48 p-4 gap-6">
+                <div className="overflow-y-scroll overflow-x-hidden flex bg-stone-900 text-slate-200 flex-col items-center justify-start w-full h-full pb-48 p-4 gap-6">
                     <div className="flex  md:flex-row gap-4 w-full max-w-screen-xl px-4">
                         <Tooltip text="Go back" position="bottom">
                             <Button

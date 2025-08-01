@@ -21,9 +21,10 @@ const NumberDisplay: FC<NumberDisplayProps> = ({ number, theme }) => {
         <p
           key={i}
           className={
-            firstNonZero === -1 || i < firstNonZero
+            "" +
+            (firstNonZero === -1 || i < firstNonZero
               ? theme?.digitInactive || "text-stone-600"
-              : theme?.digitActive || "text-stone-200"
+              : theme?.digitActive || "text-stone-200")
           }
         >
           {digit}

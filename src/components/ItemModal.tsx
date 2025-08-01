@@ -43,7 +43,7 @@ export default function ItemModal({
 
   return (
     <div
-      className="fixed opacity-0 animate-fade-in-fast top-0 left-0 w-screen h-screen bg-black/80 flex items-center justify-center z-50"
+      className="fixed opacity-0 animate-fade-in-fast top-0 left-0 w-screen h-screen px-4 md:px-0 bg-black/80 flex items-center justify-center z-50"
       onClick={handleOverlayClick}
     >
       <div
@@ -62,13 +62,13 @@ export default function ItemModal({
           </Button>
         </div>
 
-        <div className="p-4">
-          <div className="flex gap-4">
+        <div className="p-2 md:p-4">
+          <div className="flex gap-2 md:gap-4">
             <div
               style={{
                 backgroundImage: `url(/items/${item.SubType ?? item.Name}.png)`,
               }}
-              className="min-w-[370px] h-[160px] bg-cover bg-center flex gap-1 items-end justify-end rounded-md p-2"
+              className="min-w-[200px] md:min-w-[370px] h-[90px] md:h-[160px] bg-cover bg-center flex gap-1 items-end justify-end rounded-md p-2"
             >
               {(item.SubType
                 ? item.Name !== item.SubType
@@ -95,32 +95,32 @@ export default function ItemModal({
               )}
             </div>
 
-            <div className="flex flex-col gap-3">
-              <div className="p-2 bg-stone-900 w-full h-fit rounded-md flex gap-2 items-center">
-                <FaStar size={16} className="fill-stone-400 " />
-                <span className="text-stone-400 font-bold">Rarity</span>
-                <span className="text-lg text-stone-300 font-bold font-mono px-2 bg-stone-800 rounded-md h-fit ml-auto">
+            <div className="flex flex-col gap-1 md:gap-3">
+              <div className="md:p-2 p-1 bg-stone-900 w-full h-fit rounded-sm md:rounded-md flex gap-2 items-center">
+                <FaStar size={16} className="fill-stone-400 hidden md:block" />
+                <span className="text-stone-400 text-xs md:text-lg font-bold">Rarity</span>
+                <span className="text-xs md:text-lg text-stone-300 font-bold font-mono px-2 bg-stone-800 rounded-sm md:rounded-md h-fit ml-auto">
                   {ITEM_RARITY[item.Rarity]}
                 </span>
               </div>
-              <div className="p-2 bg-stone-900 w-full h-fit rounded-md flex gap-2 items-center">
-                <FaPaintBrush size={16} className="fill-stone-400 " />
-                <span className="text-stone-400 font-bold">Pattern</span>
-                <span className="text-lg text-stone-300 font-bold font-mono px-2 bg-stone-800 rounded-md h-fit ml-auto">
+              <div className="md:p-2 p-1 bg-stone-900 w-full h-fit rounded-sm md:rounded-md flex gap-2 items-center">
+                <FaPaintBrush size={16} className="fill-stone-400 hidden md:block" />
+                <span className="text-stone-400 text-xs md:text-lg font-bold">Pattern</span>
+                <span className="text-sm md:text-lg text-stone-300 font-bold font-mono px-2 bg-stone-800 rounded-sm md:rounded-md h-fit ml-auto">
                   {item.Pattern}
                 </span>
               </div>
-              <div className="p-2 bg-stone-900 w-full h-fit rounded-md flex gap-2 items-center">
-                <FaInfoCircle size={16} className="fill-stone-400 " />
-                <span className="text-stone-400 font-bold">Float</span>
-                <span className="text-lg text-stone-300 font-bold font-mono px-2 bg-stone-800 rounded-md h-fit ml-auto">
+              <div className="md:p-2 p-1 bg-stone-900 w-full h-fit rounded-sm md:rounded-md flex gap-2 items-center">
+                <FaInfoCircle size={16} className="fill-stone-400 hidden md:block" />
+                <span className="text-stone-400 text-xs md:text-lg font-bold">Float</span>
+                <span className="text-sm md:text-lg text-stone-300 font-bold font-mono px-2 bg-stone-800 rounded-sm md:rounded-md h-fit ml-auto">
                   {item.Float.toFixed(6)}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="p-2 px-3 mt-3 bg-stone-900 w-full h-fit rounded-md">{item.StatTrak ? (<>A total of <b>{item.Kills}</b> kills have been collected with this weapon!</>) : (<i>Kills cannot be counted on a <b>non-kill counter</b> weapon.</i>)}</div>
+          <div className="md:p-2 p-1 px-3 md:mt-3 mt-2 md:text-base text-sm bg-stone-900 w-full h-fit rounded-md">{item.StatTrak ? (<>A total of <b>{item.Kills}</b> kills have been collected with this weapon!</>) : (<i>Kills cannot be counted on a <b>non-kill counter</b> weapon.</i>)}</div>
         </div>
       </div>
     </div>

@@ -61,7 +61,7 @@ const Page = () => {
   return (
     <div className="overflow-y-scroll h-full flex flex-col items-center md:justify-center pb-46 pt-5 md:pt-0 md:pb-20">
       <WIPModal />
-      <div className=" flex gap-2 left-5 top-5">
+      <div className="md:absolute flex gap-2 left-5 top-5">
         <Tooltip text="Go Back" position="bottom">
           <Button
             onClick={() => router.push("/")}

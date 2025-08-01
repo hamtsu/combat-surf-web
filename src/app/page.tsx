@@ -50,7 +50,6 @@ export default function Home() {
           <div className="flex flex-col md:flex-row gap-4 w-full">
             <PlayerLookupPanel />
 
-            {/* Support & Appeals Box */}
             <div className="bg-stone-800 p-4 rounded-md opacity-0 animate-fade-in-fifth hidden md:flex flex-col gap-3 w-full md:max-w-xs">
               <div className="flex gap-3 items-center">
                 <div className="p-2 bg-stone-900 rounded-md">

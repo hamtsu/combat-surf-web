@@ -53,7 +53,7 @@ const PlayerRank: FC<PlayerRankProps> = ({ userId }) => {
       <Tooltip text="This player is a Head Admin!" position="bottom">
         <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center shadow-lg shadow-red-500 bg-red-500 border-2 border-red-400 w-fit h-fit rounded-lg m p-2 px-4">
           <FaGavel className="text-red-200 text-xl animate-gavel" />
-          <h1 className="text-xl font-semibold text-red-200 ">Head Admins</h1>
+          <h1 className="md:text-xl text-base font-semibold text-red-200 ">Head Admins</h1>
         </div>
       </Tooltip>
     );
@@ -62,7 +62,7 @@ const PlayerRank: FC<PlayerRankProps> = ({ userId }) => {
       <Tooltip text="This player is a Honorary Member!" position="bottom">
         <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-blue-500 shadow-lg shadow-blue-500 border-2 border-blue-400 w-fit h-fit rounded-lg m p-2 px-4">
           <FaMedal className="text-blue-200 text-xl" />
-          <h1 className="text-xl font-semibold text-blue-200">
+          <h1 className="md:text-xl text-xs font-semibold text-blue-200">
             Honorary Member
           </h1>
         </div>
