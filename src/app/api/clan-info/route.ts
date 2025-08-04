@@ -34,6 +34,7 @@ export async function GET(request: NextRequest) {
       tag: data.value.tag,
       name: cached.name,
       cachedAt: cached.cachedAt,
+      createdAt: data.createTime,
       owner: data.value.owner,
       wins: data.value.wins,
       colorMode: data.value.colorMode,

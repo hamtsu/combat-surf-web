@@ -8,7 +8,7 @@ import RobloxAvatar from "@/components/RobloxAvatar";
 import Tooltip from "@/components/Tooltip";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
-import { FaArrowLeft, FaTrophy, FaUser } from "react-icons/fa";
+import { FaArrowLeft, FaClock, FaTrophy, FaUser } from "react-icons/fa";
 import { FaShield } from "react-icons/fa6";
 
 export default function Page({
@@ -190,14 +190,26 @@ export default function Page({
                                     />
                                 </h1>
                                 <div className="flex flex-wrap gap-2 mt-2">
-                                    <h1 className="text-lg lg:text-2xl flex gap-2 text-stone-300 bg-stone-900 rounded-md p-2 px-4 items-center font-bold">
+                                    <div className="text-lg lg:text-2xl flex gap-2 text-stone-300 bg-stone-900 rounded-md p-2 px-4 items-center font-bold">
                                         <FaTrophy size={20} className="fill-stone-300" />
                                         {clanInfo.wins}
                                         <span className="text-base text-stone-500">wins</span>
-                                    </h1>
-                                    <h1 className="text-lg lg:text-2xl flex gap-2 text-stone-300 bg-stone-900 rounded-md p-2 px-4 items-center font-bold">
-                                        #--
-                                    </h1>
+                                    </div>
+                                    <Tooltip text="The date which this clan was created." position="bottom">
+                                        <div className="hover:cursor-pointer text-lg lg:text-2xl flex gap-2 text-stone-300 bg-stone-900 rounded-md p-2 px-4 items-center font-bold">
+                                            <FaClock size={20} className="fill-stone-300" />
+                                            <p>
+                                                {clanInfo.createdAt
+                                                    ? new Date(clanInfo.createdAt).toLocaleDateString("en-US", {
+                                                        year: "numeric",
+                                                        month: "long",
+                                                        day: "numeric",
+                                                    })
+                                                    : "Unknown"}
+                                            </p>
+                                        </div>
+                                    </Tooltip>
+
                                 </div>
                             </div>
                         </div>
