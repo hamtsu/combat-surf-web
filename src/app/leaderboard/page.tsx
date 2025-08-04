@@ -1,6 +1,5 @@
 "use client";
 import Button from "@/components/Button";
-import LeaderboardUpdate from "@/components/LeaderboardUpdate";
 import RobloxAvatar from "@/components/RobloxAvatar";
 import Tooltip from "@/components/Tooltip";
 import WIPModal from "@/components/WIPModal";
