@@ -76,7 +76,7 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 mt-25 md:mt-8">
+    <div className="flex flex-col md:flex-row gap-4 mt-5 md:mt-8">
       <div className="flex flex-col gap-3">
         <div
           style={
