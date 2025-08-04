@@ -122,6 +122,15 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
     );
   };
 
+  const normalizeName = (subType: string, name: string) => {
+    const value = subType ?? name;
+
+    if (value === "???") return "QuestionQuestionQuestion";
+    if (value === "AWP_#1") return "AWP_Number1";
+
+    return value;
+  };
+
   return (
     <div
       className={`flex flex-col gap-3 ${userInfo.theme?.bgSecondary || "bg-stone-800"
@@ -173,7 +182,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                     opacity: 0,
                   }
                   : {}),
-                backgroundImage: `url(/items/${item.SubType ?? item.Name}.png)`,
+                backgroundImage: `url(/items/${normalizeName(item.SubType, item.Name)}.png)`,
               }}
               onClick={() =>
                 !item.Name.includes("Case") &&
@@ -241,19 +250,19 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
           ))
         ) : (
           isFirstLoad ? (
-          <div className={`flex flex-col items-center justify-center col-span-4 row-span-3 w-full h-full ${userInfo.theme?.bgTertiary || "bg-stone-900"} rounded-lg p-3`}>
-            <FaExclamationTriangle size={35} className={`${userInfo.theme?.iconColor || "fill-stone-600"}`} />
-            <h2 className={`text-xl font-bold animate-pulse ${userInfo.theme?.textMuted || "text-stone-300"} text-shadow`}>
-              Loading player inventory...
-            </h2>
-          </div>
+            <div className={`flex flex-col items-center justify-center col-span-4 row-span-3 w-full h-full ${userInfo.theme?.bgTertiary || "bg-stone-900"} rounded-lg p-3`}>
+              <FaExclamationTriangle size={35} className={`${userInfo.theme?.iconColor || "fill-stone-600"}`} />
+              <h2 className={`text-xl font-bold animate-pulse ${userInfo.theme?.textMuted || "text-stone-300"} text-shadow`}>
+                Loading player inventory...
+              </h2>
+            </div>
           ) : (
             <div className={`flex flex-col items-center justify-center col-span-4 row-span-3 w-full h-full ${userInfo.theme?.bgTertiary || "bg-stone-900"} rounded-lg p-3`}>
-            <FaExclamationTriangle size={35} className={`${userInfo.theme?.iconColor || "fill-stone-600"}`} />
-            <h2 className={`text-xl font-bold ${userInfo.theme?.textMuted || "text-stone-300"} text-shadow`}>
-              No items matching search.
-            </h2>
-          </div>
+              <FaExclamationTriangle size={35} className={`${userInfo.theme?.iconColor || "fill-stone-600"}`} />
+              <h2 className={`text-xl font-bold ${userInfo.theme?.textMuted || "text-stone-300"} text-shadow`}>
+                No items matching search.
+              </h2>
+            </div>
           )
         )}
         {/* Lazy Load Trigger */}
