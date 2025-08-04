@@ -126,7 +126,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
   return (
     <div
       className={`flex flex-col gap-3 ${userInfo.theme?.bgSecondary || "bg-stone-800"
-        } md:min-w-[1100px] shadow-lg pl-2 overflow-x-hidden md:pl-4 md:py-4 py-2 md:pr-2 rounded-lg max-w-screen md:w-full animate-fade-in-sixth opacity-0`}
+        } md:min-w-[1100px] shadow-lg px-2 overflow-x-hidden md:pl-4 md:py-4 py-2 md:pr-2 rounded-lg max-w-screen md:w-full animate-fade-in-sixth opacity-0`}
     >
       <div className="flex gap-2 md:gap-4">
         <div className={`p-2 ${userInfo.theme?.bgTertiary || "bg-stone-900"} rounded-md h-fit`}>
@@ -183,7 +183,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                 !item.Name.includes("Present") &&
                 onItemClick(item)
               }
-              className={`hover:cursor-pointer hover:shadow-lg group animate-fade-in overflow-hidden ${userInfo.theme?.bgTertiary || "bg-stone-900"} bg-top bg-no-repeat rounded-lg flex flex-col w-[180px] md:w-[250px] h-[85px] md:h-[110px] bg-size-[105%] shadow`}
+              className={`hover:cursor-pointer hover:shadow-lg group animate-fade-in overflow-hidden ${userInfo.theme?.bgTertiary || "bg-stone-900"} bg-top bg-no-repeat rounded-lg flex flex-col w-[172px] md:w-[250px] h-[85px] md:h-[110px] bg-size-[105%] shadow`}
             >
               <h2 className={`text-base md:text-lg font-bold p-3 text-stone-100 text-shadow-md`}>
                 {item.Name.includes("Kill Counter")
