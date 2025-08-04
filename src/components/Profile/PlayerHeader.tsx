@@ -126,7 +126,7 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
               className={`text-base ${userInfo.invertBannerText
                 ? "text-stone-600"
                 : "text-stone-200"
-                } font-bold text-stone-400`}
+                } font-bold text-stone-400 text-sm`}
             >
               {TEMP_PUNISHMENTS.banned ? (
                 <span
