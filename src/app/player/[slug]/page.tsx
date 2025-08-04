@@ -156,7 +156,7 @@ export default function Page({
             <Searchbar theme={userInfo.theme} />
           </div>
 
-          <div className="absolute flex gap-2 md:left-5 top-5">
+          <div className="md:absolute flex gap-2 md:left-5 md:top-5">
             <Tooltip text="Go back" position="bottom">
               <Button
                 onClick={() => router.back()}
@@ -207,7 +207,7 @@ export default function Page({
                 <div className="flex flex-col gap-1">
                   <div
                     className={`self-start select-none md:hidden opacity-0 animate-fade-in-third rounded-md ${userInfo.theme?.bgSecondary || "bg-stone-800"
-                      } shadow-lg p-1 px-3 border-1 ${userInfo.theme?.borderColor || "border-stone-700"
+                      } shadow-lg p-1 px-3
                       } flex flex-col md:mt-0 h-fit`}
                   >
                     <h1
