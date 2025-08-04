@@ -33,6 +33,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
   const [visibleItems, setVisibleItems] = useState<number>(52);
   const LOAD_INCREMENT = 30;
   const loaderRef = useRef<HTMLDivElement | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     fetch(`/api/player-info?userId=${userId}&fields=inventory`)
@@ -63,6 +64,8 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
 
   // lazy loading
   useEffect(() => {
+    if (!scrollRef.current || !loaderRef.current) return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         const first = entries[0];
@@ -70,16 +73,19 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
           setVisibleItems((prev) => prev + LOAD_INCREMENT);
         }
       },
-      { threshold: 1 }
+      {
+        root: scrollRef.current,
+        threshold: 0.2,
+      }
     );
 
-    const current = loaderRef.current;
-    if (current) observer.observe(current);
+    observer.observe(loaderRef.current);
 
     return () => {
-      if (current) observer.unobserve(current);
+      if (loaderRef.current) observer.unobserve(loaderRef.current);
     };
-  }, [loaderRef.current]);
+  }, [scrollRef.current, loaderRef.current]);
+
 
   const ITEM_RARITY: Record<number, string> = {
     100: "Divine",
@@ -170,7 +176,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
         </div>
       </div>
 
-      <div className="grid overflow-x-hidden grid-cols-2 md:grid-cols-4 mx-auto gap-2 md:gap-4 scroll-auto overflow-y-scroll w-full h-full pr-2 max-h-[330px] max-w-[1300px]">
+      <div ref={scrollRef} className="grid overflow-x-hidden grid-cols-2 md:grid-cols-4 mx-auto gap-2 md:gap-4 scroll-auto overflow-y-scroll w-full h-full pr-2 max-h-[330px] max-w-[1300px]">
         {filteredItems.length > 0 ? (
           filteredItems.slice(0, visibleItems).map(([id, item], index) => (
             <div
@@ -178,7 +184,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
               style={{
                 ...(isFirstLoad && index < 52
                   ? {
-                    animationDelay: `${index * 0.1 + 2}s`,
+                    animationDelay: `${index * 0.1 + 1}s`,
                     opacity: 0,
                   }
                   : {}),
@@ -267,7 +273,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
         )}
         {/* Lazy Load Trigger */}
         {visibleItems < filteredItems.length && (
-          <div ref={loaderRef} className="h-10 w-full" />
+          <div ref={loaderRef} className="h-10 w-full bg-transparent" />
         )}
       </div>
     </div>
