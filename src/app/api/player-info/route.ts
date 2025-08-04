@@ -26,13 +26,12 @@ const customProfilesTyped: { [key: string]: CustomProfile } = customProfiles;
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const userId = searchParams.get("userId");
-  const fields = (searchParams.get("fields") || "username,displayName").split(
+  const fields = (searchParams.get("fields") || "").split(
     ","
-  ); // username,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills,displayName,banned,tradeBanned,rank
+  ); // username,displayName,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills,banned,tradeBanned,rank,theme
   let customProfile: any
   const inventoryLimit = Number(searchParams.get("inventoryLimit") || "0"); // 0 means no limit
   const inventoryOffset = Number(searchParams.get("inventoryOffset") || "0");
-
 
   if (!userId || isNaN(Number(userId))) {
     return NextResponse.json(
@@ -45,22 +44,28 @@ export async function GET(request: NextRequest) {
     customProfile = customProfilesTyped[userId];
   }
 
+
   try {
     const BASE_URL = `https://apis.roblox.com/cloud/v2/universes/${process.env.UNIVERSE_ID}/data-stores/`;
 
+    let robloxUserData: any = null;
+
+    const fetchRobloxUser = async () => {
+      if (!robloxUserData) {
+        const res = await fetch(`https://apis.roblox.com/cloud/v2/users/${userId}`, {
+          headers: {
+            "x-api-key": process.env.OPENCLOUD_API_KEY || "",
+          },
+        });
+        if (!res.ok) throw new Error("Failed to fetch Roblox user data");
+        robloxUserData = await res.json();
+      }
+      return robloxUserData;
+    };
+
     const fieldFetchMap: Record<string, string | (() => Promise<any>)> = {
-      username: async () => {
-        const res = await fetch(`https://users.roblox.com/v1/users/${userId}`);
-        if (!res.ok) throw new Error("Failed to fetch username");
-        const data = await res.json();
-        return data.name;
-      },
-      displayName: async () => {
-        const res = await fetch(`https://users.roblox.com/v1/users/${userId}`);
-        if (!res.ok) throw new Error("Failed to fetch display name");
-        const data = await res.json();
-        return data.displayName;
-      },
+      username: async () => (await fetchRobloxUser()).name,
+      displayName: async () => (await fetchRobloxUser()).displayName,
       level: `${BASE_URL}CurrentLevel/entries/${userId}`,
       clanId: `${BASE_URL}newMyClan/entries/${userId}`,
       inventory: async () => {
@@ -75,12 +80,12 @@ export async function GET(request: NextRequest) {
         const fullInventory = json.value.inventory ?? json.value;
 
         if (typeof fullInventory !== "object" || Array.isArray(fullInventory)) {
-          return fullInventory; 
+          return fullInventory;
         }
 
         const entries = Object.entries(fullInventory);
 
-        if (inventoryLimit > 0 ) {
+        if (inventoryLimit > 0) {
           const sliced = entries.slice(inventoryOffset, inventoryOffset + inventoryLimit);
           return Object.fromEntries(sliced);
         } else {
@@ -134,11 +139,13 @@ export async function GET(request: NextRequest) {
 
     await Promise.all(fetchPromises);
 
-    playerInfo["backgroundImage"] = customProfile?.backgroundImage || "";
-    playerInfo["bannerImage"] = customProfile?.bannerImage || "";
-    playerInfo["invertBannerText"] = customProfile?.invertBannerText || false;
-    playerInfo["blurBackgroundImage"] = customProfile?.blurBackgroundImage || false;
-    playerInfo["theme"] = customProfile?.theme || {};
+    if (fields.includes("theme")) {
+      playerInfo["backgroundImage"] = customProfile?.backgroundImage || "";
+      playerInfo["bannerImage"] = customProfile?.bannerImage || "";
+      playerInfo["invertBannerText"] = customProfile?.invertBannerText || false;
+      playerInfo["blurBackgroundImage"] = customProfile?.blurBackgroundImage || false;
+      playerInfo["theme"] = customProfile?.theme || {};
+    }
 
     return NextResponse.json(playerInfo);
   } catch (error: any) {
