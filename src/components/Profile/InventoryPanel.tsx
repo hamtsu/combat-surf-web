@@ -169,7 +169,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
               style={{
                 ...(isFirstLoad && index < 52
                   ? {
-                    animationDelay: `${index * 0.1}s`,
+                    animationDelay: `${index * 0.1 + 2}s`,
                     opacity: 0,
                   }
                   : {}),
