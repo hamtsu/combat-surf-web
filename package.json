@@ -1,6 +1,6 @@
 {
   "name": "combatsurf-website",
-  "version": "b0.1.0",
+  "version": "b1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
