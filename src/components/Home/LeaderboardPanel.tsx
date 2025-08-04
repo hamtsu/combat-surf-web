@@ -5,6 +5,8 @@ import { FaArrowRight, FaMedal } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import RobloxAvatar from "../RobloxAvatar";
 import Button from "../Button";
+import { FaTriangleExclamation } from "react-icons/fa6";
+import Tooltip from "../Tooltip";
 
 const LeaderboardPanel = () => {
   const router = useRouter();
@@ -29,13 +31,18 @@ const LeaderboardPanel = () => {
   return (
     <div className="h-full z-0 relative opacity-0 animate-fade-in-sixth bg-stone-800 p-4 rounded-md flex flex-col gap-3 w-full md:w-[650px]">
       <div className="flex gap-4">
-        <div className="p-3 bg-stone-900 rounded-md">
+        <div className="p-3 h-fit bg-stone-900 rounded-md">
           <FaMedal size={25} className="fill-stone-600" />
         </div>
 
-        <h1 className="text-2xl md:text-3xl font-bold text-stone-400 mt-2">
+        <div className="text-2xl md:text-3xl font-bold text-stone-400 mt-2">
           Leaderboards
-        </h1>
+          <div className="md:hidden hover:cursor-pointer text-sm text-yellow-400 h-fit my-auto font-bold flex items-center gap-1"><FaTriangleExclamation className="text-yellow-500" /> Using Mock Data</div>
+        </div>
+
+        <Tooltip text="This is mock data for testing purposes" position="bottom">
+          <div className="hidden md:flex hover:cursor-pointer text-yellow-400 h-fit my-auto font-bold items-center gap-1"><FaTriangleExclamation className="text-yellow-500" /> Using Mock Data</div>
+        </Tooltip>
 
         <Button
           onClick={() => router.push("/leaderboard")}
