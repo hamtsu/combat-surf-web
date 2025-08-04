@@ -51,8 +51,8 @@ const Page = () => {
 
   if (players.length < 3) {
   return (
-    <div className="text-stone-300 text-lg mt-20">
-      Not enough leaderboard data to display top players.
+    <div className="text-stone-300 bg-stone-800 rounded-md p-4 w-full h-full flex items-center justify-center text-lg mt-20">
+      Loading leaderboard data...
     </div>
   );
 }
