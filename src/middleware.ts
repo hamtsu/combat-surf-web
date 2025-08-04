@@ -7,8 +7,21 @@ type RateLimitEntry = {
 
 const rateLimitMap = new Map<string, RateLimitEntry>();
 
-const MAX_REQUESTS = 100; // req per minute TEMP
-const WINDOW_MS = 60 * 1000;
+const rateLimitConfig: Record<
+  string,
+  { limit: number; windowMs: number }
+> = {
+  "/api/player-rank": { limit: 50, windowMs: 60 * 1000 }, // only used on individual profile pages
+  "/api/avatar": { limit: 150, windowMs: 60 * 1000 }, // used on homepage (leaderboard panel), leaderboard, player profiles, clan info page
+  "/api/changelogs": { limit: 50, windowMs: 60 * 1000 },
+  "/api/player-info": { limit: 100, windowMs: 60 * 1000 },
+  "/api/clan-info": { limit: 80, windowMs: 60 * 1000 }, // player profiles, clan info
+  "/item-list": { limit: 30, windowMs: 60 * 1000 },
+  "/api/game-info": { limit: 40, windowMs: 60 * 1000 }, // used on homepage
+  "/api/group-icon": { limit: 40, windowMs: 60 * 1000 }, // used on clan info page
+  "/api/player-search": { limit: 50, windowMs: 60 * 1000 }, // used on homepage, player profiles
+  "/api/leaderboard": { limit: 50, windowMs: 60 * 1000 },
+};
 
 function getClientIp(req: NextRequest): string {
   return (
@@ -21,55 +34,32 @@ function getClientIp(req: NextRequest): string {
 export function middleware(req: NextRequest) {
   const ip = getClientIp(req);
   const now = Date.now();
-
-  const entry = rateLimitMap.get(ip);
-
-  if (!entry) {
-    rateLimitMap.set(ip, { count: 1, lastReset: now });
-    return NextResponse.next();
-  }
-
-  if (now - entry.lastReset > WINDOW_MS) {
-    // reset time
-    rateLimitMap.set(ip, { count: 1, lastReset: now });
-    return NextResponse.next();
-  }
-
   const path = req.nextUrl.pathname;
 
-  if (
-    path == "/api/player-rank" ||
-    path == "/api/avatar" ||
-    path == "/api/changelogs"
-  ) {
-    // allow more requests for these endpoints
-    if (entry.count >= MAX_REQUESTS + 10) {
-      const res = NextResponse.json(
-        {
-          message: "Too many requests. Try again later",
-          // waitSeconds: 60 - Math.round((now - entry.lastReset) / 1000),
-        },
-        { status: 429 }
-      );
+  const config = rateLimitConfig[path];
+  if (!config) return NextResponse.next(); // no rate limit configured
 
-      res.cookies.set("rateLimitExceeded", "true", {
-        maxAge: WINDOW_MS / 1000,
-      })
+  const key = `${ip}:${path}`;
+  const entry = rateLimitMap.get(key);
 
-      return res;
-    }
-  } else if (entry.count >= MAX_REQUESTS) {
+  if (!entry || now - entry.lastReset > config.windowMs) {
+    // new entry or window expired
+    rateLimitMap.set(key, { count: 1, lastReset: now });
+    return NextResponse.next();
+  }
+
+  if (entry.count >= config.limit) {
     const res = NextResponse.json(
       {
-        message: "Too many requests. Try again later",
-        // waitSeconds: 60 - Math.round((now - entry.lastReset) / 1000),
+        message: "Too many requests. Try again later.",
+        // waitSeconds: Math.ceil((config.windowMs - (now - entry.lastReset)) / 1000)
       },
       { status: 429 }
     );
 
     res.cookies.set("rateLimitExceeded", "true", {
-      maxAge: WINDOW_MS / 1000,
-    })
+      maxAge: config.windowMs / 1000,
+    });
 
     return res;
   }
@@ -80,12 +70,15 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/api/player-info",
-    "/api/clan-info",
-    "/api/changelogs",
-    "/api/player-rank",
-    "/api/avatar",
-    "/item-list",
-    // "/api/player-search", trying to figure out ratelimits right now
+    "/api/player-rank", // only used on individual profile pages
+    "/api/avatar", // used on homepage (leaderboard panel), leaderboard, player profiles, clan info page
+    "/api/changelogs", // used on changelog pages
+    "/api/player-info", // used on player profile pages
+    "/api/clan-info", // used on clan info pages
+    "/item-list", // used on item list pages
+    "/api/game-info", // used on homepage
+    "/api/group-icon", // used on clan info page
+    "/api/player-search", // used on homepage, player profiles
+    "/api/leaderboard", // used on leaderboard pages
   ],
 };
