@@ -168,7 +168,7 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
             >
               <h2
                 onClick={() => router.push(`/clan/${userInfo.clanId}`)}
-                className={`text-5xl font-bold ${userInfo.theme?.textPrimary || "text-stone-300"
+                className={`text-4xl font-bold ${userInfo.theme?.textPrimary || "text-stone-300"
                   } hover:underline hover:cursor-pointer`}
               >
                 {userInfo.clanName || "No Clan"}
