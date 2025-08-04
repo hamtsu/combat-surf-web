@@ -23,7 +23,7 @@ const RobloxAvatar: FC<RobloxAvatarProps> = ({ userId }) => {
       alt={`Roblox Avatar of ${userId}`}
       width={210}
       height={210}
-      className="rounded-lg"
+      className="rounded-lg text-xs"
       draggable={false}
     />
   );
