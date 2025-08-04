@@ -27,7 +27,7 @@ const StatisticPanel: FC<StatisticPanelProps> = ({ icon, name, value, theme }) =
           {name.split(" ")[1]}
         </h1>
       </div>
-      <span className={`text-xl md:text-2xl ${theme?.bgTertiary || "bg-stone-900"} p-1 rounded-md px-3 md:text-5xl font-mono font-bold flex gap-1 select-none`}>
+      <span className={`text-xl md:text-2xl ${theme?.bgTertiary || "bg-stone-900"} p-1 rounded-md px-2 md:px-3 md:text-5xl font-mono font-bold flex gap-1 select-none`}>
         {padded.split("").map((digit, i) => (
           <span
             key={i}
