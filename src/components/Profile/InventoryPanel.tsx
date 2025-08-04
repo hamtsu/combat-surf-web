@@ -6,6 +6,7 @@ import {
   FaTag,
 } from "react-icons/fa";
 import { FaBoxArchive } from "react-icons/fa6";
+import { useInView } from "react-intersection-observer";
 
 type InventoryPanelProps = {
   userId: string;
@@ -32,8 +33,13 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
 
   const [visibleItems, setVisibleItems] = useState<number>(52);
   const LOAD_INCREMENT = 30;
-  const loaderRef = useRef<HTMLDivElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  const [ref, inView] = useInView({
+    root: scrollRef.current || undefined,
+    threshold: 0.2,
+    triggerOnce: false,
+  });
 
   useEffect(() => {
     fetch(`/api/player-info?userId=${userId}&fields=inventory`)
@@ -54,7 +60,6 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
       });
   }, [userId]);
 
-  // initially update filtered items
   useEffect(() => {
     const sorted = Object.entries(inventory).sort(
       (a, b) => b[1].Rarity - a[1].Rarity
@@ -62,30 +67,11 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
     setFilteredItems(sorted);
   }, [inventory]);
 
-  // lazy loading
   useEffect(() => {
-    if (!scrollRef.current || !loaderRef.current) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const first = entries[0];
-        if (first.isIntersecting) {
-          setVisibleItems((prev) => prev + LOAD_INCREMENT);
-        }
-      },
-      {
-        root: scrollRef.current,
-        threshold: 0.2,
-      }
-    );
-
-    observer.observe(loaderRef.current);
-
-    return () => {
-      if (loaderRef.current) observer.unobserve(loaderRef.current);
-    };
-  }, [scrollRef.current, loaderRef.current]);
-
+    if (inView) {
+      setVisibleItems((prev) => prev + LOAD_INCREMENT);
+    }
+  }, [inView]);
 
   const ITEM_RARITY: Record<number, string> = {
     100: "Divine",
@@ -273,7 +259,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
         )}
         {/* Lazy Load Trigger */}
         {visibleItems < filteredItems.length && (
-          <div ref={loaderRef} className="h-10 w-full bg-transparent" />
+          <div ref={ref} className="h-10 w-full bg-transparent" />
         )}
       </div>
     </div>

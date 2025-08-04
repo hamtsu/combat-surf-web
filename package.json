@@ -20,6 +20,7 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-icons": "^5.2.1",
+    "react-intersection-observer": "^9.16.0",
     "react-markdown": "^10.1.0",
     "react-spinners": "^0.17.0",
     "swr": "^2.3.4",
