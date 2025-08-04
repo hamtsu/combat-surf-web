@@ -25,7 +25,7 @@ const ChangelogPanel = () => {
         <h1 className="text-4xl font-bold text-stone-400 mt-3">Changelog</h1>
       </div>
       {changelogs[0] ? (
-        <div className="md:w-[500px] lg:w-96 flex flex-col h-80 bg-[url(/header.png)] bg-cover bg-right rounded-lg">
+        <div className="md:w-[500px] lg:w-96 flex flex-col h-80 bg-[url(/header2.png)] bg-cover bg-center rounded-lg">
           <div className="backdrop-blur-[2px] text-slate-100 h-full text-center px-5 pt-4 flex flex-col">
             <div className="flex gap-1 w-full justify-between">
               <h1 className="font-bold text-3xl ml-[-30px] border-r-5 border-stone-600 drop-shadow-2xl bg-stone-900 text-stone-400 h-fit rounded-md relative mb-3 p-3">

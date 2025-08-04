@@ -14,8 +14,8 @@ export default function Home() {
     <main className="flex flex-col items-center w-full h-full overflow-y-scroll gap-4 px-4 pb-52 pt-5 md:px-8 md:pb-0 bg-stone-900">
       {/* HEADER */}
       <div className="w-full font-mono text-sm flex justify-center">
-        <div className="bg-[url(/header.png)] bg-bottom w-full max-w-screen-xl h-fit md:h-64 rounded-2xl overflow-hidden">
-          <div className="w-full h-full backdrop-blur-xs border-4 border-white/10 rounded-2xl flex flex-col md:flex-row items-center justify-between p-6 md:p-10 gap-6">
+        <div className="bg-[url(/header3.png)] md:bg-bottom bg-center w-full max-w-screen-xl h-fit md:h-64 rounded-2xl overflow-hidden">
+          <div className="w-full h-full backdrop-blur-[2px] border-4 border-white/20 rounded-2xl flex flex-col md:flex-row items-center justify-between p-6 md:p-10 gap-6">
             <GameInfo />
             <Image
               src="/combatsurflogo.png"
