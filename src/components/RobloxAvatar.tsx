@@ -1,53 +1,32 @@
+"use client";
+import useSWR from "swr";
 import Image from "next/image";
-import React, { FC, useEffect } from "react";
+import React, { FC } from "react";
 
 type RobloxAvatarProps = {
   userId?: string;
 };
 
+const fetcher = (url: string) => fetch(url).then(res => res.json());
+
 const RobloxAvatar: FC<RobloxAvatarProps> = ({ userId }) => {
-  const [avatarUrl, setAvatarUrl] = React.useState<any>(null);
+  const { data, error } = useSWR(
+    userId ? `/api/avatar?userId=${userId}` : null,
+    fetcher
+  );
 
-  useEffect(() => {
-    if (!userId) return; 
+  const avatarUrl = data?.data?.[0]?.imageUrl;
 
-    fetch(`/api/avatar?userId=${userId}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Fetch failed");
-        return res.json();
-      })
-      .then((data) => {
-        if (data?.data?.[0]?.imageUrl) {
-          setAvatarUrl(data.data[0].imageUrl);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [userId]);
-
-  if (avatarUrl) {
-    return (
-      <Image
-        src={avatarUrl ?? null}
-        alt={`Roblox Avatar of ${userId}`}
-        width={210}
-        height={120}
-        draggable={false}
-        className="rounded-lg"
-      />
-    );
-  } else {
-    return (
-        <Image
-        src={"/null.png"}
-        alt={`Roblox Avatar of ${userId}`}
-        width={300}
-        height={300}
-        className="rounded-md"
-      />
-    )
-  }
+  return (
+    <Image
+      src={avatarUrl || "/null.png"}
+      alt={`Roblox Avatar of ${userId}`}
+      width={210}
+      height={210}
+      className="rounded-lg"
+      draggable={false}
+    />
+  );
 };
 
 export default RobloxAvatar;
