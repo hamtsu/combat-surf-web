@@ -30,6 +30,9 @@ export async function GET(request: NextRequest) {
     ","
   ); // username,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills,displayName,banned,tradeBanned,rank
   let customProfile: any
+  const inventoryLimit = Number(searchParams.get("inventoryLimit") || "0"); // 0 means no limit
+  const inventoryOffset = Number(searchParams.get("inventoryOffset") || "0");
+
 
   if (!userId || isNaN(Number(userId))) {
     return NextResponse.json(
@@ -60,7 +63,30 @@ export async function GET(request: NextRequest) {
       },
       level: `${BASE_URL}CurrentLevel/entries/${userId}`,
       clanId: `${BASE_URL}newMyClan/entries/${userId}`,
-      inventory: `${BASE_URL}newInventory/entries/${userId}`,
+      inventory: async () => {
+        const res = await fetch(`${BASE_URL}newInventory/entries/${userId}`, {
+          headers: {
+            "x-api-key": process.env.OPENCLOUD_API_KEY || "",
+          },
+        });
+
+        if (!res.ok) throw new Error("Failed to fetch inventory");
+        const json = await res.json();
+        const fullInventory = json.value.inventory ?? json.value;
+
+        if (typeof fullInventory !== "object" || Array.isArray(fullInventory)) {
+          return fullInventory; 
+        }
+
+        const entries = Object.entries(fullInventory);
+
+        if (inventoryLimit > 0 ) {
+          const sliced = entries.slice(inventoryOffset, inventoryOffset + inventoryLimit);
+          return Object.fromEntries(sliced);
+        } else {
+          return Object.fromEntries(entries);
+        }
+      },
       xp: `${BASE_URL}XPStore/entries/${userId}`,
       weaponKills: `${BASE_URL}WpnKillsStore/entries/${userId}`,
       wins: `${BASE_URL}WinStore/entries/${userId}`,

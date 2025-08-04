@@ -37,7 +37,7 @@ export default function Page({
     let userInfoRes: any;
 
     fetch(
-      `/api/player-info?userId=${slug}&fields=username,displayName,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills,tradeBanned`
+      `/api/player-info?userId=${slug}&fields=username,displayName,level,clanId,xp,weaponKills,wins,tasks,globalKills,tradeBanned`
     )
       .then((res) => {
         if (!res.ok) throw new Error("Failed fetching player info");
@@ -394,8 +394,8 @@ export default function Page({
             </div>
 
             <InventoryPanel
-              inventory={userInfo.inventory}
               onItemClick={(item) => setSelectedItem(item)}
+              userId={slug}
               userInfo={userInfo}
             />
           </div>
