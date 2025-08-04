@@ -47,7 +47,7 @@ const AwpsList: FC<AwpsListProps> = ({ items }) => {
                     autoCorrect="off"
                 />
             </div>
-            <div className="flex flex-wrap content-start gap-3 h-[510px] overflow-y-scroll w-full px-1">
+            <div className="flex flex-wrap content-start gap-3 h-[510px] overflow-y-scroll overflow-x-hidden w-full px-1">
                 {imagePaths
                     .map((src, index) => (
                         <Item key={path.parse(src).name} src={src} index={index} isFirstLoad={isFirstLoad} />
