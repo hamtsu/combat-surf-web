@@ -41,6 +41,15 @@ export default function ItemModal({
     0: "Default",
   };
 
+  const normalizeName = (subType: string, name: string) => {
+    const value = subType ?? name;
+
+    if (value === "???") return "QuestionQuestionQuestion";
+    if (value === "AWP_#1") return "AWP_Number1";
+
+    return value;
+  };
+
   return (
     <div
       className="fixed opacity-0 animate-fade-in-fast top-0 left-0 w-screen h-screen px-4 md:px-0 bg-black/80 flex items-center justify-center z-50"
@@ -66,7 +75,7 @@ export default function ItemModal({
           <div className="flex gap-2 md:gap-4">
             <div
               style={{
-                backgroundImage: `url(/items/${item.SubType ?? item.Name}.png)`,
+                backgroundImage: `url(/items/${normalizeName(item.SubType, item.Name)}.png)`,
               }}
               className="min-w-[200px] md:min-w-[370px] h-[90px] md:h-[160px] bg-cover bg-center flex gap-1 items-end justify-end rounded-md p-2"
             >
