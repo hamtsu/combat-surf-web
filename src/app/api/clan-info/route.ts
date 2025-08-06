@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const clanNameCache: Record<string, { name: string; cachedAt: number }> = {};
-const CACHE_TTL = 5 * 60 * 1000; // 5 mins
+const CACHE_TTL = 15 * 60 * 1000; // 15 mins
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
