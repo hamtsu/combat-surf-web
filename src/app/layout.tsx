@@ -11,7 +11,43 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Combat Surf",
-  description: "The official website for Roblox Combat Surf",
+  description: "Join the Combat Surf community on Roblox. Play fast-paced surf maps, compete with friends, and rise through the ranks in this community server inspired surfing game.",
+  keywords: [
+    "Combat Surf",
+    "Roblox Combat Surf",
+    "Roblox FPS Surf",
+    "Roblox Surf Game",
+    "Surfing Game",
+    "Combat Surf Community",
+    "Roblox Gaming",
+    "Combat Surf Website",
+    "Roblox Mods",
+    "Surfing FPS Roblox"
+  ],
+  authors: [{ name: "hamtsu", url: "https://github.com/hamtsu" }],
+  robots: "index, follow",
+  openGraph: {
+    title: "Combat Surf",
+    description: "The fast-paced, skill-based surfing FPS game built on Roblox. Compete, surf, and dominate!",
+    url: "https://github.com/hamtsu/combat-surf-web",
+    siteName: "Combat Surf",
+    images: [
+      {
+        url: "https://combat.surf/header2.png",
+        width: 1200,
+        height: 630,
+        alt: "Combat Surf map"
+      }
+    ],
+    type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Combat Surf",
+    description: "Join Combat Surf on Roblox – where surfing meets combat!",
+    creator: "@hamtsu",
+    images: ["https://combat.surf/header2.png"]
+  },
   other: {
     "google-site-verification": "Lp7P4fYDHZFo9k_GNrOx0yMsS6b0jzRIZRoC0UpzogY", // google search engine console verification
   }
@@ -27,7 +63,7 @@ export default async function RootLayout({
       <body className={inter.className + " min-h-screen h-screen bg-stone-900 overflow-hidden"}>
         <RateLimitedModal />
         <Suspense>
-        <LoadingScreen />
+          <LoadingScreen />
         </Suspense>
         {children}
         <Footer />
