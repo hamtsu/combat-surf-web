@@ -185,7 +185,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
               }
               className={`hover:cursor-pointer hover:shadow-lg group animate-fade-in overflow-hidden ${userInfo.theme?.bgTertiary || "bg-stone-900"} bg-top bg-no-repeat rounded-lg flex flex-col w-[172px] md:w-[250px] h-[85px] md:h-[110px] bg-size-[105%] shadow`}
             >
-              <h2 className={`text-base md:text-lg font-bold p-3 text-stone-100 text-shadow-md`}>
+              <h2 className={`text-sm md:text-lg font-bold p-2 md:p-3 text-stone-100 text-shadow-md`}>
                 {item.Name.includes("Kill Counter")
                   ? item.Name.replace("| Kill Counter", "").replaceAll("_", " ")
                   : item.Name.replaceAll("_", " ")}
