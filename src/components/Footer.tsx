@@ -6,13 +6,16 @@ import {
   FaBug,
   FaDiscord,
   FaGithub,
+  FaHome,
 } from "react-icons/fa";
 import Tooltip from "./Tooltip";
 import { SiRoblox } from "react-icons/si";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const Footer = () => {
   const router = useRouter();
+  const pathname = usePathname()
+
   return (
     <footer className="fixed bottom-0 z-50 items-center w-full flex flex-row gap-0 md:gap-60 lg:gap-30 px-4 md:px-24 h-fit bg-stone-800 dark:border-t border-stone-900">
       <div className="flex flex-row gap-4 items-center text-stone-200/80 opacity-50 hover:opacity-100 transition-opacity select-none">
@@ -64,6 +67,15 @@ const Footer = () => {
       </div>
 
       <div className="md:flex grow" />
+
+      {pathname !== "/" && (
+        <Button
+          onClick={() => router.push("/")}
+          className="md:hidden p-2 flex h-fit shrink-0 bg-stone-900 hover:bg-teal-500-600 hover:text-stone-200 transition-colors rounded-lg text-stone-200/50 group"
+        >
+          <FaHome size={25} className="group-hover:animate-wiggle" />
+        </Button>
+      )}
 
       <div className="hidden md:flex flex-row gap-4 items-center text-stone-200/80 text-base ">
         <div
