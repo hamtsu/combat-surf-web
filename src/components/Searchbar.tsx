@@ -60,7 +60,7 @@ function Searchbar({ theme }: { theme: any }) {
           setLoading(false);
           setNotFound(true);
         });
-    }, 300);
+    }, 400);
 
     return () => clearTimeout(delay);
   }, [inputValue]);
