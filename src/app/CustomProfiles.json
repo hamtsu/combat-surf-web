@@ -5,6 +5,27 @@
         "invertBannerText": false,
         "blurBackgroundImage": false
     },
+    "66987035": {
+        "bannerImage": "/images/profiles/66987035/banner.png",
+        "backgroundImage": "/images/profiles/66987035/background.png",
+        "invertBannerText": false,
+        "blurBackgroundImage": false,
+        "theme": {
+            "bgPrimary": "bg-black",
+            "bgSecondary": "bg-neutral-900",
+            "bgTertiary": "bg-neutral-800",
+            "textPrimary": "text-white",
+            "textSecondary": "text-neutral-300",
+            "textMuted": "text-neutral-400",
+            "borderColor": "border-neutral-700",
+            "iconColor": "fill-white",
+            "progressTrack": "bg-neutral-700",
+            "progressFill": "bg-white",
+            "textOnFill": "text-black",
+            "digitInactive": "text-neutral-500",
+            "digitActive": "text-white"
+        }
+    },
     "97752529": {
         "bannerImage": "/images/profiles/97752529/banner.gif",
         "backgroundImage": "/images/profiles/97752529/background1.jpg",
