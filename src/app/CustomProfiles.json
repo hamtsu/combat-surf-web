@@ -47,6 +47,27 @@
             "digitActive": "text-stone-900"
         }
     },
+    "1248971940": {
+        "bannerImage": "/images/profiles/1248971940/banner.gif",
+        "backgroundImage": "/images/profiles/1248971940/background.jpg",
+        "invertBannerText": true,
+        "blurBackgroundImage": false,
+        "theme": {
+            "bgPrimary": "bg-pink-50",
+            "bgSecondary": "bg-pink-100",
+            "bgTertiary": "bg-pink-200",
+            "textPrimary": "text-pink-900",
+            "textSecondary": "text-pink-600",
+            "textMuted": "text-pink-500",
+            "borderColor": "border-pink-300",
+            "iconColor": "fill-pink-700",
+            "progressTrack": "bg-pink-300",
+            "progressFill": "bg-pink-600",
+            "textOnFill": "text-white",
+            "digitInactive": "text-pink-400",
+            "digitActive": "text-pink-900"
+        }
+    },
     "3011934663": {
         "backgroundImage": "/images/profiles/3011934663/background.gif",
         "bannerImage": "/images/profiles/3011934663/banner.gif",
