@@ -135,7 +135,7 @@ async function getCached(origin: string) {
 
 export async function GET(req: NextRequest) {
   try {
-    const origin = req.nextUrl.origin;
+    const origin = "127.0.0.1:3000";
     const data = await getCached(origin);
 
     const msRemaining = Math.max(0, TTL - (Date.now() - cacheTime));
