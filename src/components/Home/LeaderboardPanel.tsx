@@ -38,10 +38,6 @@ const LeaderboardPanel = () => {
 
         <div className="text-2xl md:text-3xl font-bold text-stone-400 mt-2">
           Leaderboards
-          <div className="md:hidden hover:cursor-pointer text-sm text-yellow-400 h-fit my-auto font-bold flex items-center gap-1">
-            <FaTriangleExclamation className="text-yellow-500" /> Using Mock
-            Data
-          </div>
         </div>
 
         <Button
