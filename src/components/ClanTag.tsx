@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-interface ColorTextProps {
+interface ClanTagProps {
   text: string;
   colorR: number;
   colorG: number;
@@ -13,7 +13,7 @@ interface ColorTextProps {
   colorMode: "fade" | "gradiant" | "gradiant2" | "gradiant3" | "static"; // ak6 cant spell lol "gradiant"
 }
 
-export default function ColorText({
+export default function ClanTag({
   text,
   colorR,
   colorG,
@@ -22,7 +22,7 @@ export default function ColorText({
   colorG2,
   colorB2,
   colorMode,
-}: ColorTextProps) {
+}: ClanTagProps) {
   // converts the float vals to 255
   function rgbFloatTo255(r: number, g: number, b: number): string {
     const to255 = (v: number) => Math.round(Math.min(Math.max(v, 0), 1) * 255);
@@ -50,13 +50,24 @@ export default function ColorText({
     return () => clearInterval(interval);
   }, [color1, color2, colorMode]);
 
-  if (colorMode === "gradiant" || colorMode === "gradiant2" || colorMode === "gradiant3") {
+  if (colorMode === "gradiant" || colorMode === "gradiant2") {
     return (
       <span
         className="bg-clip-text text-transparent"
         style={{
           backgroundImage: `linear-gradient(to right, ${color1}, ${color2})`,
         }}
+      >
+        {text}
+      </span>
+    );
+  }
+
+  if (colorMode === "gradiant3") {
+    return (
+      <span
+        className="gradiant3"
+        style={{ "--c1": color1, "--c2": color2 } as React.CSSProperties}
       >
         {text}
       </span>
