@@ -105,5 +105,14 @@
             "digitInactive": "text-neutral-500",
             "digitActive": "text-white"
         }
+    },
+    "2434039837": {
+        "bannerImage": "/images/profiles/2434039837/banner.png",
+        "backgroundImage": "/images/profiles/2434039837/background.png",
+        "invertBannerText": true,
+        "blurBackgroundImage": false,
+        "theme": {
+            "textBanner": "#a2ff00"
+        }
     }
 }
