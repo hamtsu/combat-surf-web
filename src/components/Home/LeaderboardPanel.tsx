@@ -7,6 +7,7 @@ import RobloxAvatar from "../RobloxAvatar";
 import Button from "../Button";
 import { FaTriangleExclamation } from "react-icons/fa6";
 import Tooltip from "../Tooltip";
+import ClanTag from "../ClanTag";
 
 const LeaderboardPanel = () => {
   const router = useRouter();
@@ -37,12 +38,11 @@ const LeaderboardPanel = () => {
 
         <div className="text-2xl md:text-3xl font-bold text-stone-400 mt-2">
           Leaderboards
-          <div className="md:hidden hover:cursor-pointer text-sm text-yellow-400 h-fit my-auto font-bold flex items-center gap-1"><FaTriangleExclamation className="text-yellow-500" /> Using Mock Data</div>
+          <div className="md:hidden hover:cursor-pointer text-sm text-yellow-400 h-fit my-auto font-bold flex items-center gap-1">
+            <FaTriangleExclamation className="text-yellow-500" /> Using Mock
+            Data
+          </div>
         </div>
-
-        <Tooltip text="This is mock data for testing purposes" position="bottom">
-          <div className="hidden md:flex hover:cursor-pointer text-yellow-400 h-fit my-auto font-bold items-center gap-1"><FaTriangleExclamation className="text-yellow-500" /> Using Mock Data</div>
-        </Tooltip>
 
         <Button
           onClick={() => router.push("/leaderboard")}
@@ -58,37 +58,65 @@ const LeaderboardPanel = () => {
       </div>
 
       {loading ? (
-        <p className="text-stone-400 text-sm italic">Loading leaderboard...</p>
+        <div className="text-stone-400 text-lg italic w-full h-full flex items-center justify-center font-bold"><p>Loading leaderboard...</p></div>
       ) : (
         <div className="flex flex-col md:flex-row gap-2 w-full">
           {/* Player leaderboard */}
           <div className="flex flex-col gap-2">
-            {players.map((player, index) => {
+            {players.slice(0, 5).map((player, index) => {
               const isTop = index === 0;
               return (
                 <div
                   key={player.id}
-                  style={{ animationDelay: `${index * 0.1 + (isTop ? 0 : 2.5)}s` }}
-                  className={`flex gap-2 items-center p-2 rounded-md ${isTop
-                    ? "bg-[url(/header.png)] bg-bottom"
-                    : "bg-stone-900 opacity-0 animate-fade-in"
-                    }`}
+                  style={{
+                    animationDelay: `${index * 0.1 + (isTop ? 0 : 2.5)}s`,
+                  }}
+                  className={`flex gap-2 items-center p-2 rounded-md select-none ${
+                    isTop
+                      ? "bg-[url(/header.png)] bg-bottom"
+                      : "bg-stone-900 opacity-0 animate-fade-in"
+                  }`}
                 >
-                  <div className={`w-${isTop ? "10" : "5"} bg-stone-500 rounded-md`}>
+                  <div
+                    className={`w-${
+                      isTop ? "10" : "5"
+                    } bg-stone-500 rounded-md`}
+                  >
                     <RobloxAvatar userId={player.id} />
                   </div>
-                  <p className={isTop ? "text-yellow-400 font-bold" : "text-stone-200 font-bold"}>
+                  <p
+                    className={
+                      isTop
+                        ? "text-yellow-400 font-bold"
+                        : "text-stone-200 font-bold"
+                    }
+                  >
                     {index + 1}.
                   </p>
                   <a
                     href={`/player/${player.id}`}
                     className="text-stone-200 hover:text-amber-300"
                   >
-                    {player.name.length > 8 ? player.name.slice(0, 8) + "…" : player.name}
+                    {player.name.length > 8
+                      ? player.name.slice(0, 8) + "…"
+                      : player.name}
                   </a>
-                  <p className="text-stone-400">{player.clan}</p>
+                  <div className="font-bold">
+                    <ClanTag
+                      text={player.clan}
+                      colorR={player.clanStyle.colorR}
+                      colorG={player.clanStyle.colorG}
+                      colorB={player.clanStyle.colorB}
+                      colorR2={player.clanStyle.colorR2}
+                      colorG2={player.clanStyle.colorG2}
+                      colorB2={player.clanStyle.colorB2}
+                      colorMode={player.clanStyle.colorMode}
+                    />
+                  </div>
                   <p className="text-stone-400">{player.level}</p>
-                  <span className="text-stone-500 text-base ml-[-5px]">level</span>
+                  <span className="text-stone-500 text-base ml-[-5px]">
+                    level
+                  </span>
                 </div>
               );
             })}
@@ -96,20 +124,33 @@ const LeaderboardPanel = () => {
 
           {/* Clan leaderboard */}
           <div className="flex mt-4 md:mt-0 flex-col gap-2 w-full">
-            {clans.map((clan, index) => (
+            {clans.slice(0, 5).map((clan, index) => (
               <div
                 key={clan.id}
                 style={{ animationDelay: `${index * 0.1 + 3}s` }}
-                className="flex gap-2 items-center bg-stone-900 p-[0.6rem] rounded-md opacity-0 animate-fade-in"
+                className="flex select-none gap-2 items-center bg-stone-900 p-[0.6rem] rounded-md opacity-0 animate-fade-in"
               >
                 <p className="text-stone-200 font-bold">{index + 1}.</p>
                 <a
                   href={`/clan/${clan.id}`}
                   className="text-stone-200 hover:text-amber-300"
                 >
-                  {clan.name.length > 8 ? clan.name.slice(0, 8) + "…" : clan.name}
+                  {clan.name.length > 8
+                    ? clan.name.slice(0, 8) + "…"
+                    : clan.name}
                 </a>
-                <p className="text-stone-400">{clan.tag}</p>
+                <div className="font-bold">
+                    <ClanTag
+                      text={clan.tag}
+                      colorR={clan.clanStyle.colorR}
+                      colorG={clan.clanStyle.colorG}
+                      colorB={clan.clanStyle.colorB}
+                      colorR2={clan.clanStyle.colorR2}
+                      colorG2={clan.clanStyle.colorG2}
+                      colorB2={clan.clanStyle.colorB2}
+                      colorMode={clan.clanStyle.colorMode}
+                    />
+                  </div>
                 <p className="text-stone-400">{clan.wins}</p>
                 <span className="text-stone-500 text-base ml-[-5px]">wins</span>
               </div>

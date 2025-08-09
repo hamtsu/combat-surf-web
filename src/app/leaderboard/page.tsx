@@ -1,13 +1,12 @@
 "use client";
 import Button from "@/components/Button";
+import ClanTag from "@/components/ClanTag";
 import RobloxAvatar from "@/components/RobloxAvatar";
 import Tooltip from "@/components/Tooltip";
-import WIPModal from "@/components/WIPModal";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { FaArrowLeft, FaStar, FaTrophy } from "react-icons/fa";
+import { FaArrowLeft, FaStar, FaTrophy, FaUserClock } from "react-icons/fa";
 import { FaShield, FaUsers } from "react-icons/fa6";
-
 
 const Page = () => {
   const router = useRouter();
@@ -35,7 +34,7 @@ const Page = () => {
           if (data.cooldown) {
             setCooldown(true);
           } else {
-            console.log(data.players)
+            console.log(data.players);
             setPlayers(data.players || []);
             setClans(data.clans || []);
             setCooldown(false);
@@ -48,18 +47,19 @@ const Page = () => {
       });
   }, []);
 
-
   if (players.length < 3) {
-  return (
-    <div className="text-stone-300 bg-stone-800 rounded-md p-4 w-full h-full flex items-center justify-center text-lg mt-20">
-      Loading leaderboard data...
-    </div>
-  );
-}
+    return (
+      <div className="text-stone-300 rounded-md w-full h-full flex items-center justify-center text-2xl">
+        <div className="bg-stone-800 p-6 rounded-md flex flex-col items-center justify-center">
+          <FaUserClock size={50} className="text-stone-400 mb-2" />
+          Loading leaderboard data...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="overflow-y-scroll h-full flex flex-col items-center md:justify-center pb-46 pt-5 md:pt-0 md:pb-20">
-      <WIPModal />
       <div className="md:absolute flex gap-2 left-5 top-5">
         <Tooltip text="Go Back" position="bottom">
           <Button
@@ -89,29 +89,40 @@ const Page = () => {
             onClick={() => router.push("/player/" + players[1].id)}
             className="bg-stone-800 mb-auto pb-3 rounded-md h-fit opacity-0 hover:translate-y-2 transition-transform animate-fade-in-second select-none hover:cursor-pointer"
           >
-            <div className="flex flex-col items-center p-2 rounded-md bg-gray-400 h-fit">
-              <h1 className="justify-self-end flex w-full justify-between ml-auto font-bold font-mono text-stone-800 text-xl">
-                <FaStar size={20} className="fill-stone-800 animate-pulse" />
+            <div className="flex flex-col items-center p-2 rounded-md bg-[#CD7F32] h-fit">
+              <h1 className="justify-self-end flex w-full justify-between ml-auto font-bold font-mono text-[#E8C4A1] text-xl">
+                <FaStar size={20} className="text-[#E8C4A1] animate-pulse" />
                 2nd
               </h1>
               <div className="w-16 md:w-36 rounded-md">
                 <RobloxAvatar userId={players[1].id} />
               </div>
 
-              <h2 className="text-slate-600 font-bold text-xl mt-3">
-                {players[1].name}
+              <h2 className="text-[#E8C4A1] font-bold text-xl mt-3">
+                {players[1].name.length > 8
+                  ? players[1].name.slice(0, 8) + "…"
+                  : players[1].name}
               </h2>
 
-              <FaStar size={35} className="fill-gray-600 animate-wiggle" />
+              <FaStar size={35} className="text-[#E8C4A1] animate-wiggle" />
             </div>
             <h3 className="text-stone-400 text-lg mt-3 text-center">
-              clan: <b>{players[1].clan}</b>
+              clan:{" "}
+              <span className="font-bold">
+                <ClanTag
+                  text={players[1].clan}
+                  colorR={players[1].clanStyle.colorR}
+                  colorG={players[1].clanStyle.colorG}
+                  colorB={players[1].clanStyle.colorB}
+                  colorR2={players[1].clanStyle.colorR2}
+                  colorG2={players[1].clanStyle.colorG2}
+                  colorB2={players[1].clanStyle.colorB2}
+                  colorMode={players[1].clanStyle.colorMode}
+                />
+              </span>
             </h3>
             <h2 className="text-stone-300 font-bold text-xl mt-1 text-center">
-              {players[1].career} career
-            </h2>
-            <h2 className="text-stone-300 font-bold text-xl mt-1 text-center">
-              {players[1].wins} wins
+              Level <b>{players[1].level}</b>
             </h2>
           </div>
         </Tooltip>
@@ -134,7 +145,9 @@ const Page = () => {
               </div>
 
               <h2 className="text-yellow-600 font-bold text-xl mt-3">
-                {players[0].name}
+                {players[0].name.length > 8
+                  ? players[0].name.slice(0, 8) + "…"
+                  : players[0].name}
               </h2>
               <FaTrophy
                 size={50}
@@ -142,13 +155,22 @@ const Page = () => {
               />
             </div>
             <h3 className="text-stone-400 text-lg mt-3 text-center">
-              clan: <b>{players[0].clan}</b>
+              clan:{" "}
+              <span className="font-bold">
+                <ClanTag
+                  text={players[0].clan}
+                  colorR={players[0].clanStyle.colorR}
+                  colorG={players[0].clanStyle.colorG}
+                  colorB={players[0].clanStyle.colorB}
+                  colorR2={players[0].clanStyle.colorR2}
+                  colorG2={players[0].clanStyle.colorG2}
+                  colorB2={players[0].clanStyle.colorB2}
+                  colorMode={players[0].clanStyle.colorMode}
+                />
+              </span>
             </h3>
             <h2 className="text-stone-300 font-bold text-xl mt-1 text-center">
-              {players[0].career} career
-            </h2>
-            <h2 className="text-stone-300 font-bold text-xl mt-1 text-center">
-              {players[0].wins} wins
+              Level <b>{players[0].level}</b>
             </h2>
           </div>
         </Tooltip>
@@ -167,46 +189,56 @@ const Page = () => {
               </div>
 
               <h2 className="text-stone-400 font-bold text-xl mt-3">
-                {players[2].name}
+                {players[2].name.length > 8
+                  ? players[2].name.slice(0, 8) + "…"
+                  : players[2].name}
               </h2>
             </div>
             <h3 className="text-stone-400 text-lg mt-3 text-center">
-              clan: <b>{players[2].clan}</b>
+              clan:{" "}
+              <span className="font-bold">
+                <ClanTag
+                  text={players[2].clan}
+                  colorR={players[2].clanStyle.colorR}
+                  colorG={players[2].clanStyle.colorG}
+                  colorB={players[2].clanStyle.colorB}
+                  colorR2={players[2].clanStyle.colorR2}
+                  colorG2={players[2].clanStyle.colorG2}
+                  colorB2={players[2].clanStyle.colorB2}
+                  colorMode={players[2].clanStyle.colorMode}
+                />
+              </span>
             </h3>
             <h2 className="text-stone-300 font-bold text-xl mt-1 text-center">
-              {players[2].career} career
-            </h2>
-            <h2 className="text-stone-300 font-bold text-xl mt-1 text-center">
-              {players[2].wins} wins
+              Level <b>{players[2].level}</b>
             </h2>
           </div>
         </Tooltip>
       </div>
 
       <div className="md:w-6/8 px-2 md:px-0 w-full flex md:flex-row flex-col gap-4 justify-center md:overflow-y-scroll rounded-md">
-
         <div className="flex flex-col gap-2 bg-stone-800 rounded-md p-4 w-full opacity-0 animate-fade-in-fourth h-fit">
           <div className="p-2 px-3 font-bold rounded-md bg-stone-900 text-stone-400 flex items-center gap-2 text-lg">
-            <FaUsers /> Best players
+            <FaUsers /> Top players
           </div>
           <div className="flex flex-col gap-2 w-full">
             {players.map((x, index) => {
               const player = players[index]
                 ? players[index]
                 : {
-                  name: "Player" + (index + 1),
-                  id: undefined,
-                  career: 0,
-                  wins: 0,
-                  clan: "[NONE]",
-                };
+                    name: "Player" + (index + 1),
+                    id: undefined,
+                    career: 0,
+                    wins: 0,
+                    clan: "[NONE]",
+                  };
 
               if (index > 2)
                 return (
                   <div
                     key={index}
                     style={{ animationDelay: `${index * 0.1 + 3}s` }}
-                    className="flex text-lg gap-2 items-center bg-stone-900 p-2 rounded-md opacity-0 animate-fade-in"
+                    className="flex text-base md:text-lg gap-2 items-center bg-stone-900 p-2 rounded-md opacity-0 animate-fade-in"
                   >
                     <div className="w-8 bg-stone-500 rounded-md">
                       <RobloxAvatar userId={player.id} />
@@ -216,18 +248,46 @@ const Page = () => {
 
                     <a
                       href={`/player/${player.id}`}
-                      className="text-stone-200 hover:text-amber-300 font-bold"
+                      className="text-stone-200 md:hidden hover:text-amber-300 font-bold"
+                    >
+                      {player.name.length > 12
+                        ? player.name.slice(0, 12) + "…"
+                        : player.name}
+                    </a>
+
+                    <a
+                      href={`/player/${player.id}`}
+                      className="text-stone-200 hidden md:block hover:text-amber-300 font-bold"
                     >
                       {player.name}
                     </a>
-                    <p className="text-stone-300 hidden md:block">{player.clan}</p>
-                    <p className="text-stone-400">{player.career}</p>
+                    <div className="font-bold">
+                      <ClanTag
+                        text={player.clan}
+                        colorR={player.clanStyle.colorR}
+                        colorG={player.clanStyle.colorG}
+                        colorB={player.clanStyle.colorB}
+                        colorR2={player.clanStyle.colorR2}
+                        colorG2={player.clanStyle.colorG2}
+                        colorB2={player.clanStyle.colorB2}
+                        colorMode={player.clanStyle.colorMode}
+                      />
+                    </div>
+                    <p className="text-stone-400">{player.level}</p>
                     <span className="text-stone-500 text-base ml-[-5px]">
-                      kills
+                      level
                     </span>
-                    <p className="text-stone-400 hidden md:block">{player.wins}</p>
+                    <p className="text-stone-400 hidden md:block">
+                      {player.wins}
+                    </p>
                     <span className="text-stone-500 text-base hidden md:block ml-[-5px]">
                       wins
+                    </span>
+                    <p className="text-stone-400 hidden md:block">
+                      {player.career}
+                    </p>
+                    <span className="text-stone-500 text-base hidden md:block ml-[-5px]">
+                      kills
                     </span>
                   </div>
                 );
@@ -244,21 +304,31 @@ const Page = () => {
               <div
                 key={index}
                 style={{ animationDelay: `${index * 0.1 + 3}s` }}
-                className="flex h-[48px] gap-2 text-lg items-center bg-stone-900 p-[0.6rem] rounded-md opacity-0 animate-fade-in"
+                className="flex h-[48px] gap-2 text-base md:text-lg items-center bg-stone-900 p-[0.6rem] rounded-md opacity-0 animate-fade-in"
               >
                 <p className="text-stone-200 font-bold">{index + 1}.</p>
-                 <a
-                      href={`/clan/${clan.id}`}
-                      className="text-stone-200 hover:text-amber-300 font-bold"
-                    >
-                      {clan.name}
-                    </a>
-                <p className="text-stone-400">{clan.tag}</p>
+                <a
+                  href={`/clan/${clan.id}`}
+                  className="text-stone-200 hover:text-amber-300 font-bold"
+                >
+                  {clan.name}
+                </a>
+                <div className="font-bold">
+                  <ClanTag
+                    text={clan.tag}
+                    colorR={clan.clanStyle.colorR}
+                    colorG={clan.clanStyle.colorG}
+                    colorB={clan.clanStyle.colorB}
+                    colorR2={clan.clanStyle.colorR2}
+                    colorG2={clan.clanStyle.colorG2}
+                    colorB2={clan.clanStyle.colorB2}
+                    colorMode={clan.clanStyle.colorMode}
+                  />
+                </div>
                 <p className="text-stone-400">{clan.wins}</p>
                 <span className="text-stone-500 text-base ml-[-5px]">wins</span>
               </div>
-            ))
-            }
+            ))}
           </div>
         </div>
       </div>

@@ -18,6 +18,7 @@ type CustomProfile = {
     progressTrack?: string;
     progressFill?: string;
     textOnFill?: string;
+    textBanner?: string;
   };
 };
 
@@ -26,10 +27,8 @@ const customProfilesTyped: { [key: string]: CustomProfile } = customProfiles;
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const userId = searchParams.get("userId");
-  const fields = (searchParams.get("fields") || "").split(
-    ","
-  ); // username,displayName,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills,banned,tradeBanned,rank,theme
-  let customProfile: any
+  const fields = (searchParams.get("fields") || "").split(","); // username,displayName,level,clanId,inventory,xp,weaponKills,wins,tasks,globalKills,banned,tradeBanned,rank,theme
+  let customProfile: any;
   const inventoryLimit = Number(searchParams.get("inventoryLimit") || "0"); // 0 means no limit
   const inventoryOffset = Number(searchParams.get("inventoryOffset") || "0");
 
@@ -44,7 +43,6 @@ export async function GET(request: NextRequest) {
     customProfile = customProfilesTyped[userId];
   }
 
-
   try {
     const BASE_URL = `https://apis.roblox.com/cloud/v2/universes/${process.env.UNIVERSE_ID}/data-stores/`;
 
@@ -52,11 +50,14 @@ export async function GET(request: NextRequest) {
 
     const fetchRobloxUser = async () => {
       if (!robloxUserData) {
-        const res = await fetch(`https://apis.roblox.com/cloud/v2/users/${userId}`, {
-          headers: {
-            "x-api-key": process.env.OPENCLOUD_API_KEY || "",
-          },
-        });
+        const res = await fetch(
+          `https://apis.roblox.com/cloud/v2/users/${userId}`,
+          {
+            headers: {
+              "x-api-key": process.env.OPENCLOUD_API_KEY || "",
+            },
+          }
+        );
         if (!res.ok) throw new Error("Failed to fetch Roblox user data");
         robloxUserData = await res.json();
       }
@@ -86,7 +87,10 @@ export async function GET(request: NextRequest) {
         const entries = Object.entries(fullInventory);
 
         if (inventoryLimit > 0) {
-          const sliced = entries.slice(inventoryOffset, inventoryOffset + inventoryLimit);
+          const sliced = entries.slice(
+            inventoryOffset,
+            inventoryOffset + inventoryLimit
+          );
           return Object.fromEntries(sliced);
         } else {
           return Object.fromEntries(entries);
@@ -143,7 +147,8 @@ export async function GET(request: NextRequest) {
       playerInfo["backgroundImage"] = customProfile?.backgroundImage || "";
       playerInfo["bannerImage"] = customProfile?.bannerImage || "";
       playerInfo["invertBannerText"] = customProfile?.invertBannerText || false;
-      playerInfo["blurBackgroundImage"] = customProfile?.blurBackgroundImage || false;
+      playerInfo["blurBackgroundImage"] =
+        customProfile?.blurBackgroundImage || false;
       playerInfo["theme"] = customProfile?.theme || {};
     }
 
