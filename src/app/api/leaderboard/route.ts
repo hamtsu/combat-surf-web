@@ -1,15 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getPlayerInfo } from "@/lib/playerInfo";
+import { getClanInfo } from "@/lib/clanInfo";
 
 const TTL = 5 * 60 * 1000; // 5 min
 let cache: any = null;
 let cacheTime = 0;
 let debounce: Promise<any> | null = null;
-
-async function fetchDatastore<T>(url: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(url, { cache: "no-store", ...init });
-  if (!res.ok) throw new Error(`Error fetching datastore ${url}: ${res.status}`);
-  return res.json();
-}
 
 async function fetchTop20(datastoreName: string) {
   const url = `https://apis.roblox.com/cloud/v2/universes/${process.env.UNIVERSE_ID}/ordered-data-stores/${datastoreName}/scopes/global/entries?maxPageSize=20&orderBy=value%20desc`;
@@ -17,12 +13,13 @@ async function fetchTop20(datastoreName: string) {
     headers: { "x-api-key": process.env.OPENCLOUD_API_KEY || "" },
     cache: "no-store",
   });
-  if (!res.ok) throw new Error(`Roblox fetch failed (${datastoreName}): ${res.status}`);
+  if (!res.ok)
+    throw new Error(`Roblox fetch failed (${datastoreName}): ${res.status}`);
   const json = await res.json();
   return json?.orderedDataStoreEntries ?? [];
 }
 
-async function buildLeaderboard(origin: string) {
+async function buildLeaderboard() {
   const [playerEntries, clanEntries] = await Promise.all([
     fetchTop20("GlobalLeaderboard_CurrentLevel"),
     fetchTop20("GlobalLeaderboard_ClanWinsStoreV2"),
@@ -30,50 +27,35 @@ async function buildLeaderboard(origin: string) {
 
   const players = await Promise.all(
     playerEntries.slice(1).map(async (entry: any) => {
-      const info = await fetchDatastore<any>(
-        `${origin}/api/player-info?userId=${entry.id}&fields=username,globalKills,level,clanId,wins`
-      ).catch(() => null);
+      const info = await getPlayerInfo({
+        userId: String(entry.id),
+        fields: ["username", "globalKills", "level", "clanId", "wins"],
+      }).catch(() => null);
 
-      const clanDataPromise = info?.clanId
-        ? fetchDatastore<any>(`${origin}/api/clan-info?clanId=${info.clanId}`)
-            .then((ci: any) => ({
-              tag: ci?.tag ?? "",
-              clanStyle: {
-                colorR: ci?.colorR ?? 0,
-                colorG: ci?.colorG ?? 0,
-                colorB: ci?.colorB ?? 0,
-                colorR2: ci?.colorR2 ?? 0,
-                colorG2: ci?.colorG2 ?? 0,
-                colorB2: ci?.colorB2 ?? 0,
-                colorMode: ci?.colorMode ?? "static",
-              },
-            }))
-            .catch(() => ({
-              tag: "",
-              clanStyle: {
-                colorR: 0,
-                colorG: 0,
-                colorB: 0,
-                colorR2: 0,
-                colorG2: 0,
-                colorB2: 0,
-                colorMode: "static",
-              },
-            }))
-        : Promise.resolve({
-            tag: "",
-            clanStyle: {
-              colorR: 0,
-              colorG: 0,
-              colorB: 0,
-              colorR2: 0,
-              colorG2: 0,
-              colorB2: 0,
-              colorMode: "solid",
-            },
-          });
+      const clanData = info?.clanId
+        ? await getClanInfo({ clanId: String(info.clanId) }).catch(() => null)
+        : null;
 
-      const { tag, clanStyle } = await clanDataPromise;
+      const tag = clanData?.tag ?? "";
+      const clanStyle = clanData
+        ? {
+            colorR: clanData?.colorR ?? 0,
+            colorG: clanData?.colorG ?? 0,
+            colorB: clanData?.colorB ?? 0,
+            colorR2: clanData?.colorR2 ?? 0,
+            colorG2: clanData?.colorG2 ?? 0,
+            colorB2: clanData?.colorB2 ?? 0,
+            colorMode: clanData?.colorMode ?? "static",
+          }
+        : {
+            colorR: 0,
+            colorG: 0,
+            colorB: 0,
+            colorR2: 0,
+            colorG2: 0,
+            colorB2: 0,
+            colorMode: "static",
+          };
 
       return {
         name: info?.username ?? "unknown",
@@ -89,9 +71,9 @@ async function buildLeaderboard(origin: string) {
 
   const clans = await Promise.all(
     clanEntries.map(async (entry: any) => {
-      const info = await fetchDatastore<any>(
-        `${origin}/api/clan-info?clanId=${entry.id}`
-      ).catch(() => null);
+      const info = await getClanInfo({ clanId: String(entry.id) }).catch(
+        () => null
+      );
       return {
         name: info?.name ?? "unknown",
         tag: info?.tag ?? "",
@@ -113,13 +95,13 @@ async function buildLeaderboard(origin: string) {
   return { players, clans };
 }
 
-async function getCached(origin: string) {
+async function getCached() {
   const now = Date.now();
   if (cache && now - cacheTime < TTL) return cache;
 
   if (!debounce) {
     debounce = (async () => {
-      const data = await buildLeaderboard(origin);
+      const data = await buildLeaderboard();
       cache = data;
       cacheTime = Date.now();
       return data;
@@ -135,8 +117,7 @@ async function getCached(origin: string) {
 
 export async function GET(req: NextRequest) {
   try {
-    const origin = "127.0.0.1:3000";
-    const data = await getCached(origin);
+    const data = await getCached();
 
     const msRemaining = Math.max(0, TTL - (Date.now() - cacheTime));
 
