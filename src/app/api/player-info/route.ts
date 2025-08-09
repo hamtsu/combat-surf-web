@@ -6,20 +6,7 @@ type CustomProfile = {
   bannerImage?: string;
   invertBannerText?: boolean;
   blurBackgroundImage?: boolean;
-  theme?: {
-    bgPrimary?: string;
-    bgSecondary?: string;
-    bgTertiary?: string;
-    textPrimary?: string;
-    textSecondary?: string;
-    textMuted?: string;
-    borderColor?: string;
-    iconColor?: string;
-    progressTrack?: string;
-    progressFill?: string;
-    textOnFill?: string;
-    textBanner?: string;
-  };
+  theme?: Record<string, string>
 };
 
 const customProfilesTyped: { [key: string]: CustomProfile } = customProfiles;
