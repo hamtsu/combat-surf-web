@@ -1,10 +1,6 @@
 "use client";
 import React, { FC, useEffect, useRef, useState } from "react";
-import {
-  FaCaretRight,
-  FaExclamationTriangle,
-  FaTag,
-} from "react-icons/fa";
+import { FaCaretRight, FaExclamationTriangle, FaTag } from "react-icons/fa";
 import { FaBoxArchive } from "react-icons/fa6";
 import { useInView } from "react-intersection-observer";
 
@@ -108,9 +104,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
     }
 
     setFilteredItems(
-      sorted.filter((item) =>
-        item[1].Name.toLowerCase().includes(searchTerm)
-      )
+      sorted.filter((item) => item[1].Name.toLowerCase().includes(searchTerm))
     );
   };
 
@@ -125,22 +119,33 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
 
   return (
     <div
-      className={`flex flex-col gap-3 ${userInfo.theme?.bgSecondary || "bg-stone-800"
-        } md:min-w-[1100px] shadow-lg px-2 overflow-x-hidden md:pl-4 md:py-4 py-2 md:pr-2 rounded-lg max-w-screen md:w-full animate-fade-in-sixth opacity-0`}
+      className={`flex flex-col gap-3 ${
+        userInfo.theme?.bgSecondary || "bg-stone-800"
+      } md:min-w-[1100px] shadow-lg px-2 overflow-x-hidden md:pl-4 md:py-4 py-2 md:pr-2 rounded-lg max-w-screen md:w-full animate-fade-in-sixth opacity-0`}
     >
       <div className="flex gap-2 md:gap-4">
-        <div className={`p-2 ${userInfo.theme?.bgTertiary || "bg-stone-900"} rounded-md h-fit`}>
+        <div
+          className={`p-2 ${
+            userInfo.theme?.bgTertiary || "bg-stone-900"
+          } rounded-md h-fit`}
+        >
           <FaBoxArchive
             size={35}
-            className={`${userInfo.theme?.iconColor || "fill-stone-600"} hidden md:block`}
+            className={`${
+              userInfo.theme?.iconColor || "fill-stone-600"
+            } hidden md:block`}
           />
           <FaBoxArchive
             size={22}
-            className={`${userInfo.theme?.iconColor || "fill-stone-600"} md:hidden`}
+            className={`${
+              userInfo.theme?.iconColor || "fill-stone-600"
+            } md:hidden`}
           />
         </div>
         <h1
-          className={`text-xl ml-1 md:ml-0 md:text-4xl mr-2 md:mr-0 font-bold ${userInfo.theme?.textPrimary || "text-stone-400"} mt-1`}
+          className={`text-xl ml-1 md:ml-0 md:text-4xl mr-2 md:mr-0 font-bold ${
+            userInfo.theme?.textPrimary || "text-stone-400"
+          } mt-1`}
         >
           Inventory
         </h1>
@@ -148,7 +153,11 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
         <input
           type="text"
           name="item-search"
-          className={`${userInfo.theme?.bgTertiary || "bg-stone-900"} md:ml-6 rounded-md p-1 md:p-2 my-auto h-fit px-3 ${userInfo.theme?.textMuted || "text-stone-200"} w-[140px] md:w-[250px]`}
+          className={`${
+            userInfo.theme?.bgTertiary || "bg-stone-900"
+          } md:ml-6 rounded-md p-1 md:p-2 my-auto h-fit px-3 ${
+            userInfo.theme?.textMuted || "text-stone-200"
+          } w-[140px] md:w-[250px]`}
           placeholder="Filter Items..."
           onChange={handleSearch}
           autoComplete="off"
@@ -156,13 +165,21 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
         />
 
         <div
-          className={`${userInfo.theme?.bgTertiary || "bg-stone-900"} my-auto p-1 px-2 h-fit text-sm rounded-sm font-mono ${userInfo.theme?.textMuted || "text-stone-300"} opacity-70`}
+          className={`${
+            userInfo.theme?.bgTertiary || "bg-stone-900"
+          } my-auto p-1 px-2 h-fit text-sm rounded-sm font-mono ${
+            userInfo.theme?.textMuted || "text-stone-300"
+          } opacity-70`}
         >
-          {filteredItems.length} <span className="hidden md:inline"> items</span>
+          {filteredItems.length}{" "}
+          <span className="hidden md:inline"> items</span>
         </div>
       </div>
 
-      <div ref={scrollRef} className="grid overflow-x-hidden grid-cols-2 md:grid-cols-4 mx-auto gap-2 md:gap-4 scroll-auto overflow-y-scroll w-full h-full pr-2 max-h-[330px] max-w-[1300px]">
+      <div
+        ref={scrollRef}
+        className="grid overflow-x-hidden grid-cols-2 md:grid-cols-4 mx-auto gap-2 md:gap-4 scroll-auto overflow-y-scroll w-full h-full pr-2 max-h-[330px] max-w-[1300px]"
+      >
         {filteredItems.length > 0 ? (
           filteredItems.slice(0, visibleItems).map(([id, item], index) => (
             <div
@@ -170,33 +187,55 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
               style={{
                 ...(isFirstLoad && index < 52
                   ? {
-                    animationDelay: `${index * 0.1 + 1}s`,
-                    opacity: 0,
-                  }
+                      animationDelay: `${index * 0.1 + 1}s`,
+                      opacity: 0,
+                    }
                   : {}),
-                backgroundImage: `url(/items/${normalizeName(item.SubType, item.Name)}.png)`,
+                backgroundImage: `url(/items/${normalizeName(
+                  item.SubType,
+                  item.Name
+                )}.png)`,
               }}
               onClick={() =>
-                !item.Name.includes("Case") &&
-                !item.Name.includes("Package") &&
-                !item.Name.includes("Crate") &&
-                !item.Name.includes("Present") &&
+                (!(
+                  item.Name.includes("Case") ||
+                  item.Name.includes("Package") ||
+                  item.Name.includes("Crate") ||
+                  item.Name.includes("Present")
+                ) ||
+                  item.Name.includes("Hardened")) &&
                 onItemClick(item)
               }
-              className={`hover:cursor-pointer hover:shadow-lg group animate-fade-in overflow-hidden ${userInfo.theme?.bgTertiary || "bg-stone-900"} bg-top bg-no-repeat rounded-lg flex flex-col w-[172px] md:w-[250px] h-[85px] md:h-[110px] bg-size-[105%] shadow`}
+              className={`hover:cursor-pointer hover:shadow-lg group animate-fade-in overflow-hidden ${
+                userInfo.theme?.bgTertiary || "bg-stone-900"
+              } bg-top bg-no-repeat rounded-lg flex flex-col w-[172px] md:w-[250px] h-[85px] md:h-[110px] bg-size-[105%] shadow`}
             >
-              <h2 className={`text-sm md:text-lg font-bold p-2 md:p-3 text-stone-100 text-shadow-md`}>
+              <h2
+                className={`text-sm md:text-lg font-bold p-2 md:p-3 text-stone-100 text-shadow-md`}
+              >
                 {item.Name.includes("Kill Counter")
                   ? item.Name.replace("| Kill Counter", "").replaceAll("_", " ")
                   : item.Name.replaceAll("_", " ")}
               </h2>
 
-              <div className={`${userInfo.theme?.bgTertiary || "bg-stone-900"} px-2 select-none py-1 mt-auto`}>
+              <div
+                className={`${
+                  userInfo.theme?.bgTertiary || "bg-stone-900"
+                } px-2 select-none py-1 mt-auto`}
+              >
                 <div className="group-hover:hidden h-full flex items-center gap-1">
-                  <span className={`${userInfo.theme?.textPrimary || "text-stone-400"} text-xs md:text-sm`}>
+                  <span
+                    className={`${
+                      userInfo.theme?.textPrimary || "text-stone-400"
+                    } text-xs md:text-sm`}
+                  >
                     {item.Base ? item.Base.replaceAll("_", " ") : ""}
                   </span>
-                  <span className={`${userInfo.theme?.textSecondary || "text-stone-500"} text-[10px] md:text-xs ml-2`}>
+                  <span
+                    className={`${
+                      userInfo.theme?.textSecondary || "text-stone-500"
+                    } text-[10px] md:text-xs ml-2`}
+                  >
                     {ITEM_RARITY[item.Rarity] || "unknown"}
                   </span>
                   <div className="flex gap-1 ml-auto">
@@ -204,34 +243,78 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                       ? item.Name !== item.SubType
                       : item.Name !== item.Base) &&
                       !item.Name.includes("| Kill Counter") && (
-                        <div className={`${userInfo.theme?.bgSecondary || "bg-stone-800"} ml-auto p-1 flex items-center gap-1 text-xs rounded-md`}>
-                          <FaTag size={10} className={`${userInfo.theme?.iconColor || "fill-stone-500"}`} />
+                        <div
+                          className={`${
+                            userInfo.theme?.bgSecondary || "bg-stone-800"
+                          } ml-auto p-1 flex items-center gap-1 text-xs rounded-md`}
+                        >
+                          <FaTag
+                            size={10}
+                            className={`${
+                              userInfo.theme?.iconColor || "fill-stone-500"
+                            }`}
+                          />
                         </div>
                       )}
                     {item.StatTrak && (
-                      <div className={`${userInfo.theme?.bgSecondary || "bg-stone-800"} ml-auto md:p-[2px] px-1 flex items-center gap-1 text-xs rounded-md`}>
-                        <FaExclamationTriangle size={10} className={`${userInfo.theme?.iconColor || "fill-stone-500"}`} />
-                        <span className={`${userInfo.theme?.textSecondary || "text-stone-500"}`}>KC</span>
+                      <div
+                        className={`${
+                          userInfo.theme?.bgSecondary || "bg-stone-800"
+                        } ml-auto md:p-[2px] px-1 flex items-center gap-1 text-xs rounded-md`}
+                      >
+                        <FaExclamationTriangle
+                          size={10}
+                          className={`${
+                            userInfo.theme?.iconColor || "fill-stone-500"
+                          }`}
+                        />
+                        <span
+                          className={`${
+                            userInfo.theme?.textSecondary || "text-stone-500"
+                          }`}
+                        >
+                          KC
+                        </span>
                       </div>
                     )}
                   </div>
                 </div>
 
                 <div className="group-hover:flex hidden gap-1 items-center">
-                  {!item.Name.includes("Case") &&
-                    !item.Name.includes("Package") &&
-                    !item.Name.includes("Crate") &&
-                    !item.Name.includes("Present") ? (
+                  {!(
+                    item.Name.includes("Case") ||
+                    item.Name.includes("Package") ||
+                    item.Name.includes("Crate") ||
+                    item.Name.includes("Present")
+                  ) || item.Name.includes("Hardened") ? (
                     <>
-                      <FaCaretRight size={20} className={`${userInfo.theme?.iconColor || "fill-stone-500"}`} />
-                      <span className={`${userInfo.theme?.textMuted || "text-stone-200"} text-sm lowercase tracking-wider animate-pulse`}>
+                      <FaCaretRight
+                        size={20}
+                        className={`${
+                          userInfo.theme?.iconColor || "fill-stone-500"
+                        }`}
+                      />
+                      <span
+                        className={`${
+                          userInfo.theme?.textMuted || "text-stone-200"
+                        } text-sm lowercase tracking-wider animate-pulse`}
+                      >
                         view details
                       </span>
                     </>
                   ) : (
                     <>
-                      <FaCaretRight size={20} className={`${userInfo.theme?.iconColor || "fill-stone-500"}`} />
-                      <span className={`${userInfo.theme?.textMuted || "text-stone-200"} text-sm lowercase tracking-wider animate-pulse`}>
+                      <FaCaretRight
+                        size={20}
+                        className={`${
+                          userInfo.theme?.iconColor || "fill-stone-500"
+                        }`}
+                      />
+                      <span
+                        className={`${
+                          userInfo.theme?.textMuted || "text-stone-200"
+                        } text-sm lowercase tracking-wider animate-pulse`}
+                      >
                         cant view details of cases
                       </span>
                     </>
@@ -240,22 +323,42 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
               </div>
             </div>
           ))
+        ) : isFirstLoad ? (
+          <div
+            className={`flex flex-col items-center justify-center col-span-4 row-span-3 w-full h-full ${
+              userInfo.theme?.bgTertiary || "bg-stone-900"
+            } rounded-lg p-3`}
+          >
+            <FaExclamationTriangle
+              size={35}
+              className={`${userInfo.theme?.iconColor || "fill-stone-600"}`}
+            />
+            <h2
+              className={`text-xl font-bold animate-pulse ${
+                userInfo.theme?.textMuted || "text-stone-300"
+              } text-shadow`}
+            >
+              Loading player inventory...
+            </h2>
+          </div>
         ) : (
-          isFirstLoad ? (
-            <div className={`flex flex-col items-center justify-center col-span-4 row-span-3 w-full h-full ${userInfo.theme?.bgTertiary || "bg-stone-900"} rounded-lg p-3`}>
-              <FaExclamationTriangle size={35} className={`${userInfo.theme?.iconColor || "fill-stone-600"}`} />
-              <h2 className={`text-xl font-bold animate-pulse ${userInfo.theme?.textMuted || "text-stone-300"} text-shadow`}>
-                Loading player inventory...
-              </h2>
-            </div>
-          ) : (
-            <div className={`flex flex-col items-center justify-center col-span-4 row-span-3 w-full h-full ${userInfo.theme?.bgTertiary || "bg-stone-900"} rounded-lg p-3`}>
-              <FaExclamationTriangle size={35} className={`${userInfo.theme?.iconColor || "fill-stone-600"}`} />
-              <h2 className={`text-xl font-bold ${userInfo.theme?.textMuted || "text-stone-300"} text-shadow`}>
-                No items matching search.
-              </h2>
-            </div>
-          )
+          <div
+            className={`flex flex-col items-center justify-center col-span-4 row-span-3 w-full h-full ${
+              userInfo.theme?.bgTertiary || "bg-stone-900"
+            } rounded-lg p-3`}
+          >
+            <FaExclamationTriangle
+              size={35}
+              className={`${userInfo.theme?.iconColor || "fill-stone-600"}`}
+            />
+            <h2
+              className={`text-xl font-bold ${
+                userInfo.theme?.textMuted || "text-stone-300"
+              } text-shadow`}
+            >
+              No items matching search.
+            </h2>
+          </div>
         )}
         {/* Lazy Load Trigger */}
         {visibleItems < filteredItems.length && (
