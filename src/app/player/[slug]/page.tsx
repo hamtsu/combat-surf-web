@@ -306,12 +306,12 @@ export default function Page({
                         } ml-auto my-auto p-1 px-2 h-fit text-xs rounded-sm font-mono ${userInfo.theme?.textMuted || "text-stone-300"
                         } opacity-70`}
                     >
-                      {userInfo.tasks && userInfo.tasks.Tasks.length} tasks
+                      {userInfo.tasks?.Tasks && userInfo.tasks?.Tasks.length} tasks
                     </div>
                   </div>
                 </div>
 
-                {userInfo?.tasks?.Tasks.length > 0 ? (
+                {userInfo.tasks?.Tasks && userInfo?.tasks?.Tasks.length > 0 ? (
                   userInfo.tasks.Tasks.map((task: any, index: any) => (
                     <div
                       key={index}
