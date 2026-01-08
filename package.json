@@ -17,7 +17,7 @@
     "gray-matter": "^4.0.3",
     "js-cookie": "^3.0.5",
     "mysql2": "^3.14.1",
-    "next": "^15.4.1",
+    "next": "^15.4.10",
     "next-sitemap": "^4.2.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
