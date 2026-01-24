@@ -188,6 +188,21 @@
         "backgroundImage": "/images/profiles/640841049/background.gif",
         "bannerImage": "/images/profiles/640841049/banner.gif",
         "invertBannerText": true,
-        "blurBackgroundImage": false
+        "blurBackgroundImage": false,
+        "theme": {
+            "bgPrimary": "bg-black",
+            "bgSecondary": "bg-neutral-900",
+            "bgTertiary": "bg-neutral-800",
+            "textPrimary": "text-[#a4f8ff]",
+            "textSecondary": "text-[#a4f8ff]/70",
+            "textMuted": "text-[#a4f8ff]/60",
+            "borderColor": "border-neutral-700",
+            "iconColor": "fill-white",
+            "progressTrack": "bg-neutral-700",
+            "progressFill": "bg-white",
+            "textOnFill": "text-black",
+            "digitInactive": "text-neutral-500",
+            "digitActive": "text-white"
+        }
     }
 }
