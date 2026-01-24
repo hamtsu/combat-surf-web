@@ -135,5 +135,32 @@
         "theme": {
             "textBanner": "#a2ff00"
         }
+    },
+    "69873107": {
+        "backgroundImage": "/images/profiles/69873107/background.jpg",
+        "bannerImage": "/images/profiles/69873107/banner.gif",
+        "invertBannerText": false,
+        "blurBackgroundImage": false,
+        "theme": {
+            "bgPrimary": "bg-black",
+            "bgSecondary": "bg-neutral-900",
+            "bgTertiary": "bg-neutral-800",
+            "textPrimary": "text-white",
+            "textSecondary": "text-neutral-300",
+            "textMuted": "text-neutral-400",
+            "borderColor": "border-neutral-700",
+            "iconColor": "fill-white",
+            "progressTrack": "bg-neutral-700",
+            "progressFill": "bg-white",
+            "textOnFill": "text-black",
+            "digitInactive": "text-neutral-500",
+            "digitActive": "text-white"
+        }
+    },
+    "518353450": {
+        "backgroundImage": "/images/profiles/518353450/background.png",
+        "bannerImage": "/images/profiles/518353450/banner.png",
+        "invertBannerText": false,
+        "blurBackgroundImage": false
     }
 }
