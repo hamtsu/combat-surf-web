@@ -164,24 +164,25 @@
         "blurBackgroundImage": false
     },
     "3431329880": {
-        "backgroundImage": "/images/profiles/3431329880/background.jpg",
+        "backgroundImage": "/images/profiles/3431329880/background.png",
         "bannerImage": "/images/profiles/3431329880/banner.jpg",
         "invertBannerText": false,
         "blurBackgroundImage": false,
         "theme": {
-            "bgPrimary": "bg-yellow-500",
-            "bgSecondary": "bg-black",
-            "bgTertiary": "bg-yellow-500",
-            "textPrimary": "text-white",
-            "textSecondary": "text-yellow-200",
-            "textMuted": "text-yellow-100",
-            "borderColor": "border-neutral-700",
-            "iconColor": "fill-yellow-300",
+            "bgPrimary": "bg-[#4b0000]",
+            "bgSecondary": "bg-[#4b0000]",
+            "bgTertiary": "bg-[#800000]",
+            "textPrimary": "text-red-400",
+            "textSecondary": "text-red-300",
+            "textMuted": "text-red-200",
+            "borderColor": "border-red-700",
+            "iconColor": "fill-white",
             "progressTrack": "bg-neutral-700",
             "progressFill": "bg-white",
             "textOnFill": "text-black",
-            "digitInactive": "text-yellow-200",
-            "digitActive": "text-white"
+            "digitInactive": "text-red-500",
+            "digitActive": "text-white",
+            "textBanner": "#ef4444"
         }
     },
     "640841049": {
@@ -190,19 +191,19 @@
         "invertBannerText": true,
         "blurBackgroundImage": false,
         "theme": {
-            "bgPrimary": "bg-black",
-            "bgSecondary": "bg-neutral-900",
-            "bgTertiary": "bg-neutral-800",
-            "textPrimary": "text-[#a4f8ff]",
-            "textSecondary": "text-[#a4f8ff]/70",
-            "textMuted": "text-[#a4f8ff]/60",
-            "borderColor": "border-neutral-700",
-            "iconColor": "fill-white",
-            "progressTrack": "bg-neutral-700",
-            "progressFill": "bg-white",
-            "textOnFill": "text-black",
-            "digitInactive": "text-neutral-500",
-            "digitActive": "text-white"
+            "bgPrimary": "bg-stone-50/50",
+            "bgSecondary": "bg-stone-100/50",
+            "bgTertiary": "bg-stone-200/50",
+            "textPrimary": "text-stone-900/70",
+            "textSecondary": "text-stone-600/70",
+            "textMuted": "text-stone-500/70",
+            "borderColor": "border-stone-300/50",
+            "iconColor": "fill-stone-700/70",
+            "progressTrack": "bg-stone-300/70",
+            "progressFill": "bg-stone-600/70",
+            "textOnFill": "text-white/70",
+            "digitInactive": "text-stone-40/700",
+            "digitActive": "text-stone-900/70"
         }
     }
 }
