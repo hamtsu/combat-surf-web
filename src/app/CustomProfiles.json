@@ -162,5 +162,32 @@
         "bannerImage": "/images/profiles/518353450/banner.jpg",
         "invertBannerText": false,
         "blurBackgroundImage": false
+    },
+    "3431329880": {
+        "backgroundImage": "/images/profiles/3431329880/background.jpg",
+        "bannerImage": "/images/profiles/3431329880/banner.jpg",
+        "invertBannerText": false,
+        "blurBackgroundImage": false,
+        "theme": {
+            "bgPrimary": "bg-yellow-500",
+            "bgSecondary": "bg-black",
+            "bgTertiary": "bg-yellow-500",
+            "textPrimary": "text-white",
+            "textSecondary": "text-yellow-200",
+            "textMuted": "text-yellow-100",
+            "borderColor": "border-neutral-700",
+            "iconColor": "fill-yellow-300",
+            "progressTrack": "bg-neutral-700",
+            "progressFill": "bg-white",
+            "textOnFill": "text-black",
+            "digitInactive": "text-yellow-200",
+            "digitActive": "text-white"
+        }
+    },
+    "640841049": {
+        "backgroundImage": "/images/profiles/640841049/background.gif",
+        "bannerImage": "/images/profiles/640841049/banner.gif",
+        "invertBannerText": true,
+        "blurBackgroundImage": false
     }
 }
