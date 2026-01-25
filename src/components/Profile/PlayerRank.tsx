@@ -1,6 +1,6 @@
 "use client";
 import React, { FC, useEffect } from "react";
-import { FaCrown, FaGavel, FaMedal, FaShieldAlt, FaUser } from "react-icons/fa";
+import { FaCrown, FaGavel,  FaShieldAlt, FaStar, FaUser } from "react-icons/fa";
 import Tooltip from "../Tooltip";
 
 type PlayerRankProps = {
@@ -61,7 +61,7 @@ const PlayerRank: FC<PlayerRankProps> = ({ userId }) => {
     return (
       <Tooltip text="This player is a Honorary Member!" position="bottom">
         <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-blue-500 shadow-lg shadow-blue-500 border-2 border-blue-400 w-fit h-fit rounded-lg m p-2 px-4">
-          <FaMedal className="text-blue-200 text-xl" />
+          <FaStar className="text-blue-200 text-xl" />
           <h1 className="md:text-xl text-xs font-semibold text-blue-200">
             Honorary Member
           </h1>
