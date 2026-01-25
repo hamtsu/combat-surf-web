@@ -205,5 +205,26 @@
             "digitInactive": "text-stone-40/700",
             "digitActive": "text-stone-900/70"
         }
+    },
+    "36391604": {
+        "backgroundImage": "/images/profiles/36391604/background.jpg",
+        "bannerImage": "/images/profiles/36391604/banner.jpg",
+        "invertBannerText": false,
+        "blurBackgroundImage": false,
+        "theme": {
+            "bgPrimary": "bg-black",
+            "bgSecondary": "bg-[#1f3a3d]",
+            "bgTertiary": "bg-[#1e2f36]",
+            "textPrimary": "text-white",
+            "textSecondary": "text-neutral-300",
+            "textMuted": "text-neutral-400",
+            "borderColor": "border-neutral-700",
+            "iconColor": "fill-white",
+            "progressTrack": "bg-neutral-700",
+            "progressFill": "bg-white",
+            "textOnFill": "text-black",
+            "digitInactive": "text-neutral-500",
+            "digitActive": "text-white"
+        }
     }
 }
