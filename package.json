@@ -14,6 +14,8 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "dotenv": "^17.0.1",
+    "firebase": "^12.8.0",
+    "firebase-admin": "^13.6.0",
     "gray-matter": "^4.0.3",
     "js-cookie": "^3.0.5",
     "mysql2": "^3.14.1",
