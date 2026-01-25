@@ -8,7 +8,8 @@ import PlayerHeader from "@/components/Profile/PlayerHeader";
 import Searchbar from "@/components/Searchbar";
 import StatisticPanel from "@/components/StatisticPanel";
 import Tooltip from "@/components/Tooltip";
-import { useRouter } from "next/navigation";
+import WelcomeModal from "@/components/WelcomeModal";
+import { useRouter, useSearchParams } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import {
   FaArrowLeft,
@@ -27,10 +28,14 @@ export default function Page({
 }) {
   const { slug } = use(params);
   const router = useRouter();
+  const searchParams = useSearchParams()
+  const welcome = searchParams.get('welcome')
 
   const [userInfo, setUserInfo] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<any | null>(null);
+  const [showWelcome, setShowWelcome] = useState<boolean | null>(false);
+
 
   useEffect(() => {
     if (!slug) return;
@@ -80,7 +85,11 @@ export default function Page({
         console.error(error);
         setError(error);
       });
-  }, [slug]);
+
+      if (welcome !== null) {
+        setShowWelcome(true);
+      }
+  }, [slug, welcome]);
 
   if (userInfo === null || userInfo.level === undefined) {
     return (
@@ -134,6 +143,7 @@ export default function Page({
             onClose={() => setSelectedItem(null)}
           />
         )}
+        {showWelcome && <WelcomeModal userInfo={userInfo} onClose={() => setShowWelcome(null)}/>}
         <div
           style={
             userInfo.backgroundImage
