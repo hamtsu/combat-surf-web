@@ -6,10 +6,14 @@ import ChangelogPanel from "@/components/Home/ChangelogPanel";
 import InfoPanel from "@/components/Home/InfoPanel";
 import LeaderboardPanel from "@/components/Home/LeaderboardPanel";
 import PlayerLookupPanel from "@/components/Home/PlayerLookupPanel";
+import RobloxAvatar from "@/components/RobloxAvatar";
+import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import { FaTicket } from "react-icons/fa6";
 
 export default function Home() {
+    const { user, claims, loading } = useAuth();
+
   return (
     <main className="flex flex-col items-center w-full h-full overflow-y-scroll gap-4 px-4 pb-52 pt-5 md:px-8 md:pb-0 bg-stone-900">
       {/* HEADER */}
@@ -34,11 +38,23 @@ export default function Home() {
       <div className="w-full max-w-screen-xl flex flex-col md:flex-row gap-4 items-center md:items-start justify-center">
         {/* Left Panel */}
         <div className="flex flex-col gap-4 w-full">
-          <div className="w-[21rem] hidden md:block rounded-md bg-stone-800 p-4 opacity-0 animate-fade-in-first">
-            <h1 className="text-2xl font-bold text-stone-300">
-              Hello! Welcome to the <b>Combat Surf</b> Website 👋
-            </h1>
-          </div>
+          {user ? (
+            <div className="w-[21rem] hidden md:flex items-center gap-4 rounded-md bg-stone-800 p-2 opacity-0 animate-fade-in-first">
+              <div className="bg-stone-900 rounded-md w-[100px] p-2">
+                <RobloxAvatar userId={claims?.userId} />
+              </div>
+
+              <h1 className="text-2xl font-bold text-stone-300">
+                Welcome back, <b>{claims?.displayName || "User"}</b>! 👋
+              </h1>
+            </div>
+          ) : (
+            <div className="w-[21rem] hidden md:block rounded-md bg-stone-800 p-4 opacity-0 animate-fade-in-first">
+              <h1 className="text-2xl font-bold text-stone-300">
+                Hello! Welcome to the <b>Combat Surf</b> Website 👋
+              </h1>
+            </div>
+          )}
           <InfoPanel />
         </div>
 
