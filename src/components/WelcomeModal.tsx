@@ -97,7 +97,7 @@ export default function WelcomeModal({
               <Button
                 className="bg-stone-100 py-2 px-3 flex gap-3 text-lg text-stone-600 hover:bg-stone-200 group"
                 onClick={() => {
-                  router.push("/profile/edit");
+                  router.push("/player/edit");
                 }}
               >
                 <FaArrowLeft className="text-stone-600 group-hover:animate-bounce-left" />
