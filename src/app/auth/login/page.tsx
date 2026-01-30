@@ -1,13 +1,15 @@
 "use client";
 
 import Button from "@/components/Button";
+import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { FaArrowLeft, FaLock, FaUserLock } from "react-icons/fa";
 import { SiRoblox } from "react-icons/si";
 
 const Login = () => {
   const router = useRouter();
+  const { user, claims, loading } = useAuth();
 
   const login = () => {
     const params = new URLSearchParams({
@@ -19,6 +21,12 @@ const Login = () => {
 
     window.location.href = `https://apis.roblox.com/oauth/v1/authorize?${params}`;
   };
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.replace("/");
+    }
+  }, [loading, user, router]);
 
   return (
     <div className="flex w-full h-full flex-col items-center justify-center gap-4 p-4 md:px-48 bg-stone-900">
@@ -33,14 +41,6 @@ const Login = () => {
           </span>{" "}
           roblox account to access member features.
         </div>
-        <p
-          className="text-stone-600 italic hover:text-indigo-500 hover:cursor-pointer"
-          onClick={() =>
-            window.open("http://discord.com/invite/k4jnnsSt29", "_blank")
-          }
-        >
-          Need help? Join the discord.
-        </p>
 
         <div className="w-full rounded-md overflow-hidden bg-stone-900 text-stone-400 mt-6">
           <div className="h-2 bg-construction-yellow w-full" />

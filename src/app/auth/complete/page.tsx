@@ -1,9 +1,10 @@
 "use client";
 
-import { getIdTokenResult, signInWithCustomToken } from "firebase/auth";
+import { signInWithCustomToken } from "firebase/auth";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { auth } from "@/lib/firebaseClient";
+import { ensureUserDoc } from "@/lib/ensureUserDoc";
 
 export default function CompleteAuth() {
   const params = useSearchParams();
@@ -15,13 +16,9 @@ export default function CompleteAuth() {
 
     signInWithCustomToken(auth, token)
       .then(async (cred) => {
-        const tokenResult = await getIdTokenResult(cred.user);
+        await ensureUserDoc(cred.user);
 
-        console.log(tokenResult.claims);
-
-        const robloxUserId = tokenResult.claims.userId;
-
-        router.push("/player/" + robloxUserId + "?welcome=true");
+        router.push("/auth/twofactor");
       })
       .catch(console.error);
   }, [params, router]);
