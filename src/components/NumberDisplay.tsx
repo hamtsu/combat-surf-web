@@ -20,12 +20,12 @@ const NumberDisplay: FC<NumberDisplayProps> = ({ number, theme }) => {
       {digits.map((digit, i) => (
         <p
           key={i}
-          className={
-            "" +
-            (firstNonZero === -1 || i < firstNonZero
-              ? theme?.digitInactive || "text-stone-600"
-              : theme?.digitActive || "text-stone-200")
-          }
+          style={{
+            color:
+              firstNonZero === -1 || i < firstNonZero
+                ? theme?.digitInactive || "#78716c"
+                : theme?.digitActive || "#d4d4d8",
+          }}
         >
           {digit}
         </p>

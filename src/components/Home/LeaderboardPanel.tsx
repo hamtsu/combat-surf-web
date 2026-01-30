@@ -65,7 +65,7 @@ const LeaderboardPanel = () => {
                 <div
                   key={player.id}
                   style={{
-                    animationDelay: `${index * 0.1 + (isTop ? 0 : 2.5)}s`,
+                    animationDelay: `${index * 0.1 + (isTop ? 0 : 2)}s`,
                   }}
                   className={`flex gap-2 items-center p-2 rounded-md select-none ${
                     isTop

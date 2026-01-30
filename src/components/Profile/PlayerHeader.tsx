@@ -79,18 +79,18 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
     <div className="flex flex-col md:flex-row gap-4 mt-5 md:mt-8">
       <div className="flex flex-col gap-3">
         <div
-          style={
-            userInfo.bannerImage
-              ? { backgroundImage: `url(${userInfo.bannerImage})` }
-              : {}
-          }
+          style={{
+            backgroundImage: userInfo.bannerUrl
+              ? `url(${userInfo.bannerUrl})`
+              : undefined,
+            backgroundColor: !userInfo.bannerUrl
+              ? userInfo.theme?.bgSecondary || "#292524"
+              : undefined,
+            borderColor: userInfo.theme?.borderColor || "#44403b",
+          }}
           className={`opacity-0 animate-fade-in-first rounded-md ${
-            userInfo.bannerImage
-              ? "bg-center bg-cover"
-              : userInfo.theme?.bgSecondary || "bg-stone-800"
-          } shadow-lg h-fit p-3 border-1 ${
-            userInfo.theme?.borderColor || "border-stone-700"
-          } flex`}
+            userInfo.bannerUrl ? "bg-center bg-cover" : ""
+          } shadow-lg h-fit p-3 border-1 flex`}
         >
           <div className="select-none w-[140px] md:w-fit mt-[-50px] md:mt-[-100px] mr-4">
             <RobloxAvatar userId={userInfo.userId} />
@@ -105,14 +105,12 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
             }}
           >
             <div
-              className={
-                TEMP_PUNISHMENTS.banned
-                  ? "line-through " +
-                    (userInfo.theme?.textSecondary || "text-stone-500")
-                  : ""
-              }
+              className={TEMP_PUNISHMENTS.banned ? "line-through" : ""}
               style={{
                 color: userInfo.theme?.textBanner || undefined,
+                ...(TEMP_PUNISHMENTS.banned && {
+                  color: userInfo.theme?.textSecondary || "#78716c",
+                }),
               }}
             >
               <h1>{userInfo.displayName}</h1>
@@ -181,16 +179,17 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
           </div>
 
           <div
-            className={`select-none hidden md:flex flex-col gap-2 mx-3 ${
-              userInfo.theme?.bgTertiary || "bg-stone-900"
-            } mt-[-50px] shadow-lg border-t-3 ${
-              userInfo.theme?.borderColor || "border-stone-700"
-            } h-fit p-3 rounded-md`}
+            className={`select-none hidden md:flex flex-col gap-2 mx-3 mt-[-50px] shadow-lg border-t-3 h-fit p-3 rounded-md`}
+            style={{
+              backgroundColor: userInfo.theme?.bgTertiary || "#18161a",
+              borderColor: userInfo.theme?.borderColor || "#44403b",
+            }}
           >
             <h1
-              className={`text-2xl font-bold ${
-                userInfo.theme?.textMuted || "text-stone-400"
-              }`}
+              className={`text-2xl font-bold`}
+              style={{
+                color: userInfo.theme?.textMuted || "#a1a1a6",
+              }}
             >
               Clan Info
             </h1>
@@ -200,17 +199,19 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
             >
               <h2
                 onClick={() => router.push(`/clan/${userInfo.clanId}`)}
-                className={`text-4xl font-bold ${
-                  userInfo.theme?.textPrimary || "text-stone-300"
-                } hover:underline hover:cursor-pointer`}
+                className={`text-4xl font-bold hover:underline hover:cursor-pointer`}
+                style={{
+                  color: userInfo.theme?.textPrimary || "#f5f5f5",
+                }}
               >
                 {userInfo.clanName || "No Clan"}
               </h2>
             </Tooltip>
             <h2
-              className={`text-3xl font-bold ${
-                userInfo.theme?.textMuted || "text-stone-400"
-              }`}
+              className={`text-3xl font-bold`}
+              style={{
+                color: userInfo.theme?.textMuted || "#a1a1a6",
+              }}
             >
               <ClanTag
                 text={userInfo.clanTag}
@@ -235,11 +236,11 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
                 "_blank"
               )
             }
-            className={`opacity-0 animate-fade-in-fourth p-2 px-3 md:px-5 w-fit md:py-2 h-full flex ${
-              userInfo.theme?.bgSecondary || "bg-stone-800"
-            } hover:bg-red-500 ${
-              userInfo.theme?.textMuted || "text-stone-200/80"
-            } font-bold hover:text-stone-100 text-lg ml-1 md:ml-0 font-sans transition-colors rounded-lg group`}
+            className={`opacity-0 animate-fade-in-fourth p-2 px-3 md:px-5 w-fit md:py-2 h-full flex hover:bg-red-500 font-bold hover:text-stone-100 text-lg ml-1 md:ml-0 font-sans transition-colors rounded-lg group`}
+            style={{
+              backgroundColor: userInfo.theme?.bgSecondary || "#292524",
+              color: userInfo.theme?.textMuted || "#d4d4d8",
+            }}
           >
             <SiRoblox size={20} className="group-hover:animate-wiggle" />
             <p className="hidden md:block">Roblox Profile</p>
@@ -248,16 +249,18 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
           <div className="md:grow" />
 
           <div
-            className={`${
-              userInfo.theme?.bgSecondary || "bg-stone-800"
-            } shadow-lg rounded-md px-2 opacity-0 animate-fade-in-fourth flex items-center gap-1`}
+            className={`shadow-lg rounded-md px-2 opacity-0 animate-fade-in-fourth flex items-center gap-1`}
+            style={{
+              backgroundColor: userInfo.theme?.bgSecondary || "#292524",
+            }}
           >
             {userInfo.tradeBanned && TEMP_PUNISHMENTS.banned ? (
               <div className="flex flex-col gap-1">
                 <div
-                  className={`flex gap-1 items-center ${
-                    userInfo.theme?.textMuted || "text-stone-300"
-                  } px-4`}
+                  className={`flex gap-1 items-center px-4`}
+                  style={{
+                    color: userInfo.theme?.textMuted || "#d4d4d8",
+                  }}
                 >
                   <FaShieldAlt size={20} className="text-red-400 mr-2" />
                   Active <b className="text-red-400 underline">Game</b> and{" "}
@@ -268,9 +271,10 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
             ) : userInfo.tradeBanned ? (
               <div className="flex flex-col gap-1">
                 <div
-                  className={`flex gap-1 items-center ${
-                    userInfo.theme?.textMuted || "text-stone-300"
-                  } p-2 px-4`}
+                  className={`flex gap-1 items-center p-2 px-4`}
+                  style={{
+                    color: userInfo.theme?.textMuted || "#d4d4d8",
+                  }}
                 >
                   <FaShieldAlt size={20} className="text-yellow-400 mr-2" />
                   Active <b className="text-yellow-400 underline">Trade</b> ban
@@ -279,9 +283,10 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
             ) : TEMP_PUNISHMENTS.banned ? (
               <div className="flex flex-col gap-1">
                 <div
-                  className={`flex gap-1 items-center ${
-                    userInfo.theme?.textMuted || "text-stone-300"
-                  } px-4`}
+                  className={`flex gap-1 items-center px-4`}
+                  style={{
+                    color: userInfo.theme?.textMuted || "#d4d4d8",
+                  }}
                 >
                   <FaShieldAlt size={20} className="text-red-400 mr-2" />
                   Active <b className="text-red-400 underline">Game</b> ban
@@ -291,9 +296,10 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
             ) : (
               <Tooltip text="No active bans" position="top">
                 <div
-                  className={`flex select-none hover:cursor-pointer gap-1 font-bold items-center ${
-                    userInfo.theme?.textSecondary || "text-stone-400"
-                  } p-1 md:px-4`}
+                  className={`flex select-none hover:cursor-pointer gap-1 font-bold items-center p-1 md:px-4`}
+                  style={{
+                    color: userInfo.theme?.textSecondary || "#a1a1a1",
+                  }}
                 >
                   <FaCheckCircle size={20} className="text-stone-500 mr-2" />
                   <p className="hidden md:block">No active bans</p>
@@ -308,43 +314,48 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
       <div className="flex flex-col mt-3 md:mt-0 gap-2">
         <div className="flex gap-2">
           <div
-            className={`select-none opacity-0 items-center animate-fade-in-third rounded-md ${
-              userInfo.theme?.bgSecondary || "bg-stone-800"
-            } shadow-lg p-1 px-3 border-1 ${
-              userInfo.theme?.borderColor || "border-stone-700"
-            } flex gap-2 md:mt-0 h-fit`}
+            className={`select-none opacity-0 items-center animate-fade-in-third rounded-md shadow-lg p-1 px-3 border-1 flex gap-2 md:mt-0 h-fit`}
+            style={{
+              backgroundColor: userInfo.theme?.bgSecondary || "#292524",
+              borderColor: userInfo.theme?.borderColor || "#44403b",
+            }}
           >
             <h1
-              className={`text-5xl font-bold font-mono ${
-                userInfo.theme?.textPrimary || "text-stone-300"
-              }`}
+              className={`text-5xl font-bold font-mono`}
+              style={{
+                color: userInfo.theme?.textPrimary || "#d4d4d8",
+              }}
             >
               {userInfo.level}
             </h1>
             <h2
-              className={`text-3xl mt-auto ${
-                userInfo.theme?.textMuted || "text-stone-400"
-              } font-bold flex gap-2`}
+              className={`text-3xl mt-auto font-bold flex gap-2`}
+              style={{
+                color: userInfo.theme?.textMuted || "#a1a1a1",
+              }}
             >
               Level
               <FaArrowUp
-                className={`${
-                  userInfo.theme?.textSecondary || "text-stone-500"
-                } my-auto hidden md:block`}
+                className={`my-auto hidden md:block`}
+                style={{
+                  color: userInfo.theme?.textSecondary || "#78716c",
+                }}
               />
             </h2>
           </div>
 
           <div className="flex flex-col gap-2 w-full">
             <div
-              className={`${
-                userInfo.theme?.bgSecondary || "bg-stone-800"
-              } shadow-lg opacity-0 animate-fade-in-third w-full h-full rounded-sm flex items-center gap-2 px-2 py-1`}
+              className={`shadow-lg opacity-0 animate-fade-in-third w-full h-full rounded-sm flex items-center gap-2 px-2 py-1`}
+              style={{
+                backgroundColor: userInfo.theme?.bgSecondary || "#292524",
+              }}
             >
               <h1
-                className={`${
-                  userInfo.theme?.textMuted || "text-stone-400"
-                } text-xs font-bold`}
+                className={`text-xs font-bold`}
+                style={{
+                  color: userInfo.theme?.textMuted || "#a1a1a1",
+                }}
               >
                 No Badges
               </h1>
@@ -352,22 +363,24 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
 
             <div className="h-[25px] mt-auto w-full opacity-0 animate-fade-in-fourth">
               <div
-                className={`${
-                  userInfo.theme?.progressTrack || "bg-stone-600"
-                } shadow-lg select-none border-1 ${
-                  userInfo.theme?.borderColor || "border-stone-700"
-                } transition-all rounded-sm w-full h-full flex hover:h-full group overflow-hidden`}
+                className={`shadow-lg select-none border-1 transition-all rounded-sm w-full h-full flex hover:h-full group overflow-hidden`}
+                style={{
+                  backgroundColor: userInfo.theme?.progressTrack || "#78716c",
+                  borderColor: userInfo.theme?.borderColor || "#44403b",
+                }}
               >
                 <div
-                  className={`${
-                    userInfo.theme?.progressFill || "bg-stone-200"
-                  } h-full rounded-xs`}
-                  style={{ width: `${(userInfo.xp / 100000) * 100}%` }}
+                  className={`h-full rounded-xs`}
+                  style={{
+                    backgroundColor: userInfo.theme?.progressFill || "#d4d4d8",
+                    width: `${(userInfo.xp / 100000) * 100}%`,
+                  }}
                 >
                   <span
-                    className={`${
-                      userInfo.theme?.textOnFill || "text-stone-800"
-                    } shrink-0 h-full px-2 text-[10px] md:text-xs transition-opacity py-1 flex gap-1 items-center font-bold opacity-80`}
+                    className={`shrink-0 h-full px-2 text-[10px] md:text-xs transition-opacity py-1 flex gap-1 items-center font-bold opacity-80`}
+                    style={{
+                      color: userInfo.theme?.textOnFill || "#1c1917",
+                    }}
                   >
                     {userInfo.xp > 72000 ? (
                       <>
@@ -379,9 +392,10 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
                   </span>
                 </div>
                 <span
-                  className={`${
-                    userInfo.theme?.textMuted || "text-stone-400"
-                  } grow-0 py-1 font-bold opacity-80 text-[10px] md:text-xs ml-auto px-2`}
+                  className={`grow-0 py-1 font-bold opacity-80 text-[10px] md:text-xs ml-auto px-2`}
+                  style={{
+                    color: userInfo.theme?.textMuted || "#a1a1a1",
+                  }}
                 >
                   {userInfo.xp < 72000 && (
                     <>
@@ -395,27 +409,31 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
         </div>
 
         <div
-          className={`h-fit opacity-0 animate-fade-in-fourth border ${
-            userInfo.theme?.borderColor || "border-stone-700"
-          } shadow-lg ${
-            userInfo.theme?.bgSecondary || "bg-stone-800"
-          } p-2 rounded-lg flex flex-col gap-2 w-full md:w-fit max-h-[300px]`}
+          className={`h-fit opacity-0 animate-fade-in-fourth border shadow-lg p-2 rounded-lg flex flex-col gap-2 w-full md:w-fit max-h-[300px]`}
+          style={{
+            borderColor: userInfo.theme?.borderColor || "#44403b",
+            backgroundColor: userInfo.theme?.bgSecondary || "#292524",
+          }}
         >
           <div className="flex gap-3 items-center">
             <div
-              className={`p-2 text-lg md:text-xl ${
-                userInfo.theme?.bgTertiary || "bg-stone-900"
-              } rounded-md h-fit`}
+              className={`p-2 text-lg md:text-xl rounded-md h-fit`}
+              style={{
+                backgroundColor: userInfo.theme?.bgTertiary || "#1c1917",
+              }}
             >
               <FaClipboard
                 size={16}
-                className={userInfo.theme?.iconColor || "fill-stone-600"}
+                style={{
+                  fill: userInfo.theme?.iconColor || "#78716c",
+                }}
               />
             </div>
             <h1
-              className={`text-2xl font-bold ${
-                userInfo.theme?.textMuted || "text-stone-400"
-              } mt-1`}
+              className={`text-2xl font-bold mt-1`}
+              style={{
+                color: userInfo.theme?.textMuted || "#a1a1a1",
+              }}
             >
               Weapon Kills
             </h1>
@@ -426,14 +444,16 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
                 return (
                   <div
                     key={index}
-                    className={`${
-                      userInfo.theme?.bgTertiary || "bg-stone-900"
-                    } p-1 rounded-md px-3 text-xl md:text-2xl items-center font-mono font-bold flex select-none`}
+                    className={`p-1 rounded-md px-3 text-xl md:text-2xl items-center font-mono font-bold flex select-none`}
+                    style={{
+                      backgroundColor: userInfo.theme?.bgTertiary || "#1c1917",
+                    }}
                   >
                     <span
-                      className={`${
-                        userInfo.theme?.textMuted || "text-stone-400"
-                      } mr-1 md:mr-3 text-xs md:text-lg font-bold`}
+                      className={`mr-1 md:mr-3 text-xs md:text-lg font-bold`}
+                      style={{
+                        color: userInfo.theme?.textMuted || "#a1a1a1",
+                      }}
                     >
                       {getWeaponName(index)}
                     </span>
