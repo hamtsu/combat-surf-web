@@ -59,7 +59,7 @@ const PinInput: FC<PinInputProps> = ({ handleSubmit, inputDisabled }) => {
       {Array.from({ length: 9 }, (_, index) => (
         <div key={index}>
           {index === 0 ? null : index % 3 === 0 ? (
-            <span className="w-4 bg-stone-500 rounded-md h-1 my-auto ml-2 mx-auto" />
+            <span className="w-1 md:w-4 bg-stone-500 rounded-md h-1 my-auto ml-1 md:ml-2 mx-auto" />
           ) : null}
           <input
             type="text"
@@ -72,7 +72,7 @@ const PinInput: FC<PinInputProps> = ({ handleSubmit, inputDisabled }) => {
             ref={(el) => {
               inputRefs.current[index] = el;
             }}
-            className={`${inputDisabled ? "opacity-50 cursor-not-allowed" : ""} w-12 h-12 ml-2 text-xl text-center text-stone-200 font-bold bg-stone-800 rounded-md`}
+            className={`${inputDisabled ? "opacity-50 cursor-not-allowed" : ""} w-8 h-8 md:w-12 md:h-12 ml-2 text-xl text-center text-stone-200 font-bold bg-stone-800 rounded-md`}
           />
         </div>
       ))}

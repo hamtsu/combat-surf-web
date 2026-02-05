@@ -100,11 +100,12 @@ export default function TwoFactor() {
     <div className="flex flex-col gap-1 items-center justify-center h-screen">
       {twoFactorStarted ? (
         <>
-          <FaLock size={80} className="text-stone-700 mb-10" />
-          <h1 className="text-2xl font-bold text-stone-200 mb-4">
+          <FaLock size={50} className="md:hidden text-stone-700 mb-10" />
+          <FaLock size={80} className="hidden md:block text-stone-700 mb-10" />
+          <h1 className="text-lg md:text-2xl font-bold text-stone-200 mb-4">
             Two Factor Authentication
           </h1>
-          <p className="text-stone-400">
+          <p className="text-stone-400 text-sm md:text-base text-center">
             Please enter your authentication code sent in the{" "}
             <span className="bg-stone-800 rounded-md font-mono">
               #website-2fa
@@ -130,21 +131,23 @@ export default function TwoFactor() {
         </>
       ) : codeVerified ? (
         <>
-          <FaLockOpen size={80} className="text-green-700 mb-10" />
-          <h1 className="text-2xl font-bold text-stone-200 mb-4">
+          <FaLockOpen size={50} className="md:hidden text-green-700 mb-10" />
+          <FaLockOpen size={80} className="hidden md:block text-green-700 mb-10" />
+          <h1 className="text-lg md:text-2xl font-bold text-stone-200 mb-4">
             Thank you, {claims?.displayName || "User"}!
           </h1>
-          <p className="text-stone-400">
+          <p className="text-stone-400 text-sm md:text-base text-center">
             Please wait while we log you in and redirect you to your profile.
           </p>
         </>
       ) : (
         <>
-          <FaLock size={80} className="text-stone-700 mb-10" />
-          <h1 className="text-2xl font-bold text-stone-200 mb-4">
+          <FaLock size={50} className="md:hidden text-stone-700 mb-10" />
+          <FaLock size={80} className="hidden md:block text-stone-700 mb-10" />
+          <h1 className="text-lg md:text-2xl font-bold text-stone-200 mb-4">
             Two Factor Authentication
           </h1>
-          <p className="text-stone-400">
+          <p className="text-stone-400 text-sm md:text-base text-center">
             Ensure you are in the Discord to receive your authentication code.
           </p>
         </>
