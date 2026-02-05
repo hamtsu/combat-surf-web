@@ -339,7 +339,7 @@ export default function ProfileClient({
                   <StatisticPanel
                     name="Career Kills"
                     value={userInfo.globalKills}
-                    buddy={userInfo.userId === "97752529" ? true : false}
+                    buddy={userInfo.userId === "97752529" || userInfo.userId === "69873107" ? true : false}
                     icon={
                       <FaSkull
                         size={18}
