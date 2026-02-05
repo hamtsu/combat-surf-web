@@ -13,8 +13,8 @@ const InfoPanel = () => {
       <h1 className="text-2xl font-bold text-stone-300">
         What is <b>Combat Surf</b>?
       </h1>
-      <p className="text-stone-200/80 mb-6">
-        A roblox game based off of the classic community gamemode! This <a href="https://www.youtube.com/watch?v=k3NZMxsc1yQ" className="text-stone-200 hover:text-yellow-400 font-bold">tutorial</a> can help you get started with the basics.
+      <p className="text-stone-200/80 mb-2">
+        A roblox game based off of the classic community gamemode! <br /><br/> <b>New to the game?</b> <br/>The tutorial <i>(!tutorial in game)</i> can be helpful in grasping the basics, also check out the <a href="https://www.youtube.com/watch?v=k3NZMxsc1yQ" className="text-stone-200 hover:text-yellow-400 font-bold">video tutorial</a>.
       </p>
 
       <Button
@@ -25,23 +25,16 @@ const InfoPanel = () => {
         <p className="">View rules</p>
       </Button>
       <Button
-        onClick={() => router.push("/item-list")}
-        className="px-3 py-2 h-fit flex bg-stone-900 hover:bg-stone-400 text-stone-500 hover:text-stone-800 text-lg font-sans font-bold transition-colors rounded-lg group"
-      >
-        <FaBoxArchive size={15} className="mr-2" />
-        <p className="">View item list</p>
-      </Button>
-      <Button
         onClick={() =>
             window.open(
-              "https://docs.google.com/spreadsheets/d/1-XLMARJthg00JqVUe1encl6mFnV19HVQ0w4D85MzEXw/edit?usp=sharing",
+              "https://discord.gg/cqEsxTdRN2",
               "_blank"
             )
           }
         className="px-3 py-2 h-fit flex bg-stone-900 hover:bg-stone-400 text-stone-500 hover:text-stone-800 text-lg font-sans font-bold transition-colors rounded-lg group"
       >
         <FaExternalLinkAlt size={15} className="mr-2" />
-        <p className="">Community value list</p>
+        <p className="">Community Value Discord</p>
       </Button>
     </div>
   );
