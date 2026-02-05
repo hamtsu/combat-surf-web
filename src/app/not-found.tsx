@@ -2,7 +2,6 @@
 
 import Button from "@/components/Button";
 import { useRouter } from "next/navigation";
-import React from "react";
 import { FaArrowLeft } from "react-icons/fa";
 
 const Custom404 = () => {

@@ -6,6 +6,7 @@ import Image from "next/image";
 import Wing from "../components/Wing";
 
 import { usePathname, useSearchParams } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Loading() {
   const [isVisible, setIsVisible] = useState(true);
@@ -43,6 +44,18 @@ export default function Loading() {
         }
       )}
     >
+      {pathname.includes("97752529") && (
+        <Image
+          src={"/hamgif.gif"}
+          alt="Frame"
+          width={128 * 2.3}
+          height={128 * 2.3}
+          unoptimized
+          style={{ imageRendering: "pixelated" }}
+          className="fixed z-20 -translate-y-12 -translate-x-12 -scale-x-100"
+        />
+      )}
+
       <div className="text-2xl font-bold">
         <Wing reset={reset} />
         <Wing reflected reset={reset} />
@@ -52,6 +65,7 @@ export default function Loading() {
           width={600}
           height={200}
           draggable={false}
+          unoptimized
           className="mx-auto w-96 absolute top-5/12 animate-fadeIn"
         />
         <Image
@@ -60,6 +74,7 @@ export default function Loading() {
           width={1000}
           height={1000}
           draggable={false}
+          unoptimized
           className="mx-auto w-96 z-2 relative top-1/2 animate-fadeIn"
           priority={true}
         />
