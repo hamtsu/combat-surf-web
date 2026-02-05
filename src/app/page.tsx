@@ -9,10 +9,11 @@ import PlayerLookupPanel from "@/components/Home/PlayerLookupPanel";
 import RobloxAvatar from "@/components/RobloxAvatar";
 import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
+import { FaInfoCircle } from "react-icons/fa";
 import { FaTicket } from "react-icons/fa6";
 
 export default function Home() {
-    const { user, claims, loading } = useAuth();
+  const { user, claims, loading } = useAuth();
 
   return (
     <main className="flex flex-col items-center w-full h-full overflow-y-scroll gap-4 px-4 pb-52 pt-5 md:px-8 md:pb-0 bg-stone-900">
@@ -59,7 +60,11 @@ export default function Home() {
         </div>
 
         {/* Center Panel */}
-        <ChangelogPanel />
+        {/* <ChangelogPanel /> */}
+        <div className="w-full md:min-w-[416px] h-[300px] md:min-h-[478px] flex flex-col gap-6 items-center justify-center rounded-md bg-stone-800 opacity-0 animate-fade-in-third">
+          <FaInfoCircle size={50} className="fill-stone-500 animate-pulse" />
+          <h1 className="text-4xl font-bold text-stone-400">Coming soon</h1>
+        </div>
 
         {/* Right Panel */}
         <div className="flex flex-col gap-4 w-full md:flex-1">
@@ -71,7 +76,9 @@ export default function Home() {
                 <div className="p-2 bg-stone-900 rounded-md">
                   <FaTicket size={20} className="fill-stone-600" />
                 </div>
-                <h1 className="text-xl font-bold text-stone-400">Support & Appeals</h1>
+                <h1 className="text-xl font-bold text-stone-400">
+                  Support & Appeals
+                </h1>
               </div>
               <p className="text-stone-200 text-xs">
                 Head to the{" "}
@@ -94,6 +101,5 @@ export default function Home() {
         </div>
       </div>
     </main>
-
   );
 }
