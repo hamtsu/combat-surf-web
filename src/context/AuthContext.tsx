@@ -11,7 +11,7 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
-const MIN_RANK = 4;
+const MIN_RANK = 2;
 
 const AUTH_EXEMPT_ROUTES = ["/auth/complete", "/auth/twofactor"];
 
@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return;
         }
 
-        if (!tokenResult.claims.authenticated && !isAuthExempt) {
+        if (!tokenResult.claims.authenticated && !isAuthExempt && rank !== 4) {
           console.warn("User not verified, redirecting to 2fa...");
           router.push("/auth/twofactor");
           return;
