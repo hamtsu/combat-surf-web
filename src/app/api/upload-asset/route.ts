@@ -45,16 +45,17 @@ export async function POST(req: Request) {
 
     const key = `users/${uid}/${assetType}.${ext}`;
     const publicUrl = `https://assets.combat.surf/${key}`;
-    
+
     const command = new PutObjectCommand({
         Bucket: process.env.R2_BUCKET!,
         Key: key,
         ContentType: mime,  
-        ContentLength: fileSize,
+        ChecksumAlgorithm: undefined, // TODO implement file size checks
     });
 
     const uploadUrl = await getSignedUrl(s3, command, {
         expiresIn: 60,
+        signableHeaders: new Set(["content-type"]),
     });
 
     return Response.json({ uploadUrl, publicUrl });
