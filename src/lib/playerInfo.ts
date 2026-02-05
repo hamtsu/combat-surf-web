@@ -1,18 +1,11 @@
-export type CustomTheme = Record<string, string>;
-export type CustomProfile = {
-  backgroundImage?: string;
-  bannerImage?: string;
-  invertBannerText?: boolean;
-  blurBackgroundImage?: boolean;
-  theme?: CustomTheme;
-};
+import { getUserTheme } from "./getUserTheme";
 
 export type PlayerInfoOptions = {
   userId: string;
   fields: string[];
   inventoryLimit?: number;
   inventoryOffset?: number;
-  customProfiles?: Record<string, CustomProfile>;
+  theme?: boolean;
 };
 
 export async function getPlayerInfo(opts: PlayerInfoOptions) {
@@ -21,7 +14,7 @@ export async function getPlayerInfo(opts: PlayerInfoOptions) {
     fields,
     inventoryLimit = 0,
     inventoryOffset = 0,
-    customProfiles,
+    theme = false,
   } = opts;
 
   if (!userId || isNaN(Number(userId))) {
@@ -48,7 +41,14 @@ export async function getPlayerInfo(opts: PlayerInfoOptions) {
   const fieldFetchMap: Record<string, string | (() => Promise<any>)> = {
     username: async () => (await fetchRobloxUser()).name,
     displayName: async () => (await fetchRobloxUser()).displayName,
-    level: `${BASE_URL}CurrentLevel/entries/${userId}`,
+    level: async () => {
+      const res = await fetch(`${BASE_URL}CurrentLevel/entries/${userId}`, {
+        headers: { "x-api-key": process.env.OPENCLOUD_API_KEY || "" },
+      });
+      if (!res.ok) throw new Error("Failed to fetch firstjoined");
+      const json = await res.json();
+      return { value: json.value, firstJoined: json.createTime };
+    },
     clanId: `${BASE_URL}newMyClan/entries/${userId}`,
     inventory: async () => {
       const res = await fetch(`${BASE_URL}newInventory/entries/${userId}`, {
@@ -77,7 +77,14 @@ export async function getPlayerInfo(opts: PlayerInfoOptions) {
     wins: `${BASE_URL}WinStore/entries/${userId}`,
     tasks: `${BASE_URL}Tasks/entries/${userId}`,
     globalKills: `${BASE_URL}CurrencyStore/entries/${userId}`,
-    tradeBanned: `${BASE_URL}TradeBans/entries/${userId}`,
+    tradeBanned: async () => {
+      const res = await fetch(`${BASE_URL}TradeBans/entries/${userId}`, {
+        headers: { "x-api-key": process.env.OPENCLOUD_API_KEY || "" },
+      });
+      if (!res.ok) throw new Error("Failed to fetch tradeBanned");
+      const json = await res.json();
+      return { value: json.value, tradeBannedAt: json.createTime };
+    },
     rank: async () => {
       const res = await fetch(
         `https://groups.roblox.com/v2/users/${userId}/groups/roles`
@@ -111,17 +118,21 @@ export async function getPlayerInfo(opts: PlayerInfoOptions) {
     }
   });
 
-  await Promise.all(tasks);
+  if (theme) {
+    const themeData = await getUserTheme(`roblox:${userId}`);
 
-  if (fields.includes("theme") && customProfiles) {
-    const customProfile = customProfiles[userId];
-    playerInfo["backgroundImage"] = customProfile?.backgroundImage || "";
-    playerInfo["bannerImage"] = customProfile?.bannerImage || "";
-    playerInfo["invertBannerText"] = customProfile?.invertBannerText || false;
-    playerInfo["blurBackgroundImage"] =
-      customProfile?.blurBackgroundImage || false;
-    playerInfo["theme"] = customProfile?.theme || {};
+    if (themeData) {
+      playerInfo["bannerUrl"] = themeData.bannerUrl;
+      playerInfo["backgroundUrl"] = themeData.backgroundUrl;
+      playerInfo["description"] = themeData.description;
+      playerInfo["theme"] = themeData.theme;
+      playerInfo["socials"] = themeData.socials;
+      playerInfo["showcase"] = themeData.showcase;
+      playerInfo["awards"] = themeData.awards;
+    }
   }
+  
+  await Promise.all(tasks);
 
   return playerInfo;
 }

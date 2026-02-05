@@ -25,6 +25,7 @@ export async function getClanInfo({ clanId }: { clanId: string }) {
   }
 
   return {
+    id: clanId,
     tag: data.value?.tag,
     name: cached.name,
     cachedAt: cached.cachedAt,
