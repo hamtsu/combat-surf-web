@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowRight, FaMedal } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import RobloxAvatar from "../RobloxAvatar";
 import Button from "../Button";
-import { FaTriangleExclamation } from "react-icons/fa6";
-import Tooltip from "../Tooltip";
 import ClanTag from "../ClanTag";
 
 const LeaderboardPanel = () => {
@@ -66,17 +64,15 @@ const LeaderboardPanel = () => {
                   key={player.id}
                   style={{
                     animationDelay: `${index * 0.1 + (isTop ? 0 : 2)}s`,
+                    backgroundImage: players[index].bannerPath ? `url(${players[index].bannerPath})` : undefined,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                   }}
-                  className={`flex gap-2 items-center p-2 rounded-md select-none ${
-                    isTop
-                      ? "bg-[url(/header.png)] bg-bottom"
-                      : "bg-stone-900 opacity-0 animate-fade-in"
-                  }`}
+                  className={`flex gap-2 items-center p-2 rounded-md select-none bg-stone-900 opacity-0 animate-fade-in`}
                 >
                   <div
-                    className={`w-${
-                      isTop ? "10" : "5"
-                    } bg-stone-500 rounded-md`}
+                    className={`w-${isTop ? "10" : "5"
+                      } bg-stone-500 rounded-md`}
                   >
                     <RobloxAvatar userId={player.id} />
                   </div>
@@ -91,7 +87,8 @@ const LeaderboardPanel = () => {
                   </p>
                   <a
                     href={`/player/${player.id}`}
-                    className="text-stone-200 hover:text-amber-300"
+                    style={{ color: players[index]?.textBanner ? players[index].textBanner : undefined }}
+                    className={`${players[index]?.textBanner ? "font-bold" : ""} text-stone-200 hover:text-amber-300`}
                   >
                     {player.name.length > 8
                       ? player.name.slice(0, 8) + "…"
@@ -109,8 +106,9 @@ const LeaderboardPanel = () => {
                       colorMode={player.clanStyle.colorMode}
                     />
                   </div>
-                  <p className="text-stone-400">{player.level}</p>
-                  <span className="text-stone-500 text-base ml-[-5px]">
+                  <p style={{ color: players[index]?.textBanner ? players[index].textBanner : undefined }} className={`${players[index]?.textBanner ? "font-bold" : ""} text-stone-400`}>{player.level}</p>
+                  <span
+                    className={`${players[index]?.textBanner ? "font-bold" : ""} text-stone-500 text-base ml-[-5px]`}>
                     level
                   </span>
                 </div>
@@ -136,17 +134,17 @@ const LeaderboardPanel = () => {
                     : clan.name}
                 </a>
                 <div className="font-bold">
-                    <ClanTag
-                      text={clan.tag}
-                      colorR={clan.clanStyle.colorR}
-                      colorG={clan.clanStyle.colorG}
-                      colorB={clan.clanStyle.colorB}
-                      colorR2={clan.clanStyle.colorR2}
-                      colorG2={clan.clanStyle.colorG2}
-                      colorB2={clan.clanStyle.colorB2}
-                      colorMode={clan.clanStyle.colorMode}
-                    />
-                  </div>
+                  <ClanTag
+                    text={clan.tag}
+                    colorR={clan.clanStyle.colorR}
+                    colorG={clan.clanStyle.colorG}
+                    colorB={clan.clanStyle.colorB}
+                    colorR2={clan.clanStyle.colorR2}
+                    colorG2={clan.clanStyle.colorG2}
+                    colorB2={clan.clanStyle.colorB2}
+                    colorMode={clan.clanStyle.colorMode}
+                  />
+                </div>
                 <p className="text-stone-400">{clan.wins}</p>
                 <span className="text-stone-500 text-base ml-[-5px]">wins</span>
               </div>
