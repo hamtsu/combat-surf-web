@@ -77,6 +77,6 @@ export async function GET(req: Request) {
   );
 
   return NextResponse.redirect(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/auth/complete?token=${firebaseToken}`,
+    `https://combat.surf/auth/complete?token=${firebaseToken}`,
   );
 }
