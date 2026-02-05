@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPlayerInfo } from "@/lib/playerInfo";
 import { getClanInfo } from "@/lib/clanInfo";
+import { db } from "@/lib/firebaseAdmin";
+import { FieldValue } from "firebase-admin/firestore";
 
 const TTL = 5 * 60 * 1000; // 5 min
 let cache: any = null;
@@ -30,6 +32,7 @@ async function buildLeaderboard() {
       const info = await getPlayerInfo({
         userId: String(entry.id),
         fields: ["username", "globalKills", "level", "clanId", "wins"],
+        theme: true
       }).catch(() => null);
 
       const clanData = info?.clanId
@@ -39,23 +42,23 @@ async function buildLeaderboard() {
       const tag = clanData?.tag ?? "";
       const clanStyle = clanData
         ? {
-            colorR: clanData?.colorR ?? 0,
-            colorG: clanData?.colorG ?? 0,
-            colorB: clanData?.colorB ?? 0,
-            colorR2: clanData?.colorR2 ?? 0,
-            colorG2: clanData?.colorG2 ?? 0,
-            colorB2: clanData?.colorB2 ?? 0,
-            colorMode: clanData?.colorMode ?? "static",
-          }
+          colorR: clanData?.colorR ?? 0,
+          colorG: clanData?.colorG ?? 0,
+          colorB: clanData?.colorB ?? 0,
+          colorR2: clanData?.colorR2 ?? 0,
+          colorG2: clanData?.colorG2 ?? 0,
+          colorB2: clanData?.colorB2 ?? 0,
+          colorMode: clanData?.colorMode ?? "static",
+        }
         : {
-            colorR: 0,
-            colorG: 0,
-            colorB: 0,
-            colorR2: 0,
-            colorG2: 0,
-            colorB2: 0,
-            colorMode: "static",
-          };
+          colorR: 0,
+          colorG: 0,
+          colorB: 0,
+          colorR2: 0,
+          colorG2: 0,
+          colorB2: 0,
+          colorMode: "static",
+        };
 
       return {
         name: info?.username ?? "unknown",
@@ -65,6 +68,8 @@ async function buildLeaderboard() {
         id: entry.id,
         wins: info?.wins ?? 0,
         clanStyle,
+        bannerPath: info?.bannerUrl || null,
+        textBanner: info?.theme?.textBanner || null,
       };
     })
   );
@@ -102,6 +107,27 @@ async function getCached() {
   if (!debounce) {
     debounce = (async () => {
       const data = await buildLeaderboard();
+
+      if (cache) {
+        if ((cache.players[0]?.id !== data.players[0]?.id)) {
+          console.log("New #1 player detected:", data.players[0]?.id);
+          await adminEnsureUserDoc('roblox:' + data.players[0]?.id);
+          await adminEnsureUserDoc('roblox:' + cache.players[0]?.id);
+          await db.collection("users").doc('roblox:' + cache.players[0]?.id).update({
+            awards: FieldValue.arrayRemove("FIRST"),
+          }).then(async () => {
+            await db.collection("users").doc('roblox:' + data.players[0]?.id).update({
+              awards: FieldValue.arrayUnion("FIRST"),
+            });
+          })
+        } else {
+          await adminEnsureUserDoc('roblox:' + data.players[0]?.id);
+          await db.collection("users").doc('roblox:' + data.players[0]?.id).update({
+            awards: FieldValue.arrayUnion("FIRST"),
+          });
+        }
+      }
+
       cache = data;
       cacheTime = Date.now();
       return data;
@@ -112,6 +138,42 @@ async function getCached() {
     return await debounce;
   } finally {
     debounce = null;
+  }
+}
+
+async function adminEnsureUserDoc(uid: string) {
+  const ref = db.collection("users").doc(uid);
+  const snap = await ref.get();
+
+  if (!snap.exists) {
+    await ref.set({
+      authenticatedAt: null,
+      theme: {
+        bgPrimary: "#1c1917",
+        bgSecondary: "#292524FF",
+        bgTertiary: "#1c1917FF",
+        textPrimary: "#d6d3d1FF",
+        textSecondary: "#78716cFF",
+        textMuted: "#a8a29eFF",
+        borderColor: "#44403cFF",
+        iconColor: "#57534eFF",
+        progressTrack: "#57534eFF",
+        progressFill: "#e7e5e4FF",
+        textOnFill: "#292524FF",
+        digitInactive: "#57534eFF",
+        digitActive: "#e7e5e4FF",
+        textBanner: "#e7e5e4",
+      },
+      bannerPath: null,
+      backgroundPath: null,
+      description: "",
+      socials: {},
+      showcase: [],
+      awards: [],
+      vanityUrl: null,
+      createdAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp(),
+    });
   }
 }
 
