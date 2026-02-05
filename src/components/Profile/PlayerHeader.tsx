@@ -1,12 +1,17 @@
 "use client";
-import React, { FC } from "react";
+import { FC, JSX, useEffect, useState } from "react";
 import RobloxAvatar from "../RobloxAvatar";
 import CopyButton from "../CopyButton";
 import {
+  FaArrowLeft,
+  FaArrowRight,
   FaArrowUp,
-  FaCheckCircle,
+  FaCalendarDay,
   FaClipboard,
+  FaGavel,
   FaShieldAlt,
+  FaStar,
+  FaWrench,
 } from "react-icons/fa";
 import PlayerRank from "./PlayerRank";
 import Button from "../Button";
@@ -21,7 +26,7 @@ type PlayerHeaderProps = {
     userId: string;
     username: string;
     displayName: string;
-    level: number;
+    level: { value: number; firstJoined: string };
     clanName: string;
     clanTag: string;
     clanId: string;
@@ -31,8 +36,8 @@ type PlayerHeaderProps = {
     clanColorR2: number;
     clanColorG2: number;
     clanColorB2: number;
-    bannerImage?: string;
-    backgroundImage?: string;
+    bannerUrl?: string;
+    backgroundUrl?: string;
     invertBannerText?: boolean;
     clanColorMode: "fade" | "static" | "gradiant" | "gradiant2" | "gradiant3";
     weaponKills: number[];
@@ -51,11 +56,46 @@ type PlayerHeaderProps = {
       LastLoginDate: string;
     };
     theme?: any;
+    clanIconUrl?: string;
+    awards?: string[];
   };
 };
 
 const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
   const router = useRouter();
+
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [timeLeft, setTimeLeft] = useState<number>(0.5);
+  const [shouldStopTimer, setShouldStopTimer] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(userInfo?.clanName);
+  }, [userInfo]);
+
+  useEffect(() => {
+    if (
+      shouldStopTimer ||
+      !userInfo?.awards ||
+      userInfo?.awards?.length === 0
+    ) {
+      setCurrentPage(1);
+      return;
+    }
+
+    const rotatePage = () => {
+      setTimeLeft((prev) => {
+        if (prev >= 6) {
+          setCurrentPage((prev) => (prev === 1 ? 0 : 1));
+          return 0.5;
+        } else {
+          return prev + 1;
+        }
+      });
+    };
+
+    const infoPageTimer = setInterval(rotatePage, 1000);
+    return () => clearInterval(infoPageTimer);
+  }, [currentPage, userInfo?.awards]);
 
   const getWeaponName = (index: number) => {
     const weaponNames = [
@@ -70,13 +110,122 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
     return weaponNames[index];
   };
 
+  const AWARDS: { [key: string]: JSX.Element } = {
+    STAFF: (
+      <div className="flex flex-col h-full group mx-auto items-center text-indigo-400 text-shadow-md">
+        <FaShieldAlt
+          size={30}
+          className="md:hidden translate-y-2 group-hover:translate-y-0 transition-all fill-stone-500/40 group-hover:fill-indigo-400"
+        />
+        <FaShieldAlt
+          size={40}
+          className="hidden md:block translate-y-2 group-hover:translate-y-0 transition-all fill-stone-500/40 group-hover:fill-indigo-400"
+        />
+        <span className="text-sm md:hidden translate-y-2 transition-all group-hover:translate-y-1 font-bold tracking-wider  text-stone-500/40 group-hover:text-indigo-400 group-hover:text-shadow-indigo-400">
+          STAFF
+        </span>
+        <span className="text-sm hidden md:block translate-y-2 transition-all group-hover:translate-y-1 font-bold tracking-wider  text-stone-500/40 group-hover:text-indigo-400 group-hover:text-shadow-indigo-400">
+          STAFF MEMBER
+        </span>
+        <span
+          className="opacity-0 transition-opacity group-hover:opacity-100 text-[9px] font-bold text-shadow-none"
+          style={{ color: userInfo.theme?.textSecondary || "#78716c" }}
+        >
+          {" "}
+          awarded for being staff
+        </span>
+      </div>
+    ),
+    DEV: (
+      <div className="flex flex-col h-full group mx-auto items-center text-shadow-md">
+        {/* <FaCode size={40} className="translate-y-2 group-hover:translate-y-0 transition-all fill-stone-500/40 group-hover:fill-lime-400" /> */}
+        <h1 className="translate-y-2 group-hover:translate-y-0 transition-all text-stone-500/40 group-hover:rainbow-fade-text text-xl md:text-4xl">
+          <b>&lt;/&gt;</b>
+        </h1>
+        <span className="text-sm translate-y-2 group-hover:translate-y-0 transition-all font-bold tracking-wider not-hover:text-stone-500/40 group-hover:rainbow-fade-text">
+          DEVELOPER
+        </span>
+        <span
+          className="opacity-0 transition-opacity group-hover:opacity-100 text-[9px] font-bold text-shadow-none"
+          style={{ color: userInfo.theme?.textSecondary || "#78716c" }}
+        >
+          {" "}
+          the website dev!
+        </span>
+      </div>
+    ),
+    CONTRIBUTOR: (
+      <div className="flex flex-col h-full group mx-auto items-center text-shadow-md">
+        <FaWrench
+          size={30}
+          className="md:hidden translate-y-2 group-hover:translate-y-0 transition-all fill-stone-500/40 group-hover:fill-purple-400"
+        />
+         <FaWrench
+          size={40}
+          className="hidden md:block translate-y-2 group-hover:translate-y-0 transition-all fill-stone-500/40 group-hover:fill-purple-400"
+        />
+        <span className="text-sm translate-y-2 group-hover:translate-y-0 transition-all font-bold tracking-wider not-hover:text-stone-500/40 group-hover:text-shadow-purple-400 group-hover:text-purple-400">
+          CONTRIBUTOR
+        </span>
+        <span
+          className="opacity-0 transition-opacity group-hover:opacity-100 text-[9px] font-bold text-shadow-none"
+          style={{ color: userInfo.theme?.textSecondary || "#78716c" }}
+        >
+          contributed to the site
+        </span>
+      </div>
+    ),
+    ADMIN: (
+      <div className="flex flex-col h-full group mx-auto items-center text-shadow-lg">
+        <FaGavel
+          size={30}
+          className="md:hidden translate-y-2 group-hover:translate-y-0 transition-all fill-stone-500/40 group-hover:fill-purple-500"
+        />
+        <FaGavel
+          size={40}
+          className="hidden md:block translate-y-2 group-hover:translate-y-0 transition-all fill-stone-500/40 group-hover:fill-purple-500"
+        />
+        <span className="text-sm translate-y-2 group-hover:translate-y-1 transition-all font-bold tracking-wider not-hover:text-stone-500/40 group-hover:text-shadow-purple-500 group-hover:text-purple-500">
+          ADMINS
+        </span>
+        <span
+          className="opacity-0 transition-opacity group-hover:opacity-100 text-[9px] font-bold text-shadow-none"
+          style={{ color: userInfo.theme?.textSecondary || "#78716c" }}
+        >
+          {" "}
+          awarded to the admins
+        </span>
+      </div>
+    ),
+    FIRST: (
+      <div className="flex flex-col h-full group mx-auto items-center text-shadow-lg">
+        <h1 className="text-xl md:hidden translate-y-2 group-hover:translate-y-0 transition-all text-stone-500/40 group-hover:text-amber-300 group-hover:text-shadow-amber-300">
+          #1
+        </h1>
+        <h1 className="text-4xl hidden md:block translate-y-2 group-hover:translate-y-0 transition-all text-stone-500/40 group-hover:text-amber-300 group-hover:text-shadow-amber-300">
+          #1
+        </h1>
+        <span className="text-sm translate-y-2 group-hover:translate-y-0 transition-all font-bold tracking-wider not-hover:text-stone-500/40 group-hover:text-amber-300 group-hover:text-shadow-amber-400">
+          TOP PLAYER
+        </span>
+        <span
+          className="opacity-0 transition-opacity group-hover:opacity-100 text-[9px] font-bold text-shadow-none"
+          style={{ color: userInfo.theme?.textSecondary || "#78716c" }}
+        >
+          {" "}
+          #1 leaderboard player
+        </span>
+      </div>
+    ),
+  };
+
   const TEMP_PUNISHMENTS = {
     tradebanned: true,
     banned: false,
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 mt-5 md:mt-8">
+    <div className="flex flex-col max-w-[95%] w-[95%] md:max-w-none md:w-fit md:flex-row gap-4 mt-5 md:mt-8">
       <div className="flex flex-col gap-3">
         <div
           style={{
@@ -97,7 +246,7 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
           </div>
 
           <div
-            className={`text-4xl md:text-5xl font-bold flex text-shadow-lg gap-0 flex-col`}
+            className={`${userInfo.displayName.length > 5 ? "text-2xl md:text-4xl" : "text-4xl md:text-5xl"} font-bold flex text-shadow-lg gap-0 flex-col`}
             style={{
               color:
                 userInfo.theme?.textBanner ||
@@ -182,11 +331,16 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
             className={`select-none hidden md:flex flex-col gap-2 mx-3 mt-[-50px] shadow-lg border-t-3 h-fit p-3 rounded-md`}
             style={{
               backgroundColor: userInfo.theme?.bgTertiary || "#18161a",
+              backgroundImage: userInfo.clanIconUrl
+                ? `linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.75)), url(${userInfo.clanIconUrl})`
+                : "",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
               borderColor: userInfo.theme?.borderColor || "#44403b",
             }}
           >
             <h1
-              className={`text-2xl font-bold`}
+              className={`text-2xl font-bold opacity-50`}
               style={{
                 color: userInfo.theme?.textMuted || "#a1a1a6",
               }}
@@ -194,11 +348,17 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
               Clan Info
             </h1>
             <Tooltip
-              text={`View ${userInfo.clanName} clan profile`}
+              text={
+                userInfo?.clanName
+                  ? `View ${userInfo?.clanName} clan profile`
+                  : "No Clan"
+              }
               position="top"
             >
               <h2
-                onClick={() => router.push(`/clan/${userInfo.clanId}`)}
+                onClick={() =>
+                  userInfo?.clanId && router.push(`/clan/${userInfo.clanId}`)
+                }
                 className={`text-4xl font-bold hover:underline hover:cursor-pointer`}
                 style={{
                   color: userInfo.theme?.textPrimary || "#f5f5f5",
@@ -227,13 +387,13 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
           </div>
         </div>
 
-        <div className="flex gap-1 md:gap-3">
+        <div className="flex gap-1 justify-between md:justify-start md:gap-3">
           <PlayerRank userId={userInfo.userId} />
           <Button
             onClick={() =>
               window.open(
                 `https://www.roblox.com/users/${userInfo.userId}/profile`,
-                "_blank"
+                "_blank",
               )
             }
             className={`opacity-0 animate-fade-in-fourth p-2 px-3 md:px-5 w-fit md:py-2 h-full flex hover:bg-red-500 font-bold hover:text-stone-100 text-lg ml-1 md:ml-0 font-sans transition-colors rounded-lg group`}
@@ -243,71 +403,8 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
             }}
           >
             <SiRoblox size={20} className="group-hover:animate-wiggle" />
-            <p className="hidden md:block">Roblox Profile</p>
+            <p>Roblox Profile</p>
           </Button>
-
-          <div className="md:grow" />
-
-          <div
-            className={`shadow-lg rounded-md px-2 opacity-0 animate-fade-in-fourth flex items-center gap-1`}
-            style={{
-              backgroundColor: userInfo.theme?.bgSecondary || "#292524",
-            }}
-          >
-            {userInfo.tradeBanned && TEMP_PUNISHMENTS.banned ? (
-              <div className="flex flex-col gap-1">
-                <div
-                  className={`flex gap-1 items-center px-4`}
-                  style={{
-                    color: userInfo.theme?.textMuted || "#d4d4d8",
-                  }}
-                >
-                  <FaShieldAlt size={20} className="text-red-400 mr-2" />
-                  Active <b className="text-red-400 underline">Game</b> and{" "}
-                  <b className="underline text-red-400">Trade</b> ban
-                </div>
-                <div className="h-[7px] w-full bg-construction" />
-              </div>
-            ) : userInfo.tradeBanned ? (
-              <div className="flex flex-col gap-1">
-                <div
-                  className={`flex gap-1 items-center p-2 px-4`}
-                  style={{
-                    color: userInfo.theme?.textMuted || "#d4d4d8",
-                  }}
-                >
-                  <FaShieldAlt size={20} className="text-yellow-400 mr-2" />
-                  Active <b className="text-yellow-400 underline">Trade</b> ban
-                </div>
-              </div>
-            ) : TEMP_PUNISHMENTS.banned ? (
-              <div className="flex flex-col gap-1">
-                <div
-                  className={`flex gap-1 items-center px-4`}
-                  style={{
-                    color: userInfo.theme?.textMuted || "#d4d4d8",
-                  }}
-                >
-                  <FaShieldAlt size={20} className="text-red-400 mr-2" />
-                  Active <b className="text-red-400 underline">Game</b> ban
-                </div>
-                <div className="h-[7px] w-full bg-construction" />
-              </div>
-            ) : (
-              <Tooltip text="No active bans" position="top">
-                <div
-                  className={`flex select-none hover:cursor-pointer gap-1 font-bold items-center p-1 md:px-4`}
-                  style={{
-                    color: userInfo.theme?.textSecondary || "#a1a1a1",
-                  }}
-                >
-                  <FaCheckCircle size={20} className="text-stone-500 mr-2" />
-                  <p className="hidden md:block">No active bans</p>
-                  <p className="md:hidden">No Bans</p>
-                </div>
-              </Tooltip>
-            )}
-          </div>
         </div>
       </div>
 
@@ -326,7 +423,7 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
                 color: userInfo.theme?.textPrimary || "#d4d4d8",
               }}
             >
-              {userInfo.level}
+              {userInfo.level.value}
             </h1>
             <h2
               className={`text-3xl mt-auto font-bold flex gap-2`}
@@ -352,12 +449,32 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
               }}
             >
               <h1
-                className={`text-xs font-bold`}
+                className={`text-xs flex items-center gap-2 font-bold`}
                 style={{
                   color: userInfo.theme?.textMuted || "#a1a1a1",
                 }}
               >
-                No Badges
+                <FaCalendarDay
+                  size={11}
+                  color={userInfo.theme?.textSecondary || "#78716c"}
+                />
+                <span className="md:block hidden">
+                  First Join:{" "}
+                  <b>
+                    {new Date(userInfo.level.firstJoined).toLocaleDateString(
+                      "en-US",
+                      { timeZone: "UTC" },
+                    )}
+                  </b>
+                </span>
+                <span className="md:hidden block">
+                  <b>
+                    {new Date(userInfo.level.firstJoined).toLocaleDateString(
+                      "en-US",
+                      { timeZone: "UTC" },
+                    )}
+                  </b>
+                </span>
               </h1>
             </div>
 
@@ -422,51 +539,179 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
                 backgroundColor: userInfo.theme?.bgTertiary || "#1c1917",
               }}
             >
-              <FaClipboard
-                size={16}
-                style={{
-                  fill: userInfo.theme?.iconColor || "#78716c",
-                }}
-              />
+              {currentPage === 0 &&
+              userInfo?.awards &&
+              userInfo?.awards?.length > 0 ? (
+                <FaStar
+                  size={16}
+                  style={{
+                    fill: userInfo.theme?.iconColor || "#78716c",
+                  }}
+                />
+              ) : (
+                <FaClipboard
+                  size={16}
+                  style={{
+                    fill: userInfo.theme?.iconColor || "#78716c",
+                  }}
+                />
+              )}
             </div>
             <h1
-              className={`text-2xl font-bold mt-1`}
+              className={`text-2xl block md:hidden font-bold mt-1`}
               style={{
                 color: userInfo.theme?.textMuted || "#a1a1a1",
               }}
             >
-              Weapon Kills
+              {currentPage === 0 &&
+              userInfo?.awards &&
+              userInfo?.awards?.length > 0
+                ? "Awards"
+                : "Kills"}
             </h1>
-          </div>
-          <div className="grid grid-cols-3 gap-2">
-            {Object.entries(userInfo.weaponKills).map((weapon, index) => {
-              if (index !== 5) {
-                return (
+            <h1
+              className={`text-2xl hidden md:block font-bold mt-1`}
+              style={{
+                color: userInfo.theme?.textMuted || "#a1a1a1",
+              }}
+            >
+              {currentPage === 0 &&
+              userInfo?.awards &&
+              userInfo?.awards?.length > 0
+                ? "Awards"
+                : "Weapon Kills"}
+            </h1>
+
+            {userInfo?.awards && userInfo?.awards?.length > 0 && (
+              <>
+                <div className="flex gap-1 mx-auto items-center">
                   <div
-                    key={index}
-                    className={`p-1 rounded-md px-3 text-xl md:text-2xl items-center font-mono font-bold flex select-none`}
                     style={{
-                      backgroundColor: userInfo.theme?.bgTertiary || "#1c1917",
+                      backgroundColor:
+                        userInfo.theme?.textSecondary || "#78716c",
                     }}
+                    className=" rounded-sm w-8 h-1 overflow-hidden"
                   >
-                    <span
-                      className={`mr-1 md:mr-3 text-xs md:text-lg font-bold`}
+                    {currentPage == 0 && (
+                      <div
+                        style={{
+                          backgroundColor:
+                            userInfo.theme?.textPrimary || "#e7e5e4",
+                          width: `${shouldStopTimer ? 100 : (timeLeft / 6) * 100}%`,
+                        }}
+                        className={`rounded-sm h-full transition-all`}
+                      />
+                    )}
+                  </div>
+                  <div
+                    style={{
+                      backgroundColor:
+                        userInfo.theme?.textSecondary || "#78716c",
+                    }}
+                    className=" rounded-sm w-8 h-1 overflow-hidden"
+                  >
+                    {currentPage == 1 && (
+                      <div
+                        style={{
+                          backgroundColor:
+                            userInfo.theme?.textPrimary || "#e7e5e4",
+                          width: `${shouldStopTimer ? 100 : (timeLeft / 6) * 100}%`,
+                        }}
+                        className={`rounded-sm h-full transition-all`}
+                      />
+                    )}
+                  </div>
+                </div>
+
+                <Button
+                  className="w-fit ml-auto py-2 px-3 flex gap-3 text-lg group"
+                  style={{
+                    backgroundColor: userInfo.theme?.bgTertiary || "#1c1917",
+                    color: userInfo.theme?.textMuted || "#a1a1aa",
+                  }}
+                  onClick={() => {
+                    setShouldStopTimer(true);
+                    setCurrentPage((prev) => (prev + 1) % 2);
+                  }}
+                >
+                  {currentPage === 0 ? (
+                    <div className="flex gap-2 font-bold items-center text-sm">
+                      <FaArrowRight
+                        size={16}
+                        className="group-hover:animate-bounce-right"
+                      />
+                      Stats{" "}
+                    </div>
+                  ) : (
+                    <div className="flex gap-2 font-bold items-center text-sm">
+                      <FaArrowLeft
+                        size={16}
+                        className="group-hover:animate-bounce-left"
+                      />
+                      Awards{" "}
+                    </div>
+                  )}
+                </Button>
+              </>
+            )}
+          </div>
+          {currentPage === 0 && (
+            <div className="min-h-[80px] md:min-h-[88px] w-[384px] max-w-[384px] md:w-[440px] md:max-w-[440px] ">
+              {userInfo?.awards && userInfo?.awards?.length > 0 ? (
+                <div className="grid grid-cols-3 gap-2 overflow-x-auto">
+                  {userInfo.awards.map((award, index) => (
+                    <div
+                      key={index}
+                      className={`p-1 animate-fade-in opacity-0 rounded-md text-xl md:text-2xl items-center font-mono font-bold flex select-none`}
                       style={{
-                        color: userInfo.theme?.textMuted || "#a1a1a1",
+                        backgroundColor:
+                          userInfo.theme?.bgTertiary || "#1c1917",
+                        animationDelay: `${index * 0.1}s`,
                       }}
                     >
-                      {getWeaponName(index)}
-                    </span>
-                    <div className="grow" />
-                    <NumberDisplay
-                      number={userInfo.weaponKills[index]}
-                      theme={userInfo.theme}
-                    />
-                  </div>
-                );
-              }
-            })}
-          </div>
+                      {AWARDS[award] || award}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-stone-400 text-lg italic w-full h-full flex items-center justify-center font-bold">
+                  <p>No awards earned yet.</p>
+                </div>
+              )}
+            </div>
+          )}
+          {currentPage === 1 && (
+            <div className="grid grid-cols-3 gap-2">
+              {Object.entries(userInfo.weaponKills).map((_, index) => {
+                if (index !== 5) {
+                  return (
+                    <div
+                      key={index}
+                      className={`p-1 rounded-md px-3 text-xl md:text-2xl items-center font-mono font-bold flex select-none`}
+                      style={{
+                        backgroundColor:
+                          userInfo.theme?.bgTertiary || "#1c1917",
+                      }}
+                    >
+                      <span
+                        className={`mr-1 md:mr-3 text-xs md:text-lg font-bold`}
+                        style={{
+                          color: userInfo.theme?.textMuted || "#a1a1a1",
+                        }}
+                      >
+                        {getWeaponName(index)}
+                      </span>
+                      <div className="grow" />
+                      <NumberDisplay
+                        number={userInfo.weaponKills[index]}
+                        theme={userInfo.theme}
+                      />
+                    </div>
+                  );
+                }
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>
