@@ -21,6 +21,12 @@ const rateLimitConfig: Record<
   "/api/group-icon": { limit: 40, windowMs: 60 * 1000 }, // used on clan info page
   "/api/player-search": { limit: 50, windowMs: 60 * 1000 }, // used on homepage, player profiles
   "/api/leaderboard": { limit: 50, windowMs: 60 * 1000 },
+  "/api/auth/logout": { limit: 20, windowMs: 60 * 1000 },
+  "/api/auth/roblox/callback": { limit: 20, windowMs: 60 * 1000 }, // used during Roblox OAuth login
+  "/api/auth/2fa/verify": { limit: 20, windowMs: 60 * 1000 }, // used during 2FA verification
+  "/api/auth/2fa/request": { limit: 10, windowMs: 60 * 1000 }, // used during 2FA verification
+  "/api/claim-vanity": { limit: 10, windowMs: 60 * 1000 }, // used during vanity URL claiming
+  "/api/upload-asset": { limit: 15, windowMs: 60 * 1000 }, // used during asset uploading
 };
 
 function getClientIp(req: NextRequest): string {
