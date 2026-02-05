@@ -77,6 +77,6 @@ export async function GET(req: Request) {
   );
 
   return NextResponse.redirect(
-    `https://${process.env.NEXT_PUBLIC_SITE_URL}/auth/complete?token=${firebaseToken}`,
+    `${process.env.NEXT_PUBLIC_SITE_URL}/auth/complete?token=${firebaseToken}`,
   );
 }
