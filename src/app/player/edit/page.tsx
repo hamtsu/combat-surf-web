@@ -213,7 +213,7 @@ const ProfileEdit = () => {
       method: "PUT",
       headers: {
         "Content-Type": file.type,
-        "Content-Length": file.size.toString(),
+        // "Content-Length": file.size.toString(),
       },
       body: file,
     })
