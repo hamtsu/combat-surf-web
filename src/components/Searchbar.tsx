@@ -85,8 +85,8 @@ function Searchbar({ theme }: { theme: any }) {
           name="player-search"
           className={`rounded-md p-2 px-3 w-[250px]`}
           style={{
-            backgroundColor: theme.bgTertiary || "#1c1917",
-            color: theme.textMuted || "#d4d4d8",
+            backgroundColor: theme?.bgTertiary || "#1c1917",
+            color: theme?.textMuted || "#d4d4d8",
           }}
           placeholder="Enter player username or ID"
           onChange={(e) => setInputValue(e.target.value)}
@@ -98,8 +98,8 @@ function Searchbar({ theme }: { theme: any }) {
           onClick={handleSelectUser}
           className={`p-3`}
           style={{
-            backgroundColor: theme.bgTertiary || "#1c1917",
-            color: theme.textMuted || "#a1a1a1",
+            backgroundColor: theme?.bgTertiary || "#1c1917",
+            color: theme?.textMuted || "#a1a1a1",
           }}
         >
           <FaMagnifyingGlass />
@@ -108,16 +108,16 @@ function Searchbar({ theme }: { theme: any }) {
 
       <ul
         className={`absolute z-10 mt-1 w-full rounded-md shadow-lg max-h-60 overflow-auto`}
-        style={{ backgroundColor: theme.bgSecondary || "#292524" }}
+        style={{ backgroundColor: theme?.bgSecondary || "#292524" }}
       >
         {loading ? (
           <div className="flex flex-col">
             <FaUserCog
               size={30}
-              style={{ color: theme.textPrimary || "#d4d4d8" }}
+              style={{ color: theme?.textPrimary || "#d4d4d8" }}
               className="mx-auto mt-2"
             />
-            <p style={{ color: theme.textPrimary || "#d4d4d8" }} className="text-center">
+            <p style={{ color: theme?.textPrimary || "#d4d4d8" }} className="text-center">
               Searching...
             </p>
           </div>
@@ -125,10 +125,10 @@ function Searchbar({ theme }: { theme: any }) {
           <div className="flex flex-col">
             <FaUserSlash
               size={30}
-              style={{ color: theme.textPrimary || "#d4d4d8" }}
+              style={{ color: theme?.textPrimary || "#d4d4d8" }}
               className="mx-auto mt-2"
             />
-            <p style={{ color: theme.textPrimary || "#d4d4d8" }} className="text-center">
+            <p style={{ color: theme?.textPrimary || "#d4d4d8" }} className="text-center">
               User not found
             </p>
           </div>
@@ -136,10 +136,10 @@ function Searchbar({ theme }: { theme: any }) {
           <div className="p-2">
             <FaExclamationTriangle
               size={30}
-              style={{ color: theme.textPrimary || "#d4d4d8" }}
+              style={{ color: theme?.textPrimary || "#d4d4d8" }}
               className="mx-auto mt-2"
             />
-            <p style={{ color: theme.textPrimary || "#d4d4d8" }} className="text-center">
+            <p style={{ color: theme?.textPrimary || "#d4d4d8" }} className="text-center">
               Enter 3 or more characters
             </p>
           </div>
@@ -147,13 +147,13 @@ function Searchbar({ theme }: { theme: any }) {
           <li
             onClick={handleSelectUser}
             className={`px-3 flex gap-2 items-center py-2 cursor-pointer`}
-            style={{ color: theme.textMuted || "#d4d4d8" }}
+            style={{ color: theme?.textMuted || "#d4d4d8" }}
           >
             <div className="w-5 mr-1">
               <RobloxAvatar userId={user.userId} />
             </div>
             <span>{user.username}</span>
-            <span style={{ color: theme.textPrimary || "rgba(209, 213, 219, 0.4)" }}>
+            <span style={{ color: theme?.textPrimary || "rgba(209, 213, 219, 0.4)" }}>
               ({user.userId})
             </span>
           </li>
