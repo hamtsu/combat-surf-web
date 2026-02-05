@@ -1,6 +1,5 @@
 import { doc, getDoc } from "firebase/firestore";
-import { ref as storageRef, getDownloadURL } from "firebase/storage";
-import { db, storage } from "@/lib/firebaseClient";
+import { db } from "@/lib/firebaseClient";
 
 export async function getUserTheme(uid: string) {
   const userDocRef = doc(db, "users", uid);
@@ -12,20 +11,30 @@ export async function getUserTheme(uid: string) {
   let bannerUrl = null;
 
   if (snap.data().bannerPath) {
-    const bannerFileRef = storageRef(storage, snap.data().bannerPath);
-    bannerUrl = await getDownloadURL(bannerFileRef);
+    bannerUrl = snap.data().bannerPath
   }
 
   // background
   let backgroundUrl = null;
 
   if (snap.data().backgroundPath) {
-    const backgroundFileRef = storageRef(storage, snap.data().backgroundPath);
-    backgroundUrl = await getDownloadURL(backgroundFileRef);
+    backgroundUrl = snap.data().backgroundPath
   }
 
   // theme
   const theme = snap.data().theme || {};
 
-  return { bannerUrl, backgroundUrl, theme };
+  // description
+  const description = snap.data().description || "";
+
+  // socials
+  const socials = snap.data().socials || {};
+
+  // showcase
+  const showcase = snap.data().showcase || [];
+
+  // awards
+  const awards = snap.data().awards || [];
+
+  return { bannerUrl, backgroundUrl, theme, description, socials, showcase, awards };
 }

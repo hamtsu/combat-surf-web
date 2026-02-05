@@ -1,6 +1,6 @@
 {
   "name": "combatsurf-website",
-  "version": "b1.1.0",
+  "version": "b1.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -10,7 +10,9 @@
     "postbuild": "next-sitemap"
   },
   "dependencies": {
-    "@next/third-parties": "^15.4.3",
+    "@aws-sdk/client-s3": "^3.981.0",
+    "@aws-sdk/s3-request-presigner": "^3.981.0",
+    "@next/third-parties": "^16.1.6",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "dotenv": "^17.0.1",
@@ -27,8 +29,7 @@
     "react-intersection-observer": "^9.16.0",
     "react-markdown": "^10.1.0",
     "react-spinners": "^0.17.0",
-    "swr": "^2.3.4",
-    "three": "^0.171.0"
+    "swr": "^2.3.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.4",
@@ -37,7 +38,7 @@
     "@types/node": "^20",
     "@types/react": "19.1.2",
     "@types/react-dom": "19.1.2",
-    "eslint": "^8",
+    "eslint": "^9.39.2",
     "eslint-config-next": "15.3.1",
     "postcss": "^8",
     "tailwindcss": "^4.1.4",
