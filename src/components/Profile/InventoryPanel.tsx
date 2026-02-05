@@ -1,8 +1,13 @@
 "use client";
 import React, { FC, useEffect, useRef, useState } from "react";
-import { FaCaretRight, FaExclamationTriangle, FaTag } from "react-icons/fa";
-import { FaBoxArchive } from "react-icons/fa6";
+import { FaCaretRight, FaExclamationTriangle, FaPlus, FaStar, FaTag } from "react-icons/fa";
+import { FaBoxArchive, FaPencil, FaRotateRight } from "react-icons/fa6";
 import { useInView } from "react-intersection-observer";
+import Button from "../Button";
+import { useAuth } from "@/context/AuthContext";
+import { updateShowcase } from "@/lib/updateProfile";
+import { ScaleLoader } from "react-spinners";
+import { checkNewGenImage, normalizeName } from "@/lib/normalizeItems";
 
 type InventoryPanelProps = {
   userId: string;
@@ -26,6 +31,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [filteredItems, setFilteredItems] = useState<any[]>([]);
   const [isFirstLoad, setIsFirstLoad] = useState<boolean>(true);
+  const { user, claims, loading } = useAuth();
 
   const [visibleItems, setVisibleItems] = useState<number>(52);
   const LOAD_INCREMENT = 30;
@@ -38,6 +44,12 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
   });
 
   useEffect(() => {
+    if (!loading && user && claims.userId === Number(userId)) {
+      setCanEditShowcase(true);
+    } else {
+      setCanEditShowcase(false);
+    }
+
     fetch(`/api/player-info?userId=${userId}&fields=inventory`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed fetching player inventory");
@@ -46,6 +58,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
       .then((data) => {
         if (data.inventory) {
           setInventory(data.inventory);
+          setShowcaseItems(data.showcase || []);
         } else {
           setError("User not found or invalid userId");
         }
@@ -70,17 +83,14 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
   }, [inView]);
 
   const ITEM_RARITY: Record<number, string> = {
-    100: "Divine",
-    55: "Divine",
-    54: "Divine",
-    53: "Divine",
-    52: "Divine",
-    51: "Divine",
     50: "Unreal",
-    12: "Ultra Rare Collectable",
+    49: "Unreal",
+    12: "U R Collectable",
+    11: "Ethereal",
     10: "Mythic",
     9: "Godly",
     8: "N/A (Case)",
+    7: "Ultra Rare",
     6: "Gold",
     5: "Legendary",
     4: "Epic",
@@ -108,14 +118,37 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
     );
   };
 
-  const normalizeName = (subType: string, name: string) => {
-    const value = subType ?? name;
+  const [canEditShowcase, setCanEditShowcase] = useState<boolean>(false);
+  const [editingShowcase, setEditingShowcase] = useState<boolean>(false);
+  const [showcaseItems, setShowcaseItems] = useState<string[]>(userInfo.showcase || []);
+  const [showcaseError, setShowcaseError] = useState<string | null>(null);
+  const [showcaseLoading, setShowcaseLoading] = useState<boolean>(false);
 
-    if (value === "???") return "QuestionQuestionQuestion";
-    if (value === "AWP_#1") return "AWP_Number1";
+  const handleShowcaseEdit = async () => {
+    if (canEditShowcase === false || showcaseLoading) return;
+    setShowcaseError(null);
 
-    return value;
-  };
+    if (editingShowcase) {
+      setShowcaseLoading(true);
+      await updateShowcase(showcaseItems).then(() => setEditingShowcase(false)).catch((err) => {
+        setShowcaseError(err.message || "Failed to update showcase");
+        console.error("Failed to update showcase:", err);
+      });
+      setShowcaseLoading(false);
+    } else {
+      setEditingShowcase(true);
+    }
+  }
+
+  const selectItem = (itemSerial: string) => {
+    if (!editingShowcase) return;
+    if (showcaseItems.length >= 4 && !showcaseItems.includes(itemSerial)) return;
+    if (showcaseItems.includes(itemSerial)) {
+      setShowcaseItems(showcaseItems.filter((serial) => serial !== itemSerial));
+    } else {
+      setShowcaseItems([...showcaseItems, itemSerial]);
+    }
+  }
 
   return (
     <div
@@ -161,7 +194,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
 
         <div
           className={`my-auto p-1 px-2 h-fit text-sm rounded-sm font-mono opacity-70`}
-          style={{ 
+          style={{
             backgroundColor: userInfo.theme?.bgTertiary || "#1c1917",
             color: userInfo.theme?.textMuted || "#a1a1a1"
           }}
@@ -169,6 +202,32 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
           {filteredItems.length}{" "}
           <span className="hidden md:inline"> items</span>
         </div>
+
+        {canEditShowcase && (
+          <div className="ml-auto flex items-center gap-2 mr-6">
+            {editingShowcase && (
+              <p style={{
+                color: userInfo.theme?.textMuted || "#d4d4d8"
+              }}>
+                {showcaseError ? (<span className="text-red-500">{showcaseError}</span>) : (<span><b>{showcaseItems.length}</b> selected</span>)}
+              </p>
+            )}
+            <Button
+              className={`${editingShowcase ? "animate-pulse" : ""} py-1 px-2 flex gap-3 group font-semibold`}
+              style={{
+                backgroundColor: userInfo.theme?.bgTertiary || "#1c1917",
+                color: userInfo.theme?.textMuted || "#d4d4d8",
+              }}
+              onClick={handleShowcaseEdit}
+            >
+              {showcaseLoading ? (<ScaleLoader color="#d6d3d1" height={20} />) : (editingShowcase ? (
+                <><FaRotateRight /> Click to finish</>
+              ) :
+                (<><FaPencil /> Edit Showcase</>))}
+            </Button>
+          </div>
+        )}
+
       </div>
 
       <div
@@ -182,14 +241,14 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
               style={{
                 ...(isFirstLoad && index < 52
                   ? {
-                      animationDelay: `${index * 0.1 + 1}s`,
-                      opacity: 0,
-                    }
+                    animationDelay: `${index * 0.1 + 1}s`,
+                    opacity: 0,
+                  }
                   : {}),
                 backgroundImage: `url(/items/${normalizeName(
                   item.SubType,
                   item.Name
-                )}.png)`,
+                )})`,
                 backgroundColor: userInfo.theme?.bgTertiary || "#1c1917",
               }}
               onClick={() =>
@@ -200,9 +259,9 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                   item.Name.includes("Present")
                 ) ||
                   item.Name.includes("Hardened")) &&
-                onItemClick(item)
+                (editingShowcase ? selectItem(item.Serial) : onItemClick(item))
               }
-              className={`hover:cursor-pointer hover:shadow-lg group animate-fade-in overflow-hidden bg-top bg-no-repeat rounded-lg flex flex-col w-[172px] md:w-[250px] h-[85px] md:h-[110px] bg-size-[105%] shadow`}
+              className={`${showcaseItems.includes(item.Serial) && editingShowcase ? "border-2 border-yellow-500" : ""} hover:cursor-pointer hover:shadow-lg group animate-fade-in overflow-hidden ${checkNewGenImage(item.SubType, item.Name) ? "bg-top bg-size-[125%]" : "bg-center bg-size-[105%]"} bg-no-repeat rounded-lg flex flex-col w-[172px] md:w-[250px] h-[85px] md:h-[110px] shadow`}
             >
               <h2
                 className={`text-sm md:text-lg font-bold p-2 md:p-3 text-stone-100 text-shadow-md`}
@@ -214,7 +273,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
 
               <div
                 className={`px-2 select-none py-1 mt-auto`}
-                style={{ backgroundColor: userInfo.theme?.bgTertiary || "#1c1917" }}
+                style={{ backgroundColor: userInfo.theme?.bgTertiary.length > 6 ? userInfo.theme?.bgTertiary.slice(0, -2) : userInfo.theme?.bgTertiary || "#1c1917" }}
               >
                 <div className="group-hover:hidden h-full flex items-center gap-1">
                   <span
@@ -224,10 +283,10 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                     {item.Base ? item.Base.replaceAll("_", " ") : ""}
                   </span>
                   <span
-                    className={`text-[10px] md:text-xs ml-2`}
-                    style={{ color: userInfo.theme?.textSecondary || "#78716c" }}
+                    className={`text-[10px] md:text-xs ml-2 ${item.Rarity >= 49 ? "rainbow-fade-text" : ""}`}
+                    style={{ color: item.Rarity >= 49 ? "" : (userInfo.theme?.textSecondary || "#78716c") }}
                   >
-                    {ITEM_RARITY[item.Rarity] || "unknown"}
+                    {item.Rarity >= 49 ? <b>Unreal!</b> : (ITEM_RARITY[item.Rarity] || "unknown")}
                   </span>
                   <div className="flex gap-1 ml-auto">
                     {(item.SubType
@@ -249,7 +308,7 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                         className={`ml-auto md:p-[2px] px-1 flex items-center gap-1 text-xs rounded-md`}
                         style={{ backgroundColor: userInfo.theme?.bgSecondary || "#292524" }}
                       >
-                        <FaExclamationTriangle
+                        <FaStar
                           size={10}
                           style={{ fill: userInfo.theme?.iconColor || "#78716c" }}
                         />
@@ -263,40 +322,54 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                   </div>
                 </div>
 
-                <div className="group-hover:flex hidden gap-1 items-center">
-                  {!(
-                    item.Name.includes("Case") ||
-                    item.Name.includes("Package") ||
-                    item.Name.includes("Crate") ||
-                    item.Name.includes("Present")
-                  ) || item.Name.includes("Hardened") ? (
-                    <>
-                      <FaCaretRight
-                        size={20}
-                        style={{ fill: userInfo.theme?.iconColor || "#78716c" }}
-                      />
-                      <span
-                        className={`text-sm lowercase tracking-wider animate-pulse`}
-                        style={{ color: userInfo.theme?.textMuted || "#d4d4d8" }}
-                      >
-                        view details
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <FaCaretRight
-                        size={20}
-                        style={{ fill: userInfo.theme?.iconColor || "#78716c" }}
-                      />
-                      <span
-                        className={`text-sm lowercase tracking-wider animate-pulse`}
-                        style={{ color: userInfo.theme?.textMuted || "#d4d4d8" }}
-                      >
-                        cant view details of cases
-                      </span>
-                    </>
-                  )}
-                </div>
+                {!editingShowcase ? (
+                  <div className="group-hover:flex hidden gap-1 items-center">
+                    {!(
+                      item.Name.includes("Case") ||
+                      item.Name.includes("Package") ||
+                      item.Name.includes("Crate") ||
+                      item.Name.includes("Present")
+                    ) || item.Name.includes("Hardened") ? (
+                      <>
+                        <FaCaretRight
+                          size={20}
+                          style={{ fill: userInfo.theme?.iconColor || "#78716c" }}
+                        />
+                        <span
+                          className={`text-sm lowercase tracking-wider animate-pulse`}
+                          style={{ color: userInfo.theme?.textMuted || "#d4d4d8" }}
+                        >
+                          view details
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <FaCaretRight
+                          size={20}
+                          style={{ fill: userInfo.theme?.iconColor || "#78716c" }}
+                        />
+                        <span
+                          className={`text-sm lowercase tracking-wider animate-pulse`}
+                          style={{ color: userInfo.theme?.textMuted || "#d4d4d8" }}
+                        >
+                          cant view details of cases
+                        </span>
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <div className={`group-hover:flex hidden gap-1 items-center ${showcaseItems.includes(item.Serial) ? "text-red-500" : "text-green-500"}`}>
+                    <FaPlus
+                      size={16}
+                    />
+                    <span
+                      className={`text-sm lowercase tracking-wider animate-pulse`}
+                    >
+                      {showcaseItems.includes(item.Serial) ? "remove from showcase" : "add to showcase"}
+                    </span>
+                  </div>
+                )}
+
               </div>
             </div>
           ))

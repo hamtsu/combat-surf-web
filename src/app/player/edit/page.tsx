@@ -5,11 +5,13 @@ import { ColourPicker } from "@/components/ColourPicker";
 import Dropzone from "@/components/Dropzone";
 import RobloxAvatar from "@/components/RobloxAvatar";
 import { useAuth } from "@/context/AuthContext";
-import { updateTheme, uploadProfileImage } from "@/lib/updateProfile";
+import { db } from "@/lib/firebaseClient";
+import { updateTheme } from "@/lib/updateProfile";
+import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaStar, FaUserCog } from "react-icons/fa";
-import { FaRotateRight } from "react-icons/fa6";
+import { FaDiscord, FaStar, FaTiktok, FaTwitter, FaUserCog, FaYoutube } from "react-icons/fa";
+import { FaRotateRight, FaX } from "react-icons/fa6";
 import { ScaleLoader } from "react-spinners";
 
 const ProfileEdit = () => {
@@ -40,6 +42,8 @@ const ProfileEdit = () => {
         if (data.theme) {
           setUserInfo(data);
           handleColours(data.theme);
+          setDescription(data.description || "");
+          setSocials(data.socials || {});
         } else {
           setError(true);
           console.error("User not found or invalid userId");
@@ -133,9 +137,12 @@ const ProfileEdit = () => {
     Number(convertFromHexAlpha(userInfo?.theme.bgSecondary.slice(-2))) || 100,
   );
 
-  const [description, setDescription] = useState<string>("");
+  const [description, setDescription] = useState<string>(userInfo?.description || "");
+  const [socials, setSocials] = useState<any>(userInfo?.socials || {});
 
   const [editing, setEditing] = useState<boolean>(false);
+
+  const MAX_SIZE = 5 * 1024 * 1024; //5mb
 
   const handleUpload = async (e: any) => {
     const file = e.target.files?.[0];
@@ -146,8 +153,17 @@ const ProfileEdit = () => {
       setBannerSuccess(false);
       setBannerLoading(true);
       setBannerPreview(URL.createObjectURL(file));
+
+
+      if (file.size > MAX_SIZE) {
+        setBannerError("File too large (max 5MB)");
+        setBannerLoading(false);
+        return;
+      }
+
       try {
         await uploadProfileImage(file, "banner");
+
         setBannerSuccess(true);
       } catch (err: any) {
         setBannerError(err.message);
@@ -158,6 +174,12 @@ const ProfileEdit = () => {
       setBackgroundSuccess(false);
       setBackgroundLoading(true);
       setBackgroundPreview(URL.createObjectURL(file));
+
+      if (file.size > MAX_SIZE) {
+        setBackgroundError("File too large (max 5MB)");
+        setBannerLoading(false);
+        return;
+      }
       try {
         await uploadProfileImage(file, "background");
         setBackgroundSuccess(true);
@@ -167,6 +189,46 @@ const ProfileEdit = () => {
       setBackgroundLoading(false);
     }
   };
+
+  const uploadProfileImage = async (file: File, type: "banner" | "background") => {
+    if (!user) throw new Error("Not authenticated");
+
+    const token = await user.getIdToken();
+
+    const res = await fetch("/api/upload-asset", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ assetType: type, mime: file.type, fileSize: file.size }),
+    })
+
+    if (!res.ok) {
+      throw new Error("Failed to get upload URL:" + res.statusText);
+    }
+
+    const { uploadUrl, publicUrl } = await res.json();
+
+    const uploadRes = await fetch(uploadUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": file.type,
+        "Content-Length": file.size.toString(),
+      },
+      body: file,
+    })
+
+    if (!uploadRes.ok) {
+      throw new Error("Failed to upload file:" + uploadRes.statusText);
+    }
+
+    console.log("Uploaded file to R2:", publicUrl);
+
+    await updateDoc(doc(db, "users", user.uid), {
+      [type + "Path"]: publicUrl,
+      updatedAt: serverTimestamp(),
+    });
+  }
 
   const handleReset = () => {
     setBgPrimary("#1c1917");
@@ -245,6 +307,11 @@ const ProfileEdit = () => {
     setTransparency(Number(value));
   };
 
+  const handleSocialsChange = (id: string, value: string) => {
+    setEditing(true);
+    setSocials((prev: any) => ({ ...prev, [id]: value }));
+  }
+
   const handleDescriptionChange = (value: string) => {
     if (value == description) {
       setEditing(false);
@@ -283,7 +350,8 @@ const ProfileEdit = () => {
         digitActive:
           digitActive + convertToHexAlpha(Math.min(transparency * 2, 100)),
         textBanner: textBanner,
-      });
+      },
+        description, socials);
       setEditing(false);
       setSaving(false);
     } catch (err: any) {
@@ -315,18 +383,20 @@ const ProfileEdit = () => {
     return (
       <div className="flex w-full h-full flex-col gap-4 p-4 md:px-36 bg-stone-900 overflow-y-scroll">
         {editing && (
-          <div className="fixed bottom-20 left-0 right-0 mx-auto w-fit z-100 bg-stone-800 border border-stone-700 text-lg rounded-md p-2 px-4 text-stone-200 font-bold shadow-lg shadow-black/50">
+          <div className="animate-slide-out fixed bottom-20 left-0 right-0 mx-auto w-fit z-100 bg-stone-800 border border-stone-700 text-lg rounded-md p-2 px-4 text-stone-200 font-bold shadow-lg shadow-black/50">
             <div className="w-full h-full flex items-center gap-2">
-              <h1>{saveError ? saveError : "You have unsaved changes..."}</h1>
+              <FaRotateRight className="animate-spin text-stone-500" />
+              <h1 className="hidden md:block text-lg">{saveError ? saveError : "You have unsaved changes..."}</h1>
+              <h1 className="md:hidden text-sm">{saveError ? saveError : "Unsaved Changes..."}</h1>
               <Button
                 onClick={!saving ? handleSubmit : undefined}
-                className={`${saving ? "bg-green-700 hover:bg-green-800 py-2" : "bg-stone-200"}  text-stone-800 hover:text-stone-200 px-3 py-1 rounded-md ml-5 font-normal text-base hover:bg-green-600`}
+                className={`${saving ? "bg-green-700 hover:bg-green-800 py-2" : "bg-stone-200"}  text-stone-800 hover:text-stone-200 px-3 py-1 rounded-md ml-5 font-normal text-sm md:text-base hover:bg-green-600`}
               >
                 {saving ? <ScaleLoader color="#d6d3d1" height={10} /> : "Save"}
               </Button>
               <Button
                 onClick={!saving ? handleDiscard : undefined}
-                className="bg-stone-900 px-3 py-1 rounded-md font-normal text-base hover:bg-red-500"
+                className="bg-stone-900 px-3 py-1.5 md:py-1 rounded-md font-normal text-sm md:text-base hover:bg-red-500"
               >
                 Discard
               </Button>
@@ -341,17 +411,17 @@ const ProfileEdit = () => {
             style={
               backgroundPreview
                 ? {
-                    backgroundImage: `url(${backgroundPreview})`,
-                    backgroundSize: "100% auto",
-                    backgroundPosition: "top",
-                    backgroundColor: bgPrimary || "#1c1917",
-                  }
+                  backgroundImage: `url(${backgroundPreview})`,
+                  backgroundSize: "100% auto",
+                  backgroundPosition: "top",
+                  backgroundColor: bgPrimary || "#1c1917",
+                }
                 : {
-                    backgroundImage: `url(${userInfo?.backgroundUrl || ""})`,
-                    backgroundSize: "100% auto",
-                    backgroundPosition: "top",
-                    backgroundColor: bgPrimary || "#1c1917",
-                  }
+                  backgroundImage: `url(${userInfo?.backgroundUrl || ""})`,
+                  backgroundSize: "100% auto",
+                  backgroundPosition: "top",
+                  backgroundColor: bgPrimary || "#1c1917",
+                }
             }
           >
             <div
@@ -359,21 +429,21 @@ const ProfileEdit = () => {
               style={
                 bannerPreview
                   ? {
-                      backgroundImage: `url(${bannerPreview})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      backgroundColor:
-                        bgSecondary + convertToHexAlpha(transparency) ||
-                        "#292524",
-                    }
+                    backgroundImage: `url(${bannerPreview})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundColor:
+                      bgSecondary + convertToHexAlpha(transparency) ||
+                      "#292524",
+                  }
                   : {
-                      backgroundImage: `url(${userInfo?.bannerUrl || ""})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      backgroundColor:
-                        bgSecondary + convertToHexAlpha(transparency) ||
-                        "#292524",
-                    }
+                    backgroundImage: `url(${userInfo?.bannerUrl || ""})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    backgroundColor:
+                      bgSecondary + convertToHexAlpha(transparency) ||
+                      "#292524",
+                  }
               }
             >
               <div className="ml-2 flex gap-2">
@@ -423,7 +493,7 @@ const ProfileEdit = () => {
                     style={{
                       fill:
                         iconColor +
-                          convertToHexAlpha(Math.min(transparency * 2, 100)) ||
+                        convertToHexAlpha(Math.min(transparency * 2, 100)) ||
                         "#57534e",
                     }}
                     size={20}
@@ -433,7 +503,7 @@ const ProfileEdit = () => {
                   style={{
                     color:
                       textPrimary +
-                        convertToHexAlpha(Math.min(transparency * 2, 100)) ||
+                      convertToHexAlpha(Math.min(transparency * 2, 100)) ||
                       "#d6d3d1",
                   }}
                   className={`text-3xl font-bold`}
@@ -444,7 +514,7 @@ const ProfileEdit = () => {
                   style={{
                     color:
                       textMuted +
-                        convertToHexAlpha(Math.min(transparency * 2, 100)) ||
+                      convertToHexAlpha(Math.min(transparency * 2, 100)) ||
                       "#a8a29e",
                   }}
                   className={`text-xl font-bold`}
@@ -463,7 +533,7 @@ const ProfileEdit = () => {
                   style={{
                     color:
                       digitInactive +
-                        convertToHexAlpha(Math.min(transparency * 2, 100)) ||
+                      convertToHexAlpha(Math.min(transparency * 2, 100)) ||
                       "#57534e",
                   }}
                 >
@@ -473,7 +543,7 @@ const ProfileEdit = () => {
                   style={{
                     color:
                       digitActive +
-                        convertToHexAlpha(Math.min(transparency * 2, 100)) ||
+                      convertToHexAlpha(Math.min(transparency * 2, 100)) ||
                       "#e7e5e4",
                   }}
                 >
@@ -482,13 +552,13 @@ const ProfileEdit = () => {
               </div>
             </div>
           </div>
-          <p className="text-stone-400 text-sm font-mono mt-2">
+          <p className="text-stone-400 text-[10px] md:text-sm font-mono mt-2">
             * Not accurate sizing, only displaying top half of profile.
           </p>
         </div>
 
         <div>
-          <div className="flex gap-2 md:px-36">
+          <div className="flex flex-col md:flex-row gap-2 md:px-36">
             {/* Banner Dropzone */}
             <div className="w-full">
               <h1 className="text-white text-xl font-bold mb-1">Banner</h1>
@@ -525,7 +595,7 @@ const ProfileEdit = () => {
               </div>
             </div>
           </div>
-          <div className="flex gap-2 justify-center">
+          <div className="flex flex-col md:flex-row gap-2 justify-center">
             <div className="bg-[#292524] rounded-md p-4 mt-3 w-fit">
               <h1 className="text-white text-xl font-bold mb-1">
                 Colour Scheme
@@ -534,12 +604,12 @@ const ProfileEdit = () => {
                 Customize the theme and colours of your profile
               </p>
 
-              <div className="flex gap-3">
+              <div className="flex flex-col md:flex-row gap-3">
                 <div className="flex flex-col gap-2 bg-stone-900 p-4 rounded-md">
                   <h1 className="text-stone-200 text-lg font-bold">
                     Background
                   </h1>
-                  <div className="grid grid-cols-3">
+                  <div className="grid grid-cols-3 gap-2">
                     <ColourPicker
                       id="bgSecondary"
                       label="Primary"
@@ -574,7 +644,7 @@ const ProfileEdit = () => {
                 </div>
                 <div className="flex flex-col gap-2 bg-stone-900 p-4 rounded-md">
                   <h1 className="text-stone-200 text-lg font-bold">Text</h1>
-                  <div className="grid grid-cols-4">
+                  <div className="grid grid-cols-4 gap-2">
                     <ColourPicker
                       id="textPrimary"
                       label="Primary"
@@ -668,17 +738,57 @@ const ProfileEdit = () => {
                 <textarea
                   maxLength={130}
                   rows={5}
-                  className="w-96 p-2 rounded-md bg-stone-900 text-stone-200 border border-stone-700 focus:outline-none focus:border-stone-500 resize-none"
+                  className="w-full md:w-96 p-2 rounded-md bg-stone-900 text-stone-200 border border-stone-700 focus:outline-none focus:border-stone-500 resize-none"
                   placeholder="Write something about yourself..."
                   value={description}
                   onChange={(e) => handleDescriptionChange(e.target.value)}
                 />
 
-                <div className="bg-stone-900 rounded-md p-2">
-                  Socials
-                </div>
-                <div className="bg-stone-900 rounded-md p-2">
-                  Vanity URL
+                <div className="bg-stone-900 text-stone-200 rounded-md grid grid-cols-2 gap-1 p-3 ">
+                  <div className="flex items-center gap-3 w-fit">
+                    <FaDiscord size={28} className="text-stone-400" />
+                    <input
+                      type="text"
+                      id="discord"
+                      className="bg-stone-800 rounded-md p-0.5 px-2 w-[120px] text-stone-200 border border-stone-700 focus:outline-none focus:border-stone-500"
+                      placeholder="Username"
+                      value={socials.discord || ''}
+                      onChange={(e) => handleSocialsChange('discord', e.target.value)}
+                    />
+                  </div>
+                  <div className="flex items-center gap-3 w-fit">
+                    <FaYoutube size={28} className="text-stone-400" />
+                    <input
+                      type="text"
+                      id="youtube"
+                      className="bg-stone-800 rounded-md p-0.5 px-2 w-[120px] text-stone-200 border border-stone-700 focus:outline-none focus:border-stone-500"
+                      placeholder="Username"
+                      value={socials.youtube || ''}
+                      onChange={(e) => handleSocialsChange('youtube', e.target.value)}
+                    />
+                  </div>
+                  <div className="flex items-center mt-2 gap-3 w-fit">
+                    <FaTwitter size={28} className="text-stone-400" />
+                    <input
+                      type="text"
+                      id="twitter"
+                      className="bg-stone-800 rounded-md p-0.5 px-2 w-[120px] text-stone-200 border border-stone-700 focus:outline-none focus:border-stone-500"
+                      placeholder="Username"
+                      value={socials.twitter || ''}
+                      onChange={(e) => handleSocialsChange('twitter', e.target.value)}
+                    />
+                  </div>
+                  <div className="flex items-center mt-2 gap-3 w-fit">
+                    <FaTiktok size={28} className="text-stone-400" />
+                    <input
+                      type="text"
+                      id="tiktok"
+                      className="bg-stone-800 rounded-md p-0.5 px-2 w-[120px] text-stone-200 border border-stone-700 focus:outline-none focus:border-stone-500"
+                      placeholder="Username"
+                      value={socials.tiktok || ''}
+                      onChange={(e) => handleSocialsChange('tiktok', e.target.value)}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

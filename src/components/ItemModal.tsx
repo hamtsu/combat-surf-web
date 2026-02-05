@@ -2,8 +2,16 @@
 import { useRef } from "react";
 import Button from "./Button";
 import { FaXmark } from "react-icons/fa6";
-import { FaExclamationTriangle, FaInfoCircle, FaPaintBrush, FaStar, FaTag } from "react-icons/fa";
+import {
+  FaCode,
+  FaCopy,
+  FaInfoCircle,
+  FaPaintBrush,
+  FaStar,
+  FaTag,
+} from "react-icons/fa";
 import Tooltip from "./Tooltip";
+import { normalizeName } from "@/lib/normalizeItems";
 
 export default function ItemModal({
   item,
@@ -20,18 +28,15 @@ export default function ItemModal({
     }
   };
 
-    const ITEM_RARITY: any = {
-    100: "Divine",
-    55: "Divine", // not sure
-    54: "Divine", // not sure
-    53: "Divine", // not sure
-    52: "Divine", // not sure
-    51: "Divine", // not sure
+  const ITEM_RARITY: Record<number, string> = {
     50: "Unreal",
-    12: "Ultra Rare Collectable",
+    49: "Unreal",
+    12: "U R Collectable",
+    11: "Ethereal",
     10: "Mythic",
     9: "Godly",
     8: "N/A (Case)",
+    7: "Ultra Rare",
     6: "Gold",
     5: "Legendary",
     4: "Epic",
@@ -39,15 +44,6 @@ export default function ItemModal({
     2: "Uncommon",
     1: "Common",
     0: "Default",
-  };
-
-  const normalizeName = (subType: string, name: string) => {
-    const value = subType ?? name;
-
-    if (value === "???") return "QuestionQuestionQuestion";
-    if (value === "AWP_#1") return "AWP_Number1";
-
-    return value;
   };
 
   return (
@@ -75,7 +71,7 @@ export default function ItemModal({
           <div className="flex gap-2 md:gap-4">
             <div
               style={{
-                backgroundImage: `url(/items/${normalizeName(item.SubType, item.Name)}.png)`,
+                backgroundImage: `url(/items/${normalizeName(item.SubType, item.Name)})`,
               }}
               className="min-w-[200px] md:min-w-[370px] h-[90px] md:h-[160px] bg-cover bg-center flex gap-1 items-end justify-end rounded-md p-2"
             >
@@ -95,10 +91,7 @@ export default function ItemModal({
               {item.StatTrak && (
                 <Tooltip text="This item has a kill counter" position="bottom">
                   <div className="bg-stone-800 ml-auto p-2 flex items-center gap-1 rounded-md ">
-                    <FaExclamationTriangle
-                      size={16}
-                      className="fill-stone-500"
-                    />
+                    <FaStar size={16} className="fill-stone-500" />
                   </div>
                 </Tooltip>
               )}
@@ -107,21 +100,37 @@ export default function ItemModal({
             <div className="flex flex-col gap-1 md:gap-3">
               <div className="md:p-2 p-1 bg-stone-900 w-full h-fit rounded-sm md:rounded-md flex gap-2 items-center">
                 <FaStar size={16} className="fill-stone-400 hidden md:block" />
-                <span className="text-stone-400 text-xs md:text-lg font-bold">Rarity</span>
-                <span className="text-xs md:text-lg text-stone-300 font-bold font-mono px-2 bg-stone-800 rounded-sm md:rounded-md h-fit ml-auto">
-                  {ITEM_RARITY[item.Rarity]}
+                <span className="text-stone-400 text-xs md:text-lg font-bold">
+                  Rarity
+                </span>
+                <span
+                  className={`${item.Rarity >= 49 ? "rainbow-fade-text" : ""} text-xs md:text-lg text-stone-300 font-bold font-mono px-2 bg-stone-800 rounded-sm md:rounded-md h-fit ml-auto`}
+                >
+                  {item.Rarity >= 49
+                    ? "Unreal"
+                    : ITEM_RARITY[item.Rarity] || "unknown"}
                 </span>
               </div>
               <div className="md:p-2 p-1 bg-stone-900 w-full h-fit rounded-sm md:rounded-md flex gap-2 items-center">
-                <FaPaintBrush size={16} className="fill-stone-400 hidden md:block" />
-                <span className="text-stone-400 text-xs md:text-lg font-bold">Pattern</span>
+                <FaPaintBrush
+                  size={16}
+                  className="fill-stone-400 hidden md:block"
+                />
+                <span className="text-stone-400 text-xs md:text-lg font-bold">
+                  Pattern
+                </span>
                 <span className="text-sm md:text-lg text-stone-300 font-bold font-mono px-2 bg-stone-800 rounded-sm md:rounded-md h-fit ml-auto">
                   {item.Pattern}
                 </span>
               </div>
               <div className="md:p-2 p-1 bg-stone-900 w-full h-fit rounded-sm md:rounded-md flex gap-2 items-center">
-                <FaInfoCircle size={16} className="fill-stone-400 hidden md:block" />
-                <span className="text-stone-400 text-xs md:text-lg font-bold">Float</span>
+                <FaInfoCircle
+                  size={16}
+                  className="fill-stone-400 hidden md:block"
+                />
+                <span className="text-stone-400 text-xs md:text-lg font-bold">
+                  Float
+                </span>
                 <span className="text-sm md:text-lg text-stone-300 font-bold font-mono px-2 bg-stone-800 rounded-sm md:rounded-md h-fit ml-auto">
                   {item.Float.toFixed(6)}
                 </span>
@@ -129,7 +138,33 @@ export default function ItemModal({
             </div>
           </div>
 
-          <div className="md:p-2 p-1 px-3 md:mt-3 mt-2 md:text-base text-sm bg-stone-900 w-full h-fit rounded-md">{item.StatTrak ? (<>A total of <b>{item.Kills}</b> kills have been collected with this weapon!</>) : (<i>Kills cannot be counted on a <b>non-kill counter</b> weapon.</i>)}</div>
+          <div className="md:p-2 p-1 px-3 md:mt-3 mt-2 md:text-base text-xs bg-stone-900 w-full h-fit rounded-md">
+            <div className="flex items-center gap-2">
+              <p className="font-bold text-stone-400 flex items-center gap-2">
+                <FaCode />
+                Serial
+              </p>{" "}
+              <b>{item.Serial}</b>
+            </div>
+            <p
+              onClick={() => navigator.clipboard.writeText(item.Serial)}
+              className="flex group hover:cursor-pointer hover:text-stone-200 gap-2 text-xs items-center text-stone-400"
+            >
+              (click to copy code){" "}
+              <FaCopy className="group-hover:text-stone-200 text-stone-500" />
+            </p>
+          </div>
+          {item.StatTrak && (
+            <div className="md:p-2 p-1 px-3 md:mt-3 mt-2 md:text-base text-sm bg-stone-900 w-full h-fit rounded-md">
+              <div className="flex items-center gap-2">
+                <p className="font-bold text-stone-400 flex items-center gap-2">
+                  <FaTag />
+                  Counted Kills
+                </p>{" "}
+                <b>{item.Kills}</b>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
