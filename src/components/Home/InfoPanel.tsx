@@ -1,9 +1,8 @@
 "use client";
-import React from "react";
 import Button from "../Button";
 import { FaExternalLinkAlt, FaGavel } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-import { FaBoxArchive } from "react-icons/fa6";
+import Image from "next/image";
 
 const InfoPanel = () => {
   const router = useRouter();
@@ -33,7 +32,8 @@ const InfoPanel = () => {
           }
         className="px-3 py-2 h-fit flex bg-stone-900 hover:bg-stone-400 text-stone-500 hover:text-stone-800 text-lg font-sans font-bold transition-colors rounded-lg group"
       >
-        <FaExternalLinkAlt size={15} className="mr-2" />
+        {/* <FaExternalLinkAlt size={15} className="mr-2" /> */}
+        <Image src="/traders.png" alt="Discord" width={25} height={25} className="-ml-1 mr-1 group-hover:animate-wiggle" />
         <p className="">Community Value Discord</p>
       </Button>
     </div>
