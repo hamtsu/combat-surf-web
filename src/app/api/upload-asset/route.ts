@@ -57,12 +57,12 @@ export async function POST(req: Request) {
   const command = new PutObjectCommand({
     Bucket: process.env.R2_BUCKET!,
     Key: key,
-    ContentType: mime, // TODO implement file size checks
+    // ContentType: mime, // TODO implement file size checks
   });
 
   const uploadUrl = await getSignedUrl(s3, command, {
     expiresIn: 60,
-    signableHeaders: new Set(["content-type"]),
+    signableHeaders: new Set([]),
   });
 
   return Response.json({ uploadUrl, publicUrl });
