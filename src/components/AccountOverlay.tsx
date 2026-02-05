@@ -177,7 +177,7 @@ const AccountOverlay = () => {
             )}
           </>
         ) : (
-          <div className="">
+          <div className="hidden">
             <Button
               className="bg-stone-800/70 transition-all py-2 px-3 flex gap-2 text-stone-300/70 hover:text-stone-300 hover:bg-stone-800 group"
               onClick={() => {
