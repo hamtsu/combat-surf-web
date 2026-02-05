@@ -2,11 +2,11 @@
 
 import { signInWithCustomToken } from "firebase/auth";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { auth } from "@/lib/firebaseClient";
 import { ensureUserDoc } from "@/lib/ensureUserDoc";
 
-export default function CompleteAuth() {
+function CompleteAuthContent() {
   const params = useSearchParams();
   const router = useRouter();
 
@@ -32,5 +32,24 @@ export default function CompleteAuth() {
         Please wait while we log you in and redirect you to your profile.
       </p>
     </div>
+  );
+}
+
+export default function CompleteAuth() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex flex-col items-center justify-center h-screen">
+          <h1 className="text-2xl font-bold text-stone-200 mb-4">
+            Completing Authentication...
+          </h1>
+          <p className="text-stone-400">
+            Please wait while we log you in and redirect you to your profile.
+          </p>
+        </div>
+      }
+    >
+      <CompleteAuthContent />
+    </Suspense>
   );
 }
