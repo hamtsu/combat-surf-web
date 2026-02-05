@@ -205,7 +205,7 @@ export default function ProfileClient({
             <Searchbar theme={userInfo.theme} />
           </div>
 
-          <div className="md:absolute flex w-full justify-start gap-2 left-0 md:left-5 md:top-5">
+          <div className="md:absolute flex w-full md:w-fit justify-start gap-2 left-0 md:left-5 md:top-5">
             <Tooltip text="Go back" position="bottom">
               <Button
                 onClick={() => router.back()}
