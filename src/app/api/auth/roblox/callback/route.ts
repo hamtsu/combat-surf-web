@@ -20,7 +20,7 @@ export async function GET(req: Request) {
       code,
       client_id: process.env.NEXT_PUBLIC_ROBLOX_OAUTH_CLIENT_ID!,
       client_secret: process.env.ROBLOX_OAUTH_SECRET!,
-      redirect_uri: `http://${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/roblox/callback`,
+      redirect_uri: `https://${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/roblox/callback`,
     }),
   });
 
@@ -77,6 +77,6 @@ export async function GET(req: Request) {
   );
 
   return NextResponse.redirect(
-    `http://${process.env.NEXT_PUBLIC_SITE_URL}/auth/complete?token=${firebaseToken}`,
+    `https://${process.env.NEXT_PUBLIC_SITE_URL}/auth/complete?token=${firebaseToken}`,
   );
 }
