@@ -728,7 +728,7 @@ export default function ProfileClient({
                                 ? "top"
                                 : "center",
                               backgroundRepeat: "no-repeat",
-                              backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[0]].SubType, userInfo.inventory[userInfo.showcase[0]].Name)}`,
+                              backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[0]]?.SubType, userInfo.inventory[userInfo.showcase[0]]?.Name)}`,
                               animationDelay: `${0.1}s`,
                               opacity: 0,
                               backgroundColor:
@@ -767,7 +767,7 @@ export default function ProfileClient({
                                 ? "top"
                                 : "center",
                               backgroundRepeat: "no-repeat",
-                              backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[1]].SubType, userInfo.inventory[userInfo.showcase[1]].Name)}`,
+                              backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[1]]?.SubType, userInfo.inventory[userInfo.showcase[1]]?.Name)}`,
                               animationDelay: `${0.2}s`,
                               opacity: 0,
                               backgroundColor:
@@ -806,7 +806,7 @@ export default function ProfileClient({
                                 ? "top"
                                 : "center",
                               backgroundRepeat: "no-repeat",
-                              backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[2]].SubType, userInfo.inventory[userInfo.showcase[2]].Name)}`,
+                              backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[2]]?.SubType, userInfo.inventory[userInfo.showcase[2]]?.Name)}`,
                               animationDelay: `${0.3}s`,
                               opacity: 0,
                               backgroundColor:
@@ -845,7 +845,7 @@ export default function ProfileClient({
                                 ? "top"
                                 : "center",
                               backgroundRepeat: "no-repeat",
-                              backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[3]].SubType, userInfo.inventory[userInfo.showcase[3]].Name)}`,
+                              backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[3]]?.SubType, userInfo.inventory[userInfo.showcase[3]]?.Name)}`,
                               animationDelay: `${0.4}s`,
                               opacity: 0,
                               backgroundColor:
