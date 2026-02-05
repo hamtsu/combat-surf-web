@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     siteName: "Combat Surf",
     images: [
       {
-        url: "https://combat.surf/header2.png",
+        url: "https://combat.surf/header3.png",
         width: 1200,
-        height: 630,
+        height: 250,
         alt: "Combat Surf map",
       },
     ],
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "Combat Surf",
     description: "Join Combat Surf on Roblox – where surfing meets combat!",
     creator: "@hamtsu",
-    images: ["https://combat.surf/header2.png"],
+    images: ["https://combat.surf/header3.png"],
   },
   other: {
     "google-site-verification": "Lp7P4fYDHZFo9k_GNrOx0yMsS6b0jzRIZRoC0UpzogY", // google search engine console verification
