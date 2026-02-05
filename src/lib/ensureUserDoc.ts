@@ -27,6 +27,11 @@ export async function ensureUserDoc(user: User) {
       },
       bannerPath: null,
       backgroundPath: null,
+      description: "",
+      socials: {},
+      showcase: [],
+      awards: [],
+      vanityUrl: null,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
