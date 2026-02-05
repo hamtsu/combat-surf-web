@@ -21,6 +21,19 @@
   --animate-fade-in-sixth: fadeIn 0.5s ease-out 2.4s forwards;
   --animate-fade-out: fadeOut 0.5s ease-out forwards;
   --animate-gavel: gavel 1s cubic-bezier(0, .9, .5, .71) infinite;
+  --animate-slide-out: slide-out 0.2s ease-out forwards;
+
+  @keyframes slide-out {
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    0% {
+      transform: translateY(50vh);
+      opacity: 0;
+    }
+  }
 
   @keyframes bounce-right {
 
@@ -91,6 +104,8 @@
   }
 }
 
+
+
 .gradiant3 {
   @apply bg-clip-text text-transparent;
   background-image: linear-gradient(90deg, var(--c1), var(--c2), var(--c1));
@@ -103,6 +118,7 @@
   0% {
     background-position: 0% 50%;
   }
+
   100% {
     background-position: -200% 50%;
   }
@@ -216,3 +232,29 @@
   scrollbar-width: thin;
   scrollbar-color: #888 transparent;
 }
+
+.rainbow-fade-text {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, red);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  animation: rainbow-fade-slide 3s linear infinite;
+}
+
+.group:hover .group-hover\:rainbow-fade-text {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(135deg, red, orange, yellow, green, blue, indigo, red);
+  background-size: 200% 100%;
+  background-position: 0% 50%;
+  animation: rainbow-fade-slide 3s linear infinite;
+}
+
+@keyframes rainbow-fade-slide {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: -200% 50%;
+  }
+}
+
