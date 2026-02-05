@@ -62,7 +62,7 @@ export async function POST(req: Request) {
             embeds: [
               {
                 color: 0xf54927,
-                description: `<:error:939392259160416307> **Failed** Login request for ${displayName} [*(@${username})*](https://www.roblox.com/users/${uid.split(":")[1]}/profile)`,
+                description: `<:error:939392259160416307> **Failed** login request for ${displayName} [*(@${username})*](https://www.roblox.com/users/${uid.split(":")[1]}/profile)`,
                 fields: [
                   {
                     name: "User Agent",

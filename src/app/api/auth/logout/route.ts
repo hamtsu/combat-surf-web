@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAuth } from "firebase-admin/auth";
+import { adminAuth } from "@/lib/firebaseAdmin";
 
 export async function POST(req: Request) {
   const authHeader = req.headers.get("authorization");
@@ -9,10 +9,10 @@ export async function POST(req: Request) {
 
   const token = authHeader.split("Bearer ")[1];
 
-  const decoded = await getAuth().verifyIdToken(token);
+  const decoded = await adminAuth.verifyIdToken(token);
   const uid = decoded.uid;
 
-  await getAuth().setCustomUserClaims(uid, {
+  await adminAuth.setCustomUserClaims(uid, {
     authenticated: false,
   });
 

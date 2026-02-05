@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { adminAuth } from "@/lib/firebaseAdmin";
 
 const REQUIRED_GROUP_ID = 5479316;
-const MIN_RANK = 4; // honorary member
+const MIN_RANK = 2; // mod
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -20,7 +20,7 @@ export async function GET(req: Request) {
       code,
       client_id: process.env.NEXT_PUBLIC_ROBLOX_OAUTH_CLIENT_ID!,
       client_secret: process.env.ROBLOX_OAUTH_SECRET!,
-      redirect_uri: `http://localhost:3000/api/auth/roblox/callback`, //TODO change
+      redirect_uri: `http://${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/roblox/callback`,
     }),
   });
 
@@ -46,8 +46,6 @@ export async function GET(req: Request) {
   const groupsRes = await fetch(
     `https://groups.roblox.com/v2/users/${robloxUserId}/groups/roles`,
   );
-
-  // TODO check rank every time for security
 
   if (!groupsRes.ok) {
     return NextResponse.json({ error: "Group fetch failed" }, { status: 403 });
@@ -79,6 +77,6 @@ export async function GET(req: Request) {
   );
 
   return NextResponse.redirect(
-    `http://localhost:3000/auth/complete?token=${firebaseToken}`, //TODO CHANGE
+    `http://${process.env.NEXT_PUBLIC_SITE_URL}/auth/complete?token=${firebaseToken}`,
   );
 }
