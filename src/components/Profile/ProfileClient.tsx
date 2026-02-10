@@ -29,6 +29,8 @@ import {
 } from "react-icons/fa";
 import { FaTriangleExclamation } from "react-icons/fa6";
 
+export const dynamic = "force-dynamic";
+
 export default function ProfileClient({
   initialUserInfo,
 }: {
@@ -51,6 +53,9 @@ export default function ProfileClient({
       document.title = `Combat Surf • ${userInfo.username}`;
     }
   }, [userInfo?.username]);
+
+  const buddyIds = ["97752529", "69873107", "1104485250", "69980171"];
+  const isBuddy = userInfo && buddyIds.includes(userInfo.userId);
 
   useEffect(() => {
     if (shouldStopTimer) return;
@@ -339,7 +344,7 @@ export default function ProfileClient({
                   <StatisticPanel
                     name="Career Kills"
                     value={userInfo.globalKills}
-                    buddy={userInfo.userId === "97752529" || userInfo.userId === "69873107" ? true : false}
+                    buddy={isBuddy}
                     icon={
                       <FaSkull
                         size={18}

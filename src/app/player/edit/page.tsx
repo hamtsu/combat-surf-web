@@ -14,6 +14,8 @@ import { FaDiscord, FaStar, FaTiktok, FaTwitter, FaUserCog, FaYoutube } from "re
 import { FaRotateRight, FaX } from "react-icons/fa6";
 import { ScaleLoader } from "react-spinners";
 
+export const dynamic = "force-dynamic";
+
 const ProfileEdit = () => {
   const router = useRouter();
   const { user, claims, loading } = useAuth();
@@ -226,6 +228,7 @@ const ProfileEdit = () => {
 
     await updateDoc(doc(db, "users", user.uid), {
       [type + "Path"]: publicUrl,
+      [type + "UpdatedAt"]: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
   }

@@ -11,14 +11,14 @@ export async function getUserTheme(uid: string) {
   let bannerUrl = null;
 
   if (snap.data().bannerPath) {
-    bannerUrl = snap.data().bannerPath
+    bannerUrl = snap.data().bannerPath + "?updatedAt=" + snap.data().bannerUpdatedAt?.toMillis();
   }
 
   // background
   let backgroundUrl = null;
 
   if (snap.data().backgroundPath) {
-    backgroundUrl = snap.data().backgroundPath
+    backgroundUrl = snap.data().backgroundPath + "?updatedAt=" + snap.data().bannerUpdatedAt?.toMillis();
   }
 
   // theme
