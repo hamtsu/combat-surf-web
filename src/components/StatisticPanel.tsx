@@ -31,9 +31,9 @@ const StatisticPanel: FC<StatisticPanelProps> = ({
       className={`h-fit shadow-lg p-2 rounded-lg relative w-fit`}
       style={{ backgroundColor: theme?.bgSecondary || "#292524" }}
     >
-      {buddy && (
+      {buddy == "default" && name == "Career Kills" ? (
         <Image
-          src={buddy === "default" ? "/DivinityGirl.gif" : buddy}
+          src={"/DivinityGirl.gif"}
           alt="Frame"
           width={128 * 2.5}
           height={128 * 2.5}
@@ -41,6 +41,18 @@ const StatisticPanel: FC<StatisticPanelProps> = ({
           style={{ imageRendering: "pixelated" }}
           className="absolute z-20 scale-200 md:scale-130 md:-translate-x-15 md:-translate-y-35 -translate-y-22 translate-x-37"
         />
+      ) : (
+        name == "Career Kills" && buddy && (
+          <Image
+            src={buddy}
+            alt="Frame"
+            width={128 * 1.4}
+            height={128 * 1.4}
+            unoptimized
+            style={{ imageRendering: "pixelated" }}
+            className="absolute z-20 scale-170 md:scale-130 md:-translate-x-12 md:-translate-y-28 -translate-y-20 translate-x-28"
+          />
+        )
       )}
 
       <div className="flex flex-col gap-3">
