@@ -17,11 +17,14 @@ const PinInput: FC<PinInputProps> = ({ handleSubmit, inputDisabled }) => {
     if (/^\d*$/.test(value) && value.length <= 1) {
       const newPin = pin.split("");
       newPin[index] = value;
-      setPin(newPin.join(""));
+      const updatedPin = newPin.join("");
+      setPin(updatedPin);
 
       if (value) {
         if (index < 8) {
           inputRefs.current[index + 1]?.focus();
+        } else if (index === 8) {
+          handleSubmit(updatedPin);
         }
       }
     }
@@ -35,10 +38,6 @@ const PinInput: FC<PinInputProps> = ({ handleSubmit, inputDisabled }) => {
       if (index > 0) {
         inputRefs.current[index - 1]?.focus();
       }
-    }
-
-    if (index === 8) {
-      handleSubmit(pin);
     }
   };
 
