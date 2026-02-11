@@ -7,10 +7,7 @@ type RateLimitEntry = {
 
 const rateLimitMap = new Map<string, RateLimitEntry>();
 
-const rateLimitConfig: Record<
-  string,
-  { limit: number; windowMs: number }
-> = {
+const rateLimitConfig: Record<string, { limit: number; windowMs: number }> = {
   "/api/player-rank": { limit: 50, windowMs: 60 * 1000 }, // only used on individual profile pages
   "/api/avatar": { limit: 150, windowMs: 60 * 1000 }, // used on homepage (leaderboard panel), leaderboard, player profiles, clan info page
   "/api/changelogs": { limit: 50, windowMs: 60 * 1000 },
@@ -60,7 +57,7 @@ export function proxy(req: NextRequest) {
         message: "Too many requests. Try again later.",
         // waitSeconds: Math.ceil((config.windowMs - (now - entry.lastReset)) / 1000)
       },
-      { status: 429 }
+      { status: 429 },
     );
 
     res.cookies.set("rateLimitExceeded", "true", {
@@ -85,6 +82,12 @@ export const config = {
     "/api/game-info", // used on homepage
     "/api/group-icon", // used on clan info page
     "/api/player-search", // used on homepage, player profiles
-    "/api/leaderboard", // used on leaderboard pages
+    "/api/leaderboard", // used on leaderboard pages,
+    "/api/auth/logout",
+    "/api/auth/roblox/callback", // used during Roblox OAuth login
+    "/api/auth/2fa/verify", // used during 2FA verification
+    "/api/auth/2fa/request", // used during 2FA verification
+    "/api/claim-vanity", // used during vanity URL claiming
+    "/api/upload-asset",
   ],
 };
