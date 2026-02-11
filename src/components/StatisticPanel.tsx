@@ -13,7 +13,7 @@ type StatisticPanelProps = {
     digitInactive?: string;
     digitActive?: string;
   };
-  buddy?: boolean;
+  buddy?: string;
 };
 
 const StatisticPanel: FC<StatisticPanelProps> = ({
@@ -33,7 +33,7 @@ const StatisticPanel: FC<StatisticPanelProps> = ({
     >
       {buddy && (
         <Image
-          src={"/DivinityGirl.gif"}
+          src={buddy === "default" ? "/DivinityGirl.gif" : buddy}
           alt="Frame"
           width={128 * 2.5}
           height={128 * 2.5}

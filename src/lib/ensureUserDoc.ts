@@ -34,6 +34,7 @@ export async function ensureUserDoc(user: User) {
       showcase: [],
       awards: [],
       vanityUrl: null,
+      buddy: null,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });

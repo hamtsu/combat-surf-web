@@ -36,5 +36,8 @@ export async function getUserTheme(uid: string) {
   // awards
   const awards = snap.data().awards || [];
 
-  return { bannerUrl, backgroundUrl, theme, description, socials, showcase, awards };
+  // buddy
+  const buddy = snap.data().buddy || null;
+
+  return { bannerUrl, backgroundUrl, theme, description, socials, showcase, awards, buddy };
 }

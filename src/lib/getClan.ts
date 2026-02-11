@@ -5,7 +5,7 @@ export const getClan = cache(async (clanId: string) => {
   
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SITE_URL}/api/clan-info?clanId=${clanId}`,
-    { cache: "no-store" }, // or force-cache if safe
+    { cache: "no-store" },
   );
 
   if (!res.ok)

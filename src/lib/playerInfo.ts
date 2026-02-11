@@ -129,6 +129,7 @@ export async function getPlayerInfo(opts: PlayerInfoOptions) {
       playerInfo["socials"] = themeData.socials;
       playerInfo["showcase"] = themeData.showcase;
       playerInfo["awards"] = themeData.awards;
+      playerInfo["buddy"] = themeData.buddy;
     }
   }
   
