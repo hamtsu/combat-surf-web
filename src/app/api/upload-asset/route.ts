@@ -27,9 +27,9 @@ export async function POST(req: Request) {
     const decoded = await adminAuth.verifyIdToken(token);
     const uid = decoded.uid;
 
-    if (decoded?.claims?.groupRank < 2 || !decoded?.claims?.authenticated) {
-        return new Response("Unauthorized", { status: 401 });
-    }
+    // if (decoded?.claims?.groupRank < 2 || !decoded?.claims?.authenticated) {
+    //     return new Response("Unauthorized", { status: 401 });
+    // }
 
     const { assetType, mime, fileSize } = await req.json();
 
