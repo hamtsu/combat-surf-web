@@ -8,6 +8,7 @@ import {
   FaArrowUp,
   FaCalendarDay,
   FaClipboard,
+  FaCrown,
   FaGavel,
   FaShieldAlt,
   FaStar,
@@ -22,6 +23,7 @@ import ClanTag from "../ClanTag";
 import { useRouter } from "next/navigation";
 
 type PlayerHeaderProps = {
+  rank: string;
   userInfo: {
     userId: string;
     username: string;
@@ -61,16 +63,12 @@ type PlayerHeaderProps = {
   };
 };
 
-const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
+const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo, rank }) => {
   const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [timeLeft, setTimeLeft] = useState<number>(0.5);
   const [shouldStopTimer, setShouldStopTimer] = useState<boolean>(false);
-
-  useEffect(() => {
-    console.log(userInfo?.clanName);
-  }, [userInfo]);
 
   useEffect(() => {
     if (
@@ -95,7 +93,29 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
 
     const infoPageTimer = setInterval(rotatePage, 1000);
     return () => clearInterval(infoPageTimer);
-  }, [currentPage, userInfo?.awards]);
+  }, [userInfo?.awards]);
+
+  useEffect(() => {
+    if (!rank) return;
+
+    if (rank === "𝓣𝓱𝓮 𝓑𝓸𝔂𝓼❤️" || rank === "⭐God") {
+      userInfo.awards = userInfo.awards
+        ? [...userInfo.awards, "OWNER"]
+        : ["OWNER"];
+    }
+
+    if (rank === "Admins" || rank === "Head Admins") {
+      userInfo.awards = userInfo.awards
+        ? [...userInfo.awards, "ADMIN"]
+        : ["ADMIN"];
+    }
+
+    if (rank === "Mods" || rank === "Admins" || rank === "Head Admins") {
+      userInfo.awards = userInfo.awards
+        ? [...userInfo.awards, "STAFF"]
+        : ["STAFF"];
+    }
+  }, [rank]);
 
   const getWeaponName = (index: number) => {
     const weaponNames = [
@@ -160,7 +180,7 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
           size={30}
           className="md:hidden translate-y-2 group-hover:translate-y-0 transition-all fill-stone-500/40 group-hover:fill-purple-400"
         />
-         <FaWrench
+        <FaWrench
           size={40}
           className="hidden md:block translate-y-2 group-hover:translate-y-0 transition-all fill-stone-500/40 group-hover:fill-purple-400"
         />
@@ -214,6 +234,28 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
         >
           {" "}
           #1 leaderboard player
+        </span>
+      </div>
+    ),
+    OWNER: (
+      <div className="flex flex-col h-full group mx-auto items-center text-shadow-lg">
+        <FaCrown
+          size={30}
+          className="md:hidden translate-y-2 group-hover:translate-y-0 transition-all fill-stone-500/40 group-hover:fill-amber-400"
+        />
+        <FaCrown
+          size={40}
+          className="hidden md:block translate-y-2 group-hover:translate-y-0 transition-all fill-stone-500/40 group-hover:fill-amber-400"
+        />
+        <span className="text-sm translate-y-2 group-hover:translate-y-1 transition-all font-bold tracking-wider not-hover:text-stone-500/40 group-hover:text-shadow-amber-400 group-hover:text-amber-400">
+          OWNER
+        </span>
+        <span
+          className="opacity-0 transition-opacity group-hover:opacity-100 text-[9px] font-bold text-shadow-none"
+          style={{ color: userInfo.theme?.textSecondary || "#78716c" }}
+        >
+          {" "}
+          the owner of the game!
         </span>
       </div>
     ),
@@ -388,7 +430,7 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
         </div>
 
         <div className="flex gap-1 justify-between md:justify-start md:gap-3">
-          <PlayerRank userId={userInfo.userId} />
+          <PlayerRank rank={rank} />
           <Button
             onClick={() =>
               window.open(
@@ -648,7 +690,7 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
                         size={16}
                         className="group-hover:animate-bounce-left"
                       />
-                      Awards{" "}
+                      Awards
                     </div>
                   )}
                 </Button>
@@ -658,11 +700,11 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo }) => {
           {currentPage === 0 && (
             <div className="min-h-[80px] md:min-h-[88px] w-[384px] max-w-[384px] md:w-[440px] md:max-w-[440px] ">
               {userInfo?.awards && userInfo?.awards?.length > 0 ? (
-                <div className="grid grid-cols-3 gap-2 overflow-x-auto">
+                <div className="flex gap-2 overflow-x-auto pb-2">
                   {userInfo.awards.map((award, index) => (
                     <div
                       key={index}
-                      className={`p-1 animate-fade-in opacity-0 rounded-md text-xl md:text-2xl items-center font-mono font-bold flex select-none`}
+                      className={`p-1 min-w-[130px] animate-fade-in opacity-0 rounded-md text-xl md:text-2xl items-center font-mono font-bold flex select-none`}
                       style={{
                         backgroundColor:
                           userInfo.theme?.bgTertiary || "#1c1917",

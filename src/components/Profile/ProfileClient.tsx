@@ -47,6 +47,7 @@ export default function ProfileClient({
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [timeLeft, setTimeLeft] = useState<number>(0.5);
   const [shouldStopTimer, setShouldStopTimer] = useState<boolean>(false);
+  const [rank, setRank] = useState<string>("");
 
   useEffect(() => {
     if (userInfo?.username) {
@@ -55,7 +56,7 @@ export default function ProfileClient({
   }, [userInfo?.username]);
 
   const buddyIds = ["97752529", "69873107", "1104485250", "69980171"];
-  const isBuddy = userInfo && buddyIds.includes(userInfo.userId);
+  const isBuddy = userInfo && buddyIds.includes(userInfo.userId); // TODO remove
 
   useEffect(() => {
     if (shouldStopTimer) return;
@@ -82,15 +83,29 @@ export default function ProfileClient({
     }
     setUserInfo(initialUserInfo);
 
+    fetch(`/api/player-rank?userId=${userInfo.userId}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Fetch failed");
+        return res.json();
+      })
+      .then((data) => {
+        data?.data?.forEach((group: any) => {
+          if (group.group.id == "5479316") {
+            setRank(group.role.name);
+          }
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
     if (userInfo.clanId && userInfo.clanId !== "-1") {
       fetch(`/api/clan-info?clanId=${userInfo.clanId}`)
         .then((res) => {
           if (!res.ok) throw new Error("Failed fetching clan info");
-          console.log(res);
           return res.json();
         })
         .then((data) => {
-          console.log("data", data);
           if (data) {
             setUserInfo((u: any) => ({
               ...u,
@@ -272,7 +287,7 @@ export default function ProfileClient({
             </div>
           </div>
 
-          <PlayerHeader userInfo={userInfo} />
+          <PlayerHeader userInfo={userInfo} rank={rank} />
 
           <div className="flex md:flex-row flex-col gap-5 items-bottom md:mt-4 lg:mt-1">
             <div className="flex flex-col gap-4 animate-fade-in-fifth opacity-0 ">
@@ -344,7 +359,7 @@ export default function ProfileClient({
                   <StatisticPanel
                     name="Career Kills"
                     value={userInfo.globalKills}
-                    buddy={isBuddy}
+                    buddy={userInfo?.buddy}
                     icon={
                       <FaSkull
                         size={18}
@@ -717,7 +732,7 @@ export default function ProfileClient({
                         }}
                         className={`${(!userInfo.showcase || !userInfo?.showcase[0]) && "w-[170px] h-[70px] md:w-[205px] md:h-[85px]"} rounded-md`}
                       >
-                        {userInfo.showcase && userInfo?.showcase[0] && (
+                        {userInfo.showcase && userInfo?.showcase[0] && userInfo.inventory[userInfo.showcase[0]] && (
                           <div
                             onClick={() =>
                               setSelectedItem(
@@ -756,7 +771,7 @@ export default function ProfileClient({
                         }}
                         className="w-full h-full rounded-md"
                       >
-                        {userInfo.showcase && userInfo?.showcase[1] && (
+                        {userInfo.showcase && userInfo?.showcase[1] && userInfo.inventory[userInfo.showcase[1]] && (
                           <div
                             onClick={() =>
                               setSelectedItem(
@@ -795,7 +810,7 @@ export default function ProfileClient({
                         }}
                         className={`${(!userInfo.showcase || !userInfo?.showcase[2]) && "w-[170px] h-[70px] md:w-[205px] md:h-[85px]"} rounded-md`}
                       >
-                        {userInfo.showcase && userInfo?.showcase[2] && (
+                        {userInfo.showcase && userInfo?.showcase[2] && userInfo.inventory[userInfo.showcase[2]] && (
                           <div
                             onClick={() =>
                               setSelectedItem(
@@ -834,7 +849,7 @@ export default function ProfileClient({
                         }}
                         className="w-full h-full rounded-md"
                       >
-                        {userInfo.showcase && userInfo?.showcase[3] && (
+                        {userInfo.showcase && userInfo?.showcase[3] && userInfo.inventory[userInfo.showcase[3]] && (
                           <div
                             onClick={() =>
                               setSelectedItem(
@@ -875,8 +890,9 @@ export default function ProfileClient({
                       backgroundColor: userInfo.theme?.bgSecondary || "#292524",
                       borderColor: userInfo.theme?.borderColor || "#b1b5b8",
                     }}
-                    className="rounded-md hidden md:flex w-full h-full p-3 gap-4 mx-auto md:mx-0 select-none opacity-0 animate-fade-in shadow-lg"
+                    className="rounded-md relative hidden md:flex w-full h-full p-3 gap-4 mx-auto md:mx-0 select-none opacity-0 animate-fade-in shadow-lg"
                   >
+                    <div className="absolute z-[50] w-full mt-8 bg-red-500/60 -ml-3 text-center font-bold">coming soon!</div>
                     <div className="flex flex-col gap-1">
                       <h1
                         className="font-bold text-5xl rounded-md p-1 px-2"

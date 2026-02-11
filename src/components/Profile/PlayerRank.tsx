@@ -1,34 +1,34 @@
 "use client";
-import React, { FC, useEffect } from "react";
+import { FC } from "react";
 import { FaCrown, FaGavel,  FaShieldAlt, FaStar, FaUser } from "react-icons/fa";
 import Tooltip from "../Tooltip";
 
 type PlayerRankProps = {
-  userId: string;
+  rank: string;
 };
 
-const PlayerRank: FC<PlayerRankProps> = ({ userId }) => {
-  const [rank, setRank] = React.useState<any>(null);
+const PlayerRank: FC<PlayerRankProps> = ({ rank }) => {
+  // const [rank, setRank] = React.useState<any>(null);
 
-  useEffect(() => {
-    if (!userId) return;
+  // useEffect(() => {
+  //   if (!userId) return;
 
-    fetch(`/api/player-rank?userId=${userId}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Fetch failed");
-        return res.json();
-      })
-      .then((data) => {
-        data?.data?.forEach((group: any) => {
-          if (group.group.id == "5479316") {
-            setRank(group.role.name);
-          }
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [userId]);
+  //   fetch(`/api/player-rank?userId=${userId}`)
+  //     .then((res) => {
+  //       if (!res.ok) throw new Error("Fetch failed");
+  //       return res.json();
+  //     })
+  //     .then((data) => {
+  //       data?.data?.forEach((group: any) => {
+  //         if (group.group.id == "5479316") {
+  //           setRank(group.role.name);
+  //         }
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, [userId]);
 
   if (rank == "Mods") {
     return (
