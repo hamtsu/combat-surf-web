@@ -1,8 +1,9 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Button from "./Button";
 import { FaXmark } from "react-icons/fa6";
 import {
+  FaCheck,
   FaCode,
   FaCopy,
   FaInfoCircle,
@@ -21,6 +22,7 @@ export default function ItemModal({
   onClose: () => void;
 }) {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [tryCopied, setTryCopied] = useState(false);
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -44,6 +46,13 @@ export default function ItemModal({
     2: "Uncommon",
     1: "Common",
     0: "Default",
+  };
+
+  const copyTry = () => {
+    setTryCopied(true);
+    navigator.clipboard.writeText(
+      `!try ${item.SubType} ${item.Pattern} ${item.StatTrak} ${item.Float} ${item.Name}`,
+    );
   };
 
   return (
@@ -165,6 +174,35 @@ export default function ItemModal({
               </div>
             </div>
           )}
+
+          <div className="flex items-center gap-2">
+            <div className="md:p-2 p-1 px-3 md:mt-3 mt-2 md:text-base text-sm bg-stone-900 w-fit text-nowrap h-fit rounded-md">
+              <Button
+                onClick={() => {
+                  copyTry();
+                }}
+                className="flex items-center hover:text-stone-200 text-stone-300 gap-2 text-sm md:text-base"
+              >
+                {tryCopied ? (
+                  <>
+                    <FaCheck className="group-hover:text-stone-200 text-green-500" />{" "}
+                    Copied
+                  </>
+                ) : (
+                  <>
+                    <FaCopy className="group-hover:text-stone-200 text-stone-500" />{" "}
+                    Try Command
+                  </>
+                )}
+              </Button>
+            </div>
+            <div className="md:p-2 p-1 px-3 md:mt-3 mt-2 md:text-base text-sm bg-stone-900 w-full h-full rounded-md">
+              <p className="text-[9px] py-1 md:py-0 md:text-sm">
+                <span className="text-stone-500 hidden md:inline text-base font-bold mr-1">How?</span>{" "}
+                Paste copied command in private server.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
