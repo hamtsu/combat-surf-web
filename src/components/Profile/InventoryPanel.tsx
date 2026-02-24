@@ -44,13 +44,14 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
   });
 
   useEffect(() => {
-    console.log("DEBUG loading, user, claims:", loading, user, claims);
-    if (!loading && claims.userId == Number(userId)) {
+    if (!loading && user && claims.userId == Number(userId)) {
       setCanEditShowcase(true);
     } else {
       setCanEditShowcase(false);
     }
+  }, [loading, user, claims, userId])
 
+  useEffect(() => {
     fetch(`/api/player-info?userId=${userId}&fields=inventory`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed fetching player inventory");
