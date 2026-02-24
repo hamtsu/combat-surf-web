@@ -44,7 +44,8 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
   });
 
   useEffect(() => {
-    if (!loading && user && claims.userId == Number(userId)) {
+    console.log("DEBUG loading, user, claims:", loading, user, claims);
+    if (!loading && claims.userId == Number(userId)) {
       setCanEditShowcase(true);
     } else {
       setCanEditShowcase(false);
