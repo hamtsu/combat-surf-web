@@ -50,6 +50,7 @@ export const checkNewGenImage = (subType: string, name: string) => {
   const newGenItems = [
     "Shards_of_Creation",
     "333",
+    "AWP_Hamtsu",
     "The_Dark_Arts",
     "666",
     "Ascendance.",
