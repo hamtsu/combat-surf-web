@@ -37,8 +37,8 @@ export async function POST(req: Request) {
             if (!currentItemDoc.exists) {
                 historyBatch.set(currentItem, {
                     players: [
-                        { playerId: player1Id, timestamp: FieldValue.serverTimestamp() },
-                        { playerId: player2Id, timestamp: FieldValue.serverTimestamp() }
+                        { playerId: player1Id, timestamp: Date.now() },
+                        { playerId: player2Id, timestamp: Date.now() }
                     ],
                     createdAt: FieldValue.serverTimestamp()
                 })
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
                 historyBatch.update(currentItem, {
                     players: [
                         ...currentPlayers,
-                        { playerId: player2Id, timestamp: FieldValue.serverTimestamp() }
+                        { playerId: player2Id, timestamp: Date.now() }
                     ]
                 });
             }
@@ -66,8 +66,8 @@ export async function POST(req: Request) {
             if (!currentItemDoc.exists) {
                 historyBatch.set(currentItem, {
                     players: [
-                        { playerId: player2Id, timestamp: FieldValue.serverTimestamp() },
-                        { playerId: player1Id, timestamp: FieldValue.serverTimestamp() }
+                        { playerId: player2Id, timestamp: Date.now() },
+                        { playerId: player1Id, timestamp: Date.now() }
                     ],
                     createdAt: FieldValue.serverTimestamp()
                 })
@@ -76,12 +76,12 @@ export async function POST(req: Request) {
                 historyBatch.update(currentItem, {
                     players: [
                         ...currentPlayers,
-                        { playerId: player1Id, timestamp: FieldValue.serverTimestamp() }
+                        { playerId: player1Id, timestamp: Date.now() }
                     ]
                 });
             }
-        } catch (error) {
-            return new Response(JSON.stringify({ success: false, message: "Error while updating player 2 items", error: error }), { status: 500 });
+        } catch (error: any) {
+            return new Response(JSON.stringify({ success: false, message: "Error while updating player 2 items", error: error.message }), { status: 500 });
         }
 
     }
