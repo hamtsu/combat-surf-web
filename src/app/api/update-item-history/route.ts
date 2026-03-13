@@ -35,10 +35,10 @@ export async function POST(req: Request) {
             const currentItemDoc = await currentItem.get()
 
             if (!currentItemDoc.exists) {
-                historyBatch.set(currentItem, { players: [player1Id, player2Id], createdAt: FieldValue.serverTimestamp() })
+                historyBatch.set(currentItem, { players: [{ player1Id: FieldValue.serverTimestamp() }, { player2Id: FieldValue.serverTimestamp() }], createdAt: FieldValue.serverTimestamp() })
             } else {
                 const currentPlayers = currentItemDoc.data()?.players || [];
-                historyBatch.update(currentItem, { players: [...currentPlayers, player2Id] });
+                historyBatch.update(currentItem, { players: [...currentPlayers, { player2Id: FieldValue.serverTimestamp() }] });
             }
         } catch (error) {
             return new Response(JSON.stringify({ success: false, message: "Error while updating player 1 items", error: error }), { status: 500 });
@@ -53,10 +53,10 @@ export async function POST(req: Request) {
             const currentItemDoc = await currentItem.get()
 
             if (!currentItemDoc.exists) {
-                historyBatch.set(currentItem, { players: [player2Id, player1Id], createdAt: FieldValue.serverTimestamp() })
+                historyBatch.set(currentItem, { players: [{ player2Id: FieldValue.serverTimestamp() }, { player1Id: FieldValue.serverTimestamp() }], createdAt: FieldValue.serverTimestamp() })
             } else {
                 const currentPlayers = currentItemDoc.data()?.players || [];
-                historyBatch.update(currentItem, { players: [...currentPlayers, player1Id] });
+                historyBatch.update(currentItem, { players: [...currentPlayers, { player1Id: FieldValue.serverTimestamp() }] });
             }
         } catch (error) {
             return new Response(JSON.stringify({ success: false, message: "Error while updating player 2 items", error: error }), { status: 500 });
