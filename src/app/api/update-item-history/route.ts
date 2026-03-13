@@ -37,7 +37,8 @@ export async function POST(req: Request) {
             if (!currentItemDoc.exists) {
                 historyBatch.set(currentItem, { players: [player1Id, player2Id], createdAt: FieldValue.serverTimestamp() })
             } else {
-                historyBatch.update(currentItem, { players: FieldValue.arrayUnion(player2Id) })
+                const currentPlayers = currentItemDoc.data()?.players || [];
+                historyBatch.update(currentItem, { players: [...currentPlayers, player2Id] });
             }
         } catch (error) {
             return new Response(JSON.stringify({ success: false, message: "Error while updating player 1 items", error: error }), { status: 500 });
@@ -54,7 +55,8 @@ export async function POST(req: Request) {
             if (!currentItemDoc.exists) {
                 historyBatch.set(currentItem, { players: [player2Id, player1Id], createdAt: FieldValue.serverTimestamp() })
             } else {
-                historyBatch.update(currentItem, { players: FieldValue.arrayUnion(player1Id) })
+                const currentPlayers = currentItemDoc.data()?.players || [];
+                historyBatch.update(currentItem, { players: [...currentPlayers, player1Id] });
             }
         } catch (error) {
             return new Response(JSON.stringify({ success: false, message: "Error while updating player 2 items", error: error }), { status: 500 });
@@ -64,6 +66,7 @@ export async function POST(req: Request) {
 
     try {
         await historyBatch.commit()
+        return new Response(JSON.stringify({ success: true }), { status: 201 });
     } catch (error) {
         return new Response(JSON.stringify({ success: false, message: "Error while commiting batch update", error: error }), { status: 500 });
     }
