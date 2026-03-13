@@ -51,8 +51,8 @@ export async function POST(req: Request) {
                     ]
                 });
             }
-        } catch (error) {
-            return new Response(JSON.stringify({ success: false, message: "Error while updating player 1 items", error: error }), { status: 500 });
+        } catch (error: any) {
+            return new Response(JSON.stringify({ success: false, message: "Error while updating player 1 items", error: error.message }), { status: 500 });
         }
 
     }
