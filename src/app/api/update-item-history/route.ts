@@ -32,9 +32,9 @@ export async function POST(req: Request) {
     for (let index = 0; index < player1Items.length; index++) {
         try {
             const currentItem = historyCollection.doc(player1Items[index])
-            const currentItemDoc = currentItem.get()
+            const currentItemDoc = await currentItem.get()
 
-            if (!currentItemDoc) {
+            if (!currentItemDoc.exists) {
                 historyBatch.set(currentItem, { players: [player1Id, player2Id], createdAt: FieldValue.serverTimestamp() })
             } else {
                 historyBatch.update(currentItem, { players: FieldValue.arrayUnion(player2Id) })
@@ -49,9 +49,9 @@ export async function POST(req: Request) {
     for (let index = 0; index < player2Items.length; index++) {
         try {
             const currentItem = historyCollection.doc(player2Items[index])
-            const currentItemDoc = currentItem.get()
+            const currentItemDoc = await currentItem.get()
 
-            if (!currentItemDoc) {
+            if (!currentItemDoc.exists) {
                 historyBatch.set(currentItem, { players: [player2Id, player1Id], createdAt: FieldValue.serverTimestamp() })
             } else {
                 historyBatch.update(currentItem, { players: FieldValue.arrayUnion(player1Id) })
