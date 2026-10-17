@@ -8,6 +8,7 @@ import RateLimitedModal from "@/components/RateLimitedModal";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { AuthProvider } from "@/context/AuthContext";
 import AccountOverlay from "@/components/AccountOverlay";
+import Maintenance from "./maintenance/page";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -70,7 +71,7 @@ export default async function RootLayout({
           " min-h-screen h-screen bg-stone-900 overflow-hidden"
         }
       >
-        <AuthProvider>
+        {/* <AuthProvider>
           <RateLimitedModal />
           <Suspense>
             <LoadingScreen />
@@ -78,7 +79,8 @@ export default async function RootLayout({
           <AccountOverlay />
           {children}
           <Footer />
-        </AuthProvider>
+        </AuthProvider> */}
+        <Maintenance />
       </body>
       <GoogleAnalytics gaId="G-1PG949031B" />
     </html>
