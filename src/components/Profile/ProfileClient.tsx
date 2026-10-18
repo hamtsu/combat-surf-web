@@ -209,9 +209,16 @@ export default function ProfileClient({
             ...(userInfo.backgroundUrl
               ? { backgroundImage: `url(${userInfo.backgroundUrl})` }
               : {}),
-            backgroundColor: userInfo.theme?.bgPrimary || "#0d0d0d",
+            backgroundColor: userInfo.theme?.bgPrimary || "#1c1917",
           }}
         >
+          {userInfo.legacy && (
+            <div className="w-full md:w-fit max-w-screen-xl mt-0 md:-mt-5 bg-stone-800 rounded-md shadow-lg p-3 flex items-center gap-2 text-sm md:text-base font-bold text-yellow-400">
+              <FaTriangleExclamation size={20} className="shrink-0" />
+              Legacy profile data is being displayed. This player has not logged
+              in recently.
+            </div>
+          )}
           {userInfo.blurBackgroundImage && (
             <div className="absolute -z-1 w-full h-full backdrop-blur-[2px]" />
           )}
@@ -417,8 +424,7 @@ export default function ProfileClient({
                         color: userInfo.theme?.textPrimary || "#a1a1aa",
                       }}
                     >
-                      {currentPage === 0 &&
-                        "Profile"}
+                      {currentPage === 0 && "Profile"}
                       {currentPage === 1 && "Showcase"}
                       {currentPage === 2 && "Bans"}
                     </h1>
@@ -652,7 +658,7 @@ export default function ProfileClient({
                             </p>
                           </div>
                         </div>
-                      ) : userInfo.tradeBanned ? (
+                      ) : userInfo.tradeBanned?.value ? (
                         <div
                           style={{
                             color: userInfo.theme?.textMuted || "#d4d4d8",
@@ -732,36 +738,38 @@ export default function ProfileClient({
                         }}
                         className={`${(!userInfo.showcase || !userInfo?.showcase[0]) && "w-[170px] h-[70px] md:w-[205px] md:h-[85px]"} rounded-md`}
                       >
-                        {userInfo.showcase && userInfo?.showcase[0] && userInfo.inventory[userInfo.showcase[0]] && (
-                          <div
-                            onClick={() =>
-                              setSelectedItem(
-                                userInfo.inventory[userInfo.showcase[0]],
-                              )
-                            }
-                            style={{
-                              backgroundPosition: checkNewGenImage(
-                                userInfo.inventory[userInfo.showcase[0]]
-                                  .SubType,
-                                userInfo.inventory[userInfo.showcase[0]].Name,
-                              )
-                                ? "top"
-                                : "center",
-                              backgroundRepeat: "no-repeat",
-                              backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[0]]?.SubType, userInfo.inventory[userInfo.showcase[0]]?.Name)}`,
-                              animationDelay: `${0.1}s`,
-                              opacity: 0,
-                              backgroundColor:
-                                userInfo.theme?.bgSecondary || "#292524",
-                            }}
-                            className="z-0 group hover:cursor-pointer overflow-hidden bg-size-[102%] animate-fade-in text-stone-200 flex flex-col gap-2 max-w-[205px] h-[70px] md:h-[85px] bg-stone-900 rounded-md"
-                          >
-                            <ShowcaseItemContent
-                              item={userInfo.inventory[userInfo.showcase[0]]}
-                              theme={userInfo.theme}
-                            />
-                          </div>
-                        )}
+                        {userInfo.showcase &&
+                          userInfo?.showcase[0] &&
+                          userInfo.inventory[userInfo.showcase[0]] && (
+                            <div
+                              onClick={() =>
+                                setSelectedItem(
+                                  userInfo.inventory[userInfo.showcase[0]],
+                                )
+                              }
+                              style={{
+                                backgroundPosition: checkNewGenImage(
+                                  userInfo.inventory[userInfo.showcase[0]]
+                                    .SubType,
+                                  userInfo.inventory[userInfo.showcase[0]].Name,
+                                )
+                                  ? "top"
+                                  : "center",
+                                backgroundRepeat: "no-repeat",
+                                backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[0]]?.SubType, userInfo.inventory[userInfo.showcase[0]]?.Name)}`,
+                                animationDelay: `${0.1}s`,
+                                opacity: 0,
+                                backgroundColor:
+                                  userInfo.theme?.bgSecondary || "#292524",
+                              }}
+                              className="z-0 group hover:cursor-pointer overflow-hidden bg-size-[102%] animate-fade-in text-stone-200 flex flex-col gap-2 max-w-[205px] h-[70px] md:h-[85px] bg-stone-900 rounded-md"
+                            >
+                              <ShowcaseItemContent
+                                item={userInfo.inventory[userInfo.showcase[0]]}
+                                theme={userInfo.theme}
+                              />
+                            </div>
+                          )}
                       </div>
 
                       <div
@@ -771,36 +779,38 @@ export default function ProfileClient({
                         }}
                         className="w-full h-full rounded-md"
                       >
-                        {userInfo.showcase && userInfo?.showcase[1] && userInfo.inventory[userInfo.showcase[1]] && (
-                          <div
-                            onClick={() =>
-                              setSelectedItem(
-                                userInfo.inventory[userInfo.showcase[1]],
-                              )
-                            }
-                            style={{
-                              backgroundPosition: checkNewGenImage(
-                                userInfo.inventory[userInfo.showcase[1]]
-                                  .SubType,
-                                userInfo.inventory[userInfo.showcase[1]].Name,
-                              )
-                                ? "top"
-                                : "center",
-                              backgroundRepeat: "no-repeat",
-                              backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[1]]?.SubType, userInfo.inventory[userInfo.showcase[1]]?.Name)}`,
-                              animationDelay: `${0.2}s`,
-                              opacity: 0,
-                              backgroundColor:
-                                userInfo.theme?.bgSecondary || "#292524",
-                            }}
-                            className="z-0 overflow-hidden group bg-size-[102%] hover:cursor-pointer animate-fade-in text-stone-200 flex flex-col gap-2 max-w-[205px] h-[70px] md:h-[85px]  bg-stone-900 rounded-md"
-                          >
-                            <ShowcaseItemContent
-                              item={userInfo.inventory[userInfo.showcase[1]]}
-                              theme={userInfo.theme}
-                            />
-                          </div>
-                        )}
+                        {userInfo.showcase &&
+                          userInfo?.showcase[1] &&
+                          userInfo.inventory[userInfo.showcase[1]] && (
+                            <div
+                              onClick={() =>
+                                setSelectedItem(
+                                  userInfo.inventory[userInfo.showcase[1]],
+                                )
+                              }
+                              style={{
+                                backgroundPosition: checkNewGenImage(
+                                  userInfo.inventory[userInfo.showcase[1]]
+                                    .SubType,
+                                  userInfo.inventory[userInfo.showcase[1]].Name,
+                                )
+                                  ? "top"
+                                  : "center",
+                                backgroundRepeat: "no-repeat",
+                                backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[1]]?.SubType, userInfo.inventory[userInfo.showcase[1]]?.Name)}`,
+                                animationDelay: `${0.2}s`,
+                                opacity: 0,
+                                backgroundColor:
+                                  userInfo.theme?.bgSecondary || "#292524",
+                              }}
+                              className="z-0 overflow-hidden group bg-size-[102%] hover:cursor-pointer animate-fade-in text-stone-200 flex flex-col gap-2 max-w-[205px] h-[70px] md:h-[85px]  bg-stone-900 rounded-md"
+                            >
+                              <ShowcaseItemContent
+                                item={userInfo.inventory[userInfo.showcase[1]]}
+                                theme={userInfo.theme}
+                              />
+                            </div>
+                          )}
                       </div>
 
                       <div
@@ -810,36 +820,38 @@ export default function ProfileClient({
                         }}
                         className={`${(!userInfo.showcase || !userInfo?.showcase[2]) && "w-[170px] h-[70px] md:w-[205px] md:h-[85px]"} rounded-md`}
                       >
-                        {userInfo.showcase && userInfo?.showcase[2] && userInfo.inventory[userInfo.showcase[2]] && (
-                          <div
-                            onClick={() =>
-                              setSelectedItem(
-                                userInfo.inventory[userInfo.showcase[2]],
-                              )
-                            }
-                            style={{
-                              backgroundPosition: checkNewGenImage(
-                                userInfo.inventory[userInfo.showcase[2]]
-                                  .SubType,
-                                userInfo.inventory[userInfo.showcase[2]].Name,
-                              )
-                                ? "top"
-                                : "center",
-                              backgroundRepeat: "no-repeat",
-                              backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[2]]?.SubType, userInfo.inventory[userInfo.showcase[2]]?.Name)}`,
-                              animationDelay: `${0.3}s`,
-                              opacity: 0,
-                              backgroundColor:
-                                userInfo.theme?.bgSecondary || "#292524",
-                            }}
-                            className="z-0 overflow-hidden group bg-size-[102%] hover:cursor-pointer animate-fade-in text-stone-200 flex flex-col gap-2 max-w-[205px] h-[70px] md:h-[85px] bg-stone-900 rounded-md"
-                          >
-                            <ShowcaseItemContent
-                              item={userInfo.inventory[userInfo.showcase[2]]}
-                              theme={userInfo.theme}
-                            />
-                          </div>
-                        )}
+                        {userInfo.showcase &&
+                          userInfo?.showcase[2] &&
+                          userInfo.inventory[userInfo.showcase[2]] && (
+                            <div
+                              onClick={() =>
+                                setSelectedItem(
+                                  userInfo.inventory[userInfo.showcase[2]],
+                                )
+                              }
+                              style={{
+                                backgroundPosition: checkNewGenImage(
+                                  userInfo.inventory[userInfo.showcase[2]]
+                                    .SubType,
+                                  userInfo.inventory[userInfo.showcase[2]].Name,
+                                )
+                                  ? "top"
+                                  : "center",
+                                backgroundRepeat: "no-repeat",
+                                backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[2]]?.SubType, userInfo.inventory[userInfo.showcase[2]]?.Name)}`,
+                                animationDelay: `${0.3}s`,
+                                opacity: 0,
+                                backgroundColor:
+                                  userInfo.theme?.bgSecondary || "#292524",
+                              }}
+                              className="z-0 overflow-hidden group bg-size-[102%] hover:cursor-pointer animate-fade-in text-stone-200 flex flex-col gap-2 max-w-[205px] h-[70px] md:h-[85px] bg-stone-900 rounded-md"
+                            >
+                              <ShowcaseItemContent
+                                item={userInfo.inventory[userInfo.showcase[2]]}
+                                theme={userInfo.theme}
+                              />
+                            </div>
+                          )}
                       </div>
 
                       <div
@@ -849,36 +861,38 @@ export default function ProfileClient({
                         }}
                         className="w-full h-full rounded-md"
                       >
-                        {userInfo.showcase && userInfo?.showcase[3] && userInfo.inventory[userInfo.showcase[3]] && (
-                          <div
-                            onClick={() =>
-                              setSelectedItem(
-                                userInfo.inventory[userInfo.showcase[3]],
-                              )
-                            }
-                            style={{
-                              backgroundPosition: checkNewGenImage(
-                                userInfo.inventory[userInfo.showcase[3]]
-                                  .SubType,
-                                userInfo.inventory[userInfo.showcase[3]].Name,
-                              )
-                                ? "top"
-                                : "center",
-                              backgroundRepeat: "no-repeat",
-                              backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[3]]?.SubType, userInfo.inventory[userInfo.showcase[3]]?.Name)}`,
-                              animationDelay: `${0.4}s`,
-                              opacity: 0,
-                              backgroundColor:
-                                userInfo.theme?.bgSecondary || "#292524",
-                            }}
-                            className="z-0 overflow-hidden group bg-size-[102%] hover:cursor-pointer animate-fade-in text-stone-200 flex flex-col gap-2 max-w-[205px] h-[85px] bg-stone-900 rounded-md"
-                          >
-                            <ShowcaseItemContent
-                              item={userInfo.inventory[userInfo.showcase[3]]}
-                              theme={userInfo.theme}
-                            />
-                          </div>
-                        )}
+                        {userInfo.showcase &&
+                          userInfo?.showcase[3] &&
+                          userInfo.inventory[userInfo.showcase[3]] && (
+                            <div
+                              onClick={() =>
+                                setSelectedItem(
+                                  userInfo.inventory[userInfo.showcase[3]],
+                                )
+                              }
+                              style={{
+                                backgroundPosition: checkNewGenImage(
+                                  userInfo.inventory[userInfo.showcase[3]]
+                                    .SubType,
+                                  userInfo.inventory[userInfo.showcase[3]].Name,
+                                )
+                                  ? "top"
+                                  : "center",
+                                backgroundRepeat: "no-repeat",
+                                backgroundImage: `url(/items/${normalizeName(userInfo.inventory[userInfo.showcase[3]]?.SubType, userInfo.inventory[userInfo.showcase[3]]?.Name)}`,
+                                animationDelay: `${0.4}s`,
+                                opacity: 0,
+                                backgroundColor:
+                                  userInfo.theme?.bgSecondary || "#292524",
+                              }}
+                              className="z-0 overflow-hidden group bg-size-[102%] hover:cursor-pointer animate-fade-in text-stone-200 flex flex-col gap-2 max-w-[205px] h-[85px] bg-stone-900 rounded-md"
+                            >
+                              <ShowcaseItemContent
+                                item={userInfo.inventory[userInfo.showcase[3]]}
+                                theme={userInfo.theme}
+                              />
+                            </div>
+                          )}
                       </div>
                     </div>
                   )}
@@ -892,7 +906,9 @@ export default function ProfileClient({
                     }}
                     className="rounded-md relative hidden md:flex w-full h-full p-3 gap-4 mx-auto md:mx-0 select-none opacity-0 animate-fade-in shadow-lg"
                   >
-                    <div className="absolute z-[50] w-full mt-8 bg-red-500/60 -ml-3 text-center font-bold">coming soon!</div>
+                    <div className="absolute z-[50] w-full mt-8 bg-red-500/60 -ml-3 text-center font-bold">
+                      coming soon!
+                    </div>
                     <div className="flex flex-col gap-1">
                       <h1
                         className="font-bold text-5xl rounded-md p-1 px-2"
