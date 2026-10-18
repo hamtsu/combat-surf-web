@@ -71,7 +71,7 @@ export default async function RootLayout({
           " min-h-screen h-screen bg-stone-900 overflow-hidden"
         }
       >
-        {/* <AuthProvider>
+        <AuthProvider>
           <RateLimitedModal />
           <Suspense>
             <LoadingScreen />
@@ -79,8 +79,8 @@ export default async function RootLayout({
           <AccountOverlay />
           {children}
           <Footer />
-        </AuthProvider> */}
-        <Maintenance />
+        </AuthProvider>
+        {/* <Maintenance /> */}
       </body>
       <GoogleAnalytics gaId="G-1PG949031B" />
     </html>
