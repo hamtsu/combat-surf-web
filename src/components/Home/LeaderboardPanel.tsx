@@ -88,7 +88,7 @@ const LeaderboardPanel = () => {
                   <a
                     href={`/player/${player.id}`}
                     style={{ color: players[index]?.textBanner ? players[index].textBanner : undefined }}
-                    className={`${players[index]?.textBanner ? "font-bold" : ""} text-stone-200 hover:text-amber-300`}
+                    className={`${players[index]?.textBanner ? "font-bold" : ""} ${player.vip ? "text-glow-gold" : "text-stone-200"} hover:text-amber-300`}
                   >
                     {player.name.length > 8
                       ? player.name.slice(0, 8) + "…"

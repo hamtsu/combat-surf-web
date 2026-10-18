@@ -4,7 +4,7 @@ export const getPlayer = cache(async (userId: string) => {
   if (!userId) throw new Error("User ID is required to fetch player info");
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SITE_URL}/api/player-info?userId=${userId}&fields=username,displayName,level,clanId,xp,weaponKills,wins,tasks,globalKills,tradeBanned,theme,inventory`,
+    `${process.env.NEXT_PUBLIC_SITE_URL}/api/player-info?userId=${userId}&fields=username,displayName,level,clanId,xp,weaponKills,wins,tasks,globalKills,tradeBanned,theme,inventory,vip`,
     { cache: "no-store" },
   );
 

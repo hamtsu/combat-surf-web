@@ -152,7 +152,7 @@ const Page = () => {
                     ? players[1].textBanner
                     : undefined,
                 }}
-                className="text-[#E8C4A1] font-bold text-xl mt-3"
+                className={`${players[1]?.vip ? "text-glow-gold" : "text-[#E8C4A1]"} font-bold text-xl mt-3`}
               >
                 {players[1].name.length > 8
                   ? players[1].name.slice(0, 8) + "…"
@@ -222,7 +222,7 @@ const Page = () => {
                     ? players[0].textBanner
                     : undefined,
                 }}
-                className="text-yellow-600 font-bold text-xl mt-3"
+                className={`${players[0]?.vip ? "text-glow-gold" : "text-yellow-600"} font-bold text-xl mt-3`}
               >
                 {players[0].name.length > 8
                   ? players[0].name.slice(0, 8) + "…"
@@ -290,7 +290,7 @@ const Page = () => {
                     ? players[2].textBanner
                     : undefined,
                 }}
-                className="text-stone-400 font-bold text-xl mt-3"
+                className={`${players[2]?.vip ? "text-glow-gold" : "text-stone-400"} font-bold text-xl mt-3`}
               >
                 {players[2].name.length > 8
                   ? players[2].name.slice(0, 8) + "…"
@@ -363,7 +363,7 @@ const Page = () => {
                           ? players[index].theme.textBanner
                           : undefined,
                       }}
-                      className={`${players[index]?.textBanner ? "font-bold" : ""} text-stone-200 md:hidden hover:text-amber-300 font-bold`}
+                      className={`${players[index]?.textBanner ? "font-bold" : ""} ${player.vip ? "text-glow-gold" : "text-stone-200"} md:hidden hover:text-amber-300 font-bold`}
                     >
                       {player.name.length > 12
                         ? player.name.slice(0, 12) + "…"
@@ -377,7 +377,7 @@ const Page = () => {
                           ? players[index].theme.textBanner
                           : undefined,
                       }}
-                      className={`${players[index]?.textBanner ? "font-bold" : ""}text-stone-200 hidden md:block hover:text-amber-300 font-bold`}
+                      className={`${players[index]?.textBanner ? "font-bold" : ""} ${player.vip ? "text-glow-gold" : "text-stone-200"} hidden md:block hover:text-amber-300 font-bold`}
                     >
                       {player.name}
                     </a>

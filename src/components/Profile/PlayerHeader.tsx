@@ -51,8 +51,10 @@ type PlayerHeaderProps = {
       value: number;
       imageUrl: string;
     }[];
-    tradeBanned?: boolean;
+    tradeBanned?: { value: boolean; tradeBannedAt: string };
     xp: number;
+    globalKills?: number;
+    vip?: boolean;
     tasks?: {
       LastLoginDate: string;
     };
@@ -303,7 +305,9 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo, rank }) => {
                 }),
               }}
             >
-              <h1>{userInfo.displayName}</h1>
+              <h1 className={userInfo.vip ? "text-glow-gold" : ""}>
+                {userInfo.displayName}
+              </h1>
             </div>
 
             <div
@@ -483,6 +487,18 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo, rank }) => {
           </div>
 
           <div className="flex flex-col gap-2 w-full">
+            {userInfo.vip && (
+              <div
+                className="shadow-[0_0_12px_rgba(255,192,0,0.9)] opacity-0 animate-fade-in-third w-full h-full rounded-sm flex items-center gap-2 px-2 py-1"
+                style={{ backgroundColor: "#ffc000" }}
+              >
+                <FaCrown size={13} className="shrink-0 fill-white" />
+                <span className="text-xs font-bold shrink-0 text-white">
+                  VIP MEMBER
+                </span>
+              </div>
+            )}
+
             <div className="h-[25px] mt-auto w-full opacity-0 animate-fade-in-fourth">
               <div
                 className={`shadow-lg select-none border-1 transition-all rounded-sm w-full h-full flex hover:h-full group overflow-hidden`}

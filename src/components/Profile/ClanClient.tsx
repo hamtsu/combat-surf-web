@@ -27,7 +27,7 @@ export default function Page({ initialClanInfo }: { initialClanInfo: any }) {
 
     if (initialClanInfo.name) {
       fetch(
-        `/api/player-info?userId=${initialClanInfo.owner}&fields=username,displayName`,
+        `/api/player-info?userId=${initialClanInfo.owner}&fields=username,displayName,vip`,
       )
         .then((res) => {
           if (!res.ok) throw new Error("Failed fetching owner info");
@@ -58,17 +58,19 @@ export default function Page({ initialClanInfo }: { initialClanInfo: any }) {
 
     Promise.all(
       members.map((id) =>
-        fetch(`/api/player-info?userId=${id}&fields=username,displayName`)
+        fetch(`/api/player-info?userId=${id}&fields=username,displayName,vip`)
           .then((res) => res.json())
           .then((data) => ({
             id,
             username: data.username || "Unknown User",
             displayName: data.displayName || "Unknown User",
+            vip: data.vip ?? false,
           }))
           .catch(() => ({
             id,
             username: "Unknown User",
             displayName: "Unknown User",
+            vip: false,
           })),
       ),
     ).then(setClanMembers);
@@ -210,7 +212,7 @@ export default function Page({ initialClanInfo }: { initialClanInfo: any }) {
                   <FaUser /> Clan owner
                 </div>
                 <a
-                  className="text-stone-200 font-bold text-3xl hover:text-amber-400"
+                  className={`${clanOwnerInfo?.vip ? "text-glow-gold" : "text-stone-200"} font-bold text-3xl hover:text-amber-400`}
                   href={`/player/${clanInfo.owner}`}
                 >
                   {clanOwnerInfo?.displayName}
@@ -236,7 +238,7 @@ export default function Page({ initialClanInfo }: { initialClanInfo: any }) {
                   </div>
                   <a
                     href={`/player/${member.id}`}
-                    className="text-stone-200 hover:text-amber-300 font-bold"
+                    className={`${member.vip ? "text-glow-gold" : "text-stone-200"} hover:text-amber-300 font-bold`}
                   >
                     {member.displayName}
                   </a>

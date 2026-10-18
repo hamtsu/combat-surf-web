@@ -31,7 +31,7 @@ async function buildLeaderboard() {
     playerEntries.slice(1).map(async (entry: any) => {
       const info = await getPlayerInfo({
         userId: String(entry.id),
-        fields: ["username", "globalKills", "level", "clanId", "wins"],
+        fields: ["username", "globalKills", "level", "clanId", "wins", "vip"],
         theme: true
       }).catch(() => null);
 
@@ -67,6 +67,7 @@ async function buildLeaderboard() {
         clan: tag,
         id: entry.id,
         wins: info?.wins ?? 0,
+        vip: info?.vip ?? false,
         clanStyle,
         bannerPath: info?.bannerUrl || null,
         textBanner: info?.theme?.textBanner || null,
