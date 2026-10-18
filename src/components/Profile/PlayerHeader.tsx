@@ -6,7 +6,6 @@ import {
   FaArrowLeft,
   FaArrowRight,
   FaArrowUp,
-  FaCalendarDay,
   FaClipboard,
   FaCrown,
   FaGavel,
@@ -28,7 +27,7 @@ type PlayerHeaderProps = {
     userId: string;
     username: string;
     displayName: string;
-    level: { value: number; firstJoined: string };
+    level: { value: number };
     clanName: string;
     clanTag: string;
     clanId: string;
@@ -484,42 +483,6 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo, rank }) => {
           </div>
 
           <div className="flex flex-col gap-2 w-full">
-            <div
-              className={`shadow-lg opacity-0 animate-fade-in-third w-full h-full rounded-sm flex items-center gap-2 px-2 py-1`}
-              style={{
-                backgroundColor: userInfo.theme?.bgSecondary || "#292524",
-              }}
-            >
-              <h1
-                className={`text-xs flex items-center gap-2 font-bold`}
-                style={{
-                  color: userInfo.theme?.textMuted || "#a1a1a1",
-                }}
-              >
-                <FaCalendarDay
-                  size={11}
-                  color={userInfo.theme?.textSecondary || "#78716c"}
-                />
-                <span className="md:block hidden">
-                  First Join:{" "}
-                  <b>
-                    {new Date(userInfo.level.firstJoined).toLocaleDateString(
-                      "en-US",
-                      { timeZone: "UTC" },
-                    )}
-                  </b>
-                </span>
-                <span className="md:hidden block">
-                  <b>
-                    {new Date(userInfo.level.firstJoined).toLocaleDateString(
-                      "en-US",
-                      { timeZone: "UTC" },
-                    )}
-                  </b>
-                </span>
-              </h1>
-            </div>
-
             <div className="h-[25px] mt-auto w-full opacity-0 animate-fade-in-fourth">
               <div
                 className={`shadow-lg select-none border-1 transition-all rounded-sm w-full h-full flex hover:h-full group overflow-hidden`}

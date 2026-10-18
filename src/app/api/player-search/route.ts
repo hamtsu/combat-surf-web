@@ -69,8 +69,8 @@ export async function GET(request: NextRequest) {
       username = data.name;
     }
 
-    const levelRes = await fetch(
-      `https://apis.roblox.com/cloud/v2/universes/${process.env.UNIVERSE_ID}/data-stores/CurrentLevel/entries/${userId}`,
+    const profileRes = await fetch(
+      `https://apis.roblox.com/cloud/v2/universes/${process.env.UNIVERSE_ID}/data-stores/LiveGame/entries/Player_${userId}`,
       {
         headers: {
           'x-api-key': process.env.OPENCLOUD_API_KEY || '',
@@ -78,9 +78,9 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    if (!levelRes.ok) throw new Error('Failed to fetch profile');
+    if (!profileRes.ok) throw new Error('Failed to fetch profile');
 
-    const levelData = await levelRes.json();
+    const profileData = await profileRes.json();
 
     // cache both username and id
     if (userId !== null && username !== null) {
@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       userId,
       username,
-      level: levelData.value ?? levelData,
+      level: profileData.value?.Data?.careerStats?.Level,
     });
   } catch (error) {
     return NextResponse.json(

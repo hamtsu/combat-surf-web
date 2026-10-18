@@ -23,6 +23,7 @@ export async function getPlayerInfo(opts: PlayerInfoOptions) {
 
   const BASE_URL = `https://apis.roblox.com/cloud/v2/universes/${process.env.UNIVERSE_ID}/data-stores/`;
   let robloxUserData: any = null;
+  let profileData: any = null;
 
   const fetchRobloxUser = async () => {
     if (!robloxUserData) {
@@ -38,30 +39,28 @@ export async function getPlayerInfo(opts: PlayerInfoOptions) {
     return robloxUserData;
   };
 
-  const fieldFetchMap: Record<string, string | (() => Promise<any>)> = {
+  const fetchProfile = async () => {
+    if (!profileData) {
+      const res = await fetch(`${BASE_URL}LiveGame/entries/Player_${userId}`, {
+        headers: { "x-api-key": process.env.OPENCLOUD_API_KEY || "" },
+      });
+      if (!res.ok) throw new Error("Failed to fetch profile");
+      profileData = await res.json();
+    }
+    return profileData;
+  };
+
+  const fieldFetchMap: Record<string, () => Promise<any>> = {
     username: async () => (await fetchRobloxUser()).name,
     displayName: async () => (await fetchRobloxUser()).displayName,
     level: async () => {
-      const res = await fetch(`${BASE_URL}CurrentLevel/entries/${userId}`, {
-        headers: { "x-api-key": process.env.OPENCLOUD_API_KEY || "" },
-      });
-      if (!res.ok) throw new Error("Failed to fetch firstjoined");
-      const json = await res.json();
-      return { value: json.value, firstJoined: json.createTime };
+      const profile = await fetchProfile();
+      return { value: profile.value.Data.careerStats?.Level };
     },
-    clanId: `${BASE_URL}newMyClan/entries/${userId}`,
+    clanId: async () => (await fetchProfile()).value.Data.clanId,
     inventory: async () => {
-      const res = await fetch(`${BASE_URL}newInventory/entries/${userId}`, {
-        headers: { "x-api-key": process.env.OPENCLOUD_API_KEY || "" },
-      });
-      if (!res.ok) throw new Error("Failed to fetch inventory");
-      const json = await res.json();
-      const fullInventory = json.value?.inventory ?? json.value;
-
-      if (typeof fullInventory !== "object" || Array.isArray(fullInventory)) {
-        return fullInventory;
-      }
-
+      const profile = await fetchProfile();
+      const fullInventory = profile.value.Data.inventory ?? {};
       const entries = Object.entries(fullInventory);
       if (inventoryLimit > 0) {
         const sliced = entries.slice(
@@ -72,18 +71,34 @@ export async function getPlayerInfo(opts: PlayerInfoOptions) {
       }
       return Object.fromEntries(entries);
     },
-    xp: `${BASE_URL}XPStore/entries/${userId}`,
-    weaponKills: `${BASE_URL}WpnKillsStore/entries/${userId}`,
-    wins: `${BASE_URL}WinStore/entries/${userId}`,
-    tasks: `${BASE_URL}Tasks/entries/${userId}`,
-    globalKills: `${BASE_URL}CurrencyStore/entries/${userId}`,
+    xp: async () => (await fetchProfile()).value.Data.careerStats?.XP,
+    weaponKills: async () => {
+      const stats = (await fetchProfile()).value.Data.careerStats ?? {};
+      return [
+        stats["AWP Kills"],
+        stats["Deagle Kills"],
+        stats["Knife Kills"],
+        stats["AK Kills"],
+        stats["Glock Kills"],
+        stats["Shotgun Kills"],
+        stats["BFG Kills"],
+      ];
+    },
+    wins: async () => (await fetchProfile()).value.Data.careerStats?.Wins,
+    tasks: async () => {
+      const profile = await fetchProfile();
+      return {
+        Tasks: profile.value.Data.tasks,
+        LastLoginDate: profile.value.Data.tasksLastRefresh,
+      };
+    },
+    globalKills: async () => (await fetchProfile()).value.Data.careerStats?.Kills,
     tradeBanned: async () => {
-      const res = await fetch(`${BASE_URL}TradeBans/entries/${userId}`, {
-        headers: { "x-api-key": process.env.OPENCLOUD_API_KEY || "" },
-      });
-      if (!res.ok) throw new Error("Failed to fetch tradeBanned");
-      const json = await res.json();
-      return { value: json.value, tradeBannedAt: json.createTime };
+      const profile = await fetchProfile();
+      return {
+        value: profile.value.Data.tradeBanned,
+        tradeBannedAt: profile.revisionCreateTime,
+      };
     },
     rank: async () => {
       const res = await fetch(
@@ -103,16 +118,7 @@ export async function getPlayerInfo(opts: PlayerInfoOptions) {
     const source = fieldFetchMap[field];
     if (!source) return;
     try {
-      if (typeof source === "string") {
-        const res = await fetch(source, {
-          headers: { "x-api-key": process.env.OPENCLOUD_API_KEY || "" },
-        });
-        if (!res.ok) throw new Error(`Failed to fetch ${field}`);
-        const json = await res.json();
-        playerInfo[field] = json.value ?? json;
-      } else {
-        playerInfo[field] = await source();
-      }
+      playerInfo[field] = await source();
     } catch (e: any) {
       console.warn(`Skipping field ${field} due to error: ${e.message}`);
     }
@@ -132,7 +138,7 @@ export async function getPlayerInfo(opts: PlayerInfoOptions) {
       playerInfo["buddy"] = themeData.buddy;
     }
   }
-  
+
   await Promise.all(tasks);
 
   return playerInfo;
