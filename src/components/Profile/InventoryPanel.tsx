@@ -1,6 +1,6 @@
 "use client";
 import React, { FC, useEffect, useRef, useState } from "react";
-import { FaCaretRight, FaExclamationTriangle, FaPlus, FaStar, FaTag } from "react-icons/fa";
+import { FaBan, FaCaretRight, FaExclamationTriangle, FaPlus, FaStar, FaTag } from "react-icons/fa";
 import { FaBoxArchive, FaPencil, FaRotateRight } from "react-icons/fa6";
 import { useInView } from "react-intersection-observer";
 import Button from "../Button";
@@ -319,6 +319,11 @@ const InventoryPanel: FC<InventoryPanelProps> = ({
                         >
                           KC
                         </span>
+                      </div>
+                    )}
+                    {item.Untradeable && (
+                      <div className="ml-auto p-1 flex items-center gap-1 text-xs rounded-md bg-red-500/40">
+                        <FaBan size={10} className="fill-red-100" />
                       </div>
                     )}
                   </div>

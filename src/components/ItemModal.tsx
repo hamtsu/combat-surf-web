@@ -1,11 +1,13 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "./Button";
 import { FaXmark } from "react-icons/fa6";
 import {
+  FaBan,
   FaCheck,
   FaCode,
   FaCopy,
+  FaExclamationTriangle,
   FaInfoCircle,
   FaPaintBrush,
   FaStar,
@@ -23,6 +25,17 @@ export default function ItemModal({
 }) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [tryCopied, setTryCopied] = useState(false);
+  const [spawnedByName, setSpawnedByName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!item.SpawnedInBy) return;
+    fetch(`/api/player-info?userId=${item.SpawnedInBy}&fields=displayName,username`)
+      .then((res) => res.json())
+      .then((data) =>
+        setSpawnedByName(data.displayName || data.username || null)
+      )
+      .catch(() => setSpawnedByName(null));
+  }, [item.SpawnedInBy]);
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -104,6 +117,13 @@ export default function ItemModal({
                   </div>
                 </Tooltip>
               )}
+              {item.Untradeable && (
+                <Tooltip text="This item cannot be traded" position="bottom">
+                  <div className="bg-red-500/40 ml-auto p-2 flex items-center gap-1 rounded-md">
+                    <FaBan size={16} className="fill-red-100" />
+                  </div>
+                </Tooltip>
+              )}
             </div>
 
             <div className="flex flex-col gap-1 md:gap-3">
@@ -146,6 +166,18 @@ export default function ItemModal({
               </div>
             </div>
           </div>
+
+          {item.SpawnedInBy && (
+            <div className="md:p-2 p-1 px-3 md:mt-3 mt-2 md:text-base text-xs bg-red-500/10 w-full h-fit rounded-md flex items-center gap-2 text-red-400">
+              <FaExclamationTriangle size={16} className="shrink-0" />
+              <p className="font-bold">
+                This item was spawned in by{" "}
+                <a href={`/player/${item.SpawnedInBy}`}>
+                  <b>{spawnedByName ?? `user ${item.SpawnedInBy}`}</b>
+                </a>
+              </p>
+            </div>
+          )}
 
           <div className="md:p-2 p-1 px-3 md:mt-3 mt-2 md:text-base text-xs bg-stone-900 w-full h-fit rounded-md">
             <div className="flex items-center gap-2">
