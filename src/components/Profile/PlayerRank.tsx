@@ -79,7 +79,7 @@ const PlayerRank: FC<PlayerRankProps> = ({ rank }) => {
         </div>
       </Tooltip>
     );
-  } else if (rank == "⭐God") { // owner im pre sure
+  } else if (rank == "⭐Owner") { // owner im pre sure
     return (
       <Tooltip text="This player is an owner!" position="bottom">
         <div className="opacity-0 select-none animate-fade-in-third flex gap-2 items-center bg-yellow-500 shadow-lg shadow-yellow-500 border-2 border-yellow-400 w-fit h-fit rounded-lg m p-2 px-4">

@@ -9,7 +9,7 @@ export const getPlayer = cache(async (userId: string) => {
   );
 
   const data = await res.json();
-  console.log(data)
+  // console.log(data)
 
   if (!res.ok)
     throw new Error("Failed fetching player info: " + res.statusText);

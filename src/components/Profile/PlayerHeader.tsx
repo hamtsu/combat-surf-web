@@ -67,6 +67,9 @@ type PlayerHeaderProps = {
 const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo, rank }) => {
   const router = useRouter();
 
+  const isStaff =
+    rank === "Mods" || rank === "Admins" || rank === "Head Admins";
+
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [timeLeft, setTimeLeft] = useState<number>(0.5);
   const [shouldStopTimer, setShouldStopTimer] = useState<boolean>(false);
@@ -453,94 +456,110 @@ const PlayerHeader: FC<PlayerHeaderProps> = ({ userInfo, rank }) => {
         </div>
       </div>
 
-      <div className="flex flex-col mt-3 md:mt-0 gap-2">
-        <div className="flex gap-2">
+      <div className="flex flex-col mt-3 md:mt-0 gap-2 ">
+        <div className="flex gap-2 w-full">
           <div
-            className={`select-none opacity-0 items-center animate-fade-in-third rounded-md shadow-lg p-1 px-3 border-1 flex gap-2 md:mt-0 h-fit`}
+            className={`select-none opacity-0 items-center animate-fade-in-third rounded-md shadow-lg p-1 px-3 border-1 md:mt-0 w-full h-fit`}
             style={{
               backgroundColor: userInfo.theme?.bgSecondary || "#292524",
               borderColor: userInfo.theme?.borderColor || "#44403b",
             }}
           >
-            <h1
-              className={`text-5xl font-bold font-mono`}
-              style={{
-                color: userInfo.theme?.textPrimary || "#d4d4d8",
-              }}
-            >
-              {userInfo.level.value}
-            </h1>
-            <h2
-              className={`text-3xl mt-auto font-bold flex gap-2`}
-              style={{
-                color: userInfo.theme?.textMuted || "#a1a1a1",
-              }}
-            >
-              Level
-              <FaArrowUp
-                className={`my-auto hidden md:block`}
+            <div className="flex gap-2 items-center">
+              <h1
+                className={`text-4xl font-bold font-mono`}
                 style={{
-                  color: userInfo.theme?.textSecondary || "#78716c",
-                }}
-              />
-            </h2>
-          </div>
-
-          <div className="flex flex-col gap-2 w-full">
-            {userInfo.vip && (
-              <div
-                className="shadow-[0_0_12px_rgba(255,192,0,0.9)] opacity-0 animate-fade-in-third w-full h-full rounded-sm flex items-center gap-2 px-2 py-1"
-                style={{ backgroundColor: "#ffc000" }}
-              >
-                <FaCrown size={13} className="shrink-0 fill-white" />
-                <span className="text-xs font-bold shrink-0 text-white">
-                  VIP MEMBER
-                </span>
-              </div>
-            )}
-
-            <div className="h-[25px] mt-auto w-full opacity-0 animate-fade-in-fourth">
-              <div
-                className={`shadow-lg select-none border-1 transition-all rounded-sm w-full h-full flex hover:h-full group overflow-hidden`}
-                style={{
-                  backgroundColor: userInfo.theme?.progressTrack || "#78716c",
-                  borderColor: userInfo.theme?.borderColor || "#44403b",
+                  color: userInfo.theme?.textPrimary || "#d4d4d8",
                 }}
               >
-                <div
-                  className={`h-full rounded-xs`}
+                {userInfo.level.value}
+              </h1>
+              <h2
+                className={`text-xl mt-auto font-bold flex gap-2`}
+                style={{
+                  color: userInfo.theme?.textMuted || "#a1a1a1",
+                }}
+              >
+                Level
+                <FaArrowUp
+                  className={`my-auto hidden md:block`}
                   style={{
-                    backgroundColor: userInfo.theme?.progressFill || "#d4d4d8",
-                    width: `${(userInfo.xp / 100000) * 100}%`,
+                    color: userInfo.theme?.textSecondary || "#78716c",
+                  }}
+                />
+              </h2>
+
+              <div className="ml-auto flex items-center gap-2">
+                {userInfo.vip && (
+                  <div
+                    className="shadow-[0_0_12px_rgba(255,192,0,0.9)] opacity-0 animate-fade-in-third w-fit h-fit rounded-sm flex items-center gap-2 px-2 py-1"
+                    style={{ backgroundColor: "#ffc000" }}
+                  >
+                    <FaCrown size={13} className="shrink-0 fill-white" />
+                    <span className="text-xs font-bold shrink-0 text-white">
+                      VIP MEMBER
+                    </span>
+                  </div>
+                )}
+
+                {isStaff && (
+                  <div
+                    className="opacity-0 animate-fade-in-third w-fit h-fit rounded-sm flex items-center gap-2 px-2 py-1"
+                    style={{ backgroundColor: userInfo.theme?.bgTertiary || "#1c1917" }}
+                  >
+                    <FaShieldAlt size={13} className="shrink-0 fill-white/50" />
+                    <span className="text-xs font-bold shrink-0 text-white/50">
+                      STAFF
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="flex flex-col py-1 gap-2 w-full">
+              <div className="h-[25px] mt-auto w-full opacity-0 animate-fade-in-fourth">
+                <div
+                  className={`select-none border-1 transition-all rounded-sm w-full h-full flex hover:h-full group overflow-hidden`}
+                  style={{
+                    backgroundColor: userInfo.theme?.progressTrack || "#78716c",
+                    borderColor: userInfo.theme?.borderColor || "#44403b",
                   }}
                 >
-                  <span
-                    className={`shrink-0 h-full px-2 text-[10px] md:text-xs transition-opacity py-1 flex gap-1 items-center font-bold opacity-80`}
+                  <div
+                    className={`h-full rounded-xs`}
                     style={{
-                      color: userInfo.theme?.textOnFill || "#1c1917",
+                      backgroundColor:
+                        userInfo.theme?.progressFill || "#d4d4d8",
+                      width: `${(userInfo.xp / 100000) * 100}%`,
                     }}
                   >
-                    {userInfo.xp > 72000 ? (
+                    <span
+                      className={`shrink-0 h-full px-2 text-[10px] md:text-xs transition-opacity py-1 flex gap-1 items-center font-bold opacity-80`}
+                      style={{
+                        color: userInfo.theme?.textOnFill || "#1c1917",
+                      }}
+                    >
+                      {userInfo.xp > 72000 ? (
+                        <>
+                          {userInfo.xp} / 100000 <b>XP</b>
+                        </>
+                      ) : (
+                        <>{userInfo.xp}</>
+                      )}
+                    </span>
+                  </div>
+                  <span
+                    className={`grow-0 py-1 font-bold opacity-80 text-[10px] md:text-xs ml-auto px-2`}
+                    style={{
+                      color: userInfo.theme?.textMuted || "#a1a1a1",
+                    }}
+                  >
+                    {userInfo.xp < 72000 && (
                       <>
-                        {userInfo.xp} / 100000 <b>XP</b>
+                        100000 <b>XP</b>
                       </>
-                    ) : (
-                      <>{userInfo.xp}</>
                     )}
                   </span>
                 </div>
-                <span
-                  className={`grow-0 py-1 font-bold opacity-80 text-[10px] md:text-xs ml-auto px-2`}
-                  style={{
-                    color: userInfo.theme?.textMuted || "#a1a1a1",
-                  }}
-                >
-                  {userInfo.xp < 72000 && (
-                    <>
-                      100000 <b>XP</b>
-                    </>
-                  )}
-                </span>
               </div>
             </div>
           </div>

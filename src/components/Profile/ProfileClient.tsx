@@ -213,7 +213,7 @@ export default function ProfileClient({
           }}
         >
           {userInfo.legacy && (
-            <div className="w-full md:w-fit max-w-screen-xl mt-0 md:-mt-5 bg-stone-800 rounded-md shadow-lg p-3 flex items-center gap-2 text-sm md:text-base font-bold text-yellow-400">
+            <div className="w-full md:w-fit max-w-screen-xl mt-0 md:-mt-2 bg-stone-800 rounded-md shadow-lg p-3 flex items-center gap-2 text-sm md:text-base font-bold text-yellow-400">
               <FaTriangleExclamation size={20} className="shrink-0" />
               Legacy profile data is being displayed. This player has not logged
               in recently.
